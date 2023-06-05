@@ -25,7 +25,6 @@ class RESViewModel : ViewModel() {
     private val _buttonClickedRES = MutableStateFlow<Boolean>(false)
     val buttonClickedRES: StateFlow<Boolean> =_buttonClickedRES
 
-    //****************************************************************************RES:
     fun loadDataIcoRES(ico: String) {
         _buttonClickedRES.value = false
         _nacitaniRES.value = true

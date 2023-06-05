@@ -5,11 +5,15 @@ import android.content.Intent
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Start
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.Start
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,12 +31,17 @@ import com.machy1979.obchodnirejstrik.R
 import androidx.navigation.compose.rememberNavController
 import com.machy1979.obchodnirejstrik.screens.*
 import com.machy1979.obchodnirejstrik.screens.components.VypisORObrazovka
+import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
+import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
 
 /**
  * enum values that represent the screens in the app
  */
+
+var canShare: Boolean = false
+
 enum class ObchodniRejstrik (@StringRes val title: Int) {
     UvodniObrazovka(title = R.string.app_name),
     VypisFiremSeznam(title = R.string.vypis_firem_seznam),
@@ -40,6 +49,8 @@ enum class ObchodniRejstrik (@StringRes val title: Int) {
     VypisOR(title = R.string.vypis_or),
     VypisRZP(title = R.string.vypis_RZP),
     VypisRES(title = R.string.vypis_RES)
+
+
 }
 
 /**
@@ -50,8 +61,10 @@ fun ObchodniRejstrikAppBar(
     currentScreen: ObchodniRejstrik,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
+    share: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     TopAppBar(
         title = { Text(stringResource(currentScreen.title)) },
         modifier = modifier,
@@ -63,8 +76,27 @@ fun ObchodniRejstrikAppBar(
                         contentDescription = stringResource(R.string.back_button)
                     )
                 }
+
             }
-        }
+        },
+        actions = {
+            if (canShare) {
+
+                Row(
+
+                ) {
+                IconButton(
+                    onClick = share
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Share,
+                        contentDescription = stringResource(R.string.share_button)
+                    )
+                }
+                }
+            }
+            }
+
     )
 }
 
@@ -74,6 +106,8 @@ fun ObchodniRejstrikApp2(
     modifier: Modifier = Modifier,
     viewModel: ObchodniRejstrikViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     resViewModel: RESViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    rzpViewModel: RZPViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    orViewModel: ORViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     // Get current back stack entry
@@ -91,7 +125,8 @@ fun ObchodniRejstrikApp2(
             ObchodniRejstrikAppBar(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = { navController.navigateUp() }
+                navigateUp = { navController.navigateUp() },
+                share = { navController.navigateUp() }
             )
         }
     ) { innerPadding ->
@@ -103,11 +138,14 @@ fun ObchodniRejstrikApp2(
             modifier = modifier.padding(innerPadding)
         ) {
             composable(route = ObchodniRejstrik.UvodniObrazovka.name) {
+                canShare = false
                 UvodniObrazovka(
                     viewModel = viewModel,
                     hledejDleIcoButton = {
                         viewModel.loadDataIco(it)
                         resViewModel.loadDataIcoRES(it)
+                        rzpViewModel.loadDataIcoRZP(it)
+                        orViewModel.loadDataIcoOR(it)
                         navController.navigate(ObchodniRejstrik.VypisIco.name)
                     },
                     hledejDleNazvuButton = {
@@ -118,9 +156,12 @@ fun ObchodniRejstrikApp2(
             }
             composable(route = ObchodniRejstrik.VypisIco.name) {
                 val context = LocalContext.current
+                canShare = false
                 VypisIcoObrazovka(
                     viewModel = viewModel,
                     resViewModel = resViewModel,
+                    rzpViewModel = rzpViewModel,
+                    orViewModel = orViewModel,
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     },
@@ -136,6 +177,7 @@ fun ObchodniRejstrikApp2(
                 )
             }
             composable(route = ObchodniRejstrik.VypisFiremSeznam.name) {
+                canShare = false
                 VypisFiremSeznamObrazovka(
                     viewModel = viewModel,
                     onCancelButtonClicked = {
@@ -144,14 +186,17 @@ fun ObchodniRejstrikApp2(
                     onCardClicked = {
                         viewModel.loadDataIco(it)
                         resViewModel.loadDataIcoRES(it)
+                        rzpViewModel.loadDataIcoRZP(it)
+                        orViewModel.loadDataIcoOR(it)
                         navController.navigate(ObchodniRejstrik.VypisIco.name)
                     }
                 )
             }
             composable(route = ObchodniRejstrik.VypisOR.name) {
                 val context = LocalContext.current
+                canShare = true
                 VypisORObrazovka(
-                    viewModel = viewModel,
+                    viewModel = orViewModel,
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     }
@@ -159,8 +204,9 @@ fun ObchodniRejstrikApp2(
             }
             composable(route = ObchodniRejstrik.VypisRZP.name) {
                 val context = LocalContext.current
+                canShare = true
                 VypisRZPObrazovka(
-                    viewModel = viewModel,
+                    viewModel = rzpViewModel,
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     }
@@ -168,6 +214,7 @@ fun ObchodniRejstrikApp2(
             }
             composable(route = ObchodniRejstrik.VypisRES.name) {
                 val context = LocalContext.current
+                canShare = true
                 VypisRESObrazovka(
                     viewModel = resViewModel,
                     onCancelButtonClicked = {

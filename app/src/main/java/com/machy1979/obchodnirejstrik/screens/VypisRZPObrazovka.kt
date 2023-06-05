@@ -15,10 +15,11 @@ import androidx.compose.ui.unit.dp
 import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
+import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
 
 @Composable
 fun VypisRZPObrazovka (
-    viewModel: ObchodniRejstrikViewModel,
+    viewModel: RZPViewModel,
     onCancelButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {

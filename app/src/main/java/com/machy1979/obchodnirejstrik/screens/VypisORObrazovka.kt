@@ -35,10 +35,11 @@ import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazDleIco
 import com.machy1979.obchodnirejstrik.screens.components.Nacitani
 import com.machy1979.obchodnirejstrik.screens.components.VypisErrorHlasku
 import com.machy1979.obchodnirejstrik.ui.theme.*
+import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 
 @Composable
 fun VypisORObrazovka (
-    viewModel: ObchodniRejstrikViewModel,
+    viewModel: ORViewModel,
     onCancelButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {

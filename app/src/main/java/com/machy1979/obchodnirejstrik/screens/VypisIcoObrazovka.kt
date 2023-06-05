@@ -22,13 +22,17 @@ import androidx.compose.ui.unit.dp
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazDleIco
 import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
+import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
+import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
 
 @Composable
 fun  VypisIcoObrazovka(
     viewModel: ObchodniRejstrikViewModel,
     resViewModel: RESViewModel,
+    rzpViewModel: RZPViewModel,
+    orViewModel: ORViewModel,
     onCancelButtonClicked: () -> Unit = {},
     hledejORButtonClicked: () -> Unit = {},
     hledejRZPButtonClicked: () -> Unit = {},
@@ -42,13 +46,13 @@ fun  VypisIcoObrazovka(
 
     val nacitani by viewModel.nacitani.collectAsState()
 
-    val nacitaniOR by viewModel.nacitaniOR.collectAsState()
-    val errorMessageOR by viewModel.errorMessageOR.collectAsState()
-    val buttonClickedOR by viewModel.buttonClickedOR.collectAsState()
+    val nacitaniOR by orViewModel.nacitaniOR.collectAsState()
+    val errorMessageOR by orViewModel.errorMessageOR.collectAsState()
+    val buttonClickedOR by orViewModel.buttonClickedOR.collectAsState()
 
-    val nacitaniRZP by viewModel.nacitaniRZP.collectAsState()
-    val errorMessageRZP by viewModel.errorMessageRZP.collectAsState()
-    val buttonClickedRZP by viewModel.buttonClickedRZP.collectAsState()
+    val nacitaniRZP by rzpViewModel.nacitaniRZP.collectAsState()
+    val errorMessageRZP by rzpViewModel.errorMessageRZP.collectAsState()
+    val buttonClickedRZP by rzpViewModel.buttonClickedRZP.collectAsState()
 
     val nacitaniRES by resViewModel.nacitaniRES.collectAsState()
     val errorMessageRES by resViewModel.errorMessageRES.collectAsState()

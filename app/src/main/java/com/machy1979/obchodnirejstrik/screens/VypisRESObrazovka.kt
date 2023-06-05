@@ -19,7 +19,6 @@ import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
 //zatím je to jen kopie z VypisRZPObrazovka, tak to předělat
 @Composable
 fun VypisRESObrazovka (
- //   viewModel: ObchodniRejstrikViewModel,
     viewModel: RESViewModel,
     onCancelButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
