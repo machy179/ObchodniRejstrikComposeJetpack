@@ -1,0 +1,119 @@
+package com.machy1979.obchodnirejstrik.screens
+
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazDleIco
+import com.machy1979.obchodnirejstrik.screens.components.*
+import com.machy1979.obchodnirejstrik.ui.theme.*
+import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
+import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
+
+@Composable
+fun  VypisIcoObrazovka(
+    viewModel: ObchodniRejstrikViewModel,
+    resViewModel: RESViewModel,
+    onCancelButtonClicked: () -> Unit = {},
+    hledejORButtonClicked: () -> Unit = {},
+    hledejRZPButtonClicked: () -> Unit = {},
+    hledejRESButtonClicked: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+
+    val companyData by viewModel.companyData.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+
+
+    val nacitani by viewModel.nacitani.collectAsState()
+
+    val nacitaniOR by viewModel.nacitaniOR.collectAsState()
+    val errorMessageOR by viewModel.errorMessageOR.collectAsState()
+    val buttonClickedOR by viewModel.buttonClickedOR.collectAsState()
+
+    val nacitaniRZP by viewModel.nacitaniRZP.collectAsState()
+    val errorMessageRZP by viewModel.errorMessageRZP.collectAsState()
+    val buttonClickedRZP by viewModel.buttonClickedRZP.collectAsState()
+
+    val nacitaniRES by resViewModel.nacitaniRES.collectAsState()
+    val errorMessageRES by resViewModel.errorMessageRES.collectAsState()
+    val buttonClickedRES by resViewModel.buttonClickedRES.collectAsState()
+
+
+
+
+    Column(
+        modifier = modifier.padding(VelikostPaddingHlavnihoOkna).fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+
+    ) {
+
+        if(nacitani) {
+            Nacitani()
+        } else {
+
+            if((errorMessage=="")) {
+                Card(
+                    //  backgroundColor = Color.Blue,
+                    shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
+                    border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
+                    elevation = VelikostElevation,
+                    modifier = Modifier
+                        .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical),
+
+                    ) {
+                    SelectionContainer {
+                        Column(
+                            modifier = Modifier
+                                .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
+                                .fillMaxWidth()
+                        ) {
+                            ObycPolozkaNadpisHodnota("Název firmy:",companyData.name, true)
+                            ObycPolozkaNadpisHodnota("Ico:",companyData.ico, true)
+                            ObycPolozkaNadpisHodnota("Dic:",companyData.dic, true)
+                            ObycPolozkaNadpisHodnota("Adresa:",companyData.address, false)
+                        }
+                    }
+
+                }
+
+                CustomButton(if (errorMessageOR==" ") { ("Načíst z OR")} else {("Subjekt není v OR")}, nacitaniOR,buttonClickedOR,
+                    onClick = {
+                        hledejORButtonClicked()
+                    }
+                )
+
+                CustomButton(if (errorMessageRZP==" ") { ("Načíst z RŽP")} else {("Subjekt není v RŽP")}, nacitaniRZP,buttonClickedRZP,
+                    onClick = {
+                        hledejRZPButtonClicked()
+                    }
+                )
+                CustomButton(if (errorMessageRES==" ") { ("Načíst z RES")} else {("Subjekt není v RES")}, nacitaniRES,buttonClickedRES,
+                    onClick = {
+                        hledejRESButtonClicked()
+                    }
+                )
+
+
+            } else {
+                VypisErrorHlasku(errorMessage)
+        }
+    }
+    }
+}
