@@ -178,7 +178,8 @@ class RozparzovaniDatDotazOR {
                 it?.select("D|FO")?.select("D|TP")?.text() ?: "",
                 it?.select("D|FO")?.select("D|J")?.text() ?: "",
                 it?.select("D|FO")?.select("D|P")?.text()?: "",
-                it?.select("D|FO")?.select("D|F")?.text() ?: "",
+                it?.select("D|F")?.text() ?: "", //tady byla změna z it?.select("D|FO")?.select("D|F")?.text() ?: "",
+
                 it?.select("D|FO")?.select("D|DN")?.text()?: "",
                 address,
                 listZaznamy,

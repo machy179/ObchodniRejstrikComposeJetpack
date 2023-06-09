@@ -126,7 +126,7 @@ fun ObchodniRejstrikApp2(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
-                share = { navController.navigateUp() }
+                share = { orViewModel.share(context) }
             )
         }
     ) { innerPadding ->
