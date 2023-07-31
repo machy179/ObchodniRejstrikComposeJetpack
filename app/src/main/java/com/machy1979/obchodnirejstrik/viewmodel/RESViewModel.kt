@@ -1,8 +1,11 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRES
 import com.machy1979.obchodnirejstrik.model.CompanyDataRES
 import kotlinx.coroutines.Dispatchers
@@ -63,6 +66,21 @@ class RESViewModel : ViewModel() {
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun share(context: Context) {
+        // Create an ACTION_SEND implicit intent with order details in the intent extras
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, "Výpis z RES") //tohle je název
+            putExtra(Intent.EXTRA_TEXT, "RES bla bla bla") //tohle je context textu
+        }
+        context.startActivity(
+            Intent.createChooser(
+                intent,
+                context.getString(R.string.app_name)
+            )
+        )
     }
 
 }

@@ -1,9 +1,15 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
+import android.content.ClipData
+import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRZP
+import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyDataRZP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +18,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.io.File
+import java.io.FileOutputStream
 
 class RZPViewModel : ViewModel() {
 
@@ -63,5 +71,36 @@ class RZPViewModel : ViewModel() {
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun share(context: Context) {
+        val pdfByteArray = StringToPdfConvector.createInMemoryPdf( context,null, companyDataFromRZP.value)
+        // Uložení PDF obsahu do dočasného souboru v interním úložišti aplikace
+        val tempPdfFileName = companyDataFromRZP.value.name+".pdf"
+        val tempPdfFile = File(context.cacheDir, tempPdfFileName)
+
+        FileOutputStream(tempPdfFile).use { outputStream ->
+            outputStream.write(pdfByteArray)
+            outputStream.flush()
+        }
+
+        val pdfUri = FileProvider.getUriForFile(context, context.applicationContext.packageName + ".fileprovider", tempPdfFile)
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            //  putExtra(Intent.EXTRA_STREAM, pdfUri)
+            setClipData(ClipData.newRawUri("", pdfUri))
+            putExtra(Intent.EXTRA_STREAM, pdfUri)
+            putExtra(Intent.EXTRA_SUBJECT, "Výpis z rejstříku živnostenského podnikání") //tohle je název
+            putExtra(Intent.EXTRA_TEXT, "Výpis z RŽP: "+companyDataFromRZP.value.name)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        }
+
+        context.startActivity(
+            Intent.createChooser(
+                intent,
+                context.getString(R.string.app_name)
+            )
+        )
     }
 }

@@ -1,12 +1,20 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
+import android.content.ClipData
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazOR
+import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +23,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.io.*
+import java.nio.charset.StandardCharsets
 
 class ORViewModel : ViewModel() {
 
@@ -69,12 +79,28 @@ class ORViewModel : ViewModel() {
     }
 
     fun share(context: Context) {
-        // Create an ACTION_SEND implicit intent with order details in the intent extras
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_SUBJECT, "subject") //tohle je název
-            putExtra(Intent.EXTRA_TEXT, "summary") //tohle je context textu
+         val pdfByteArray = StringToPdfConvector.createInMemoryPdf( context,companyDataFromOR.value)
+        // Uložení PDF obsahu do dočasného souboru v interním úložišti aplikace
+        val tempPdfFileName = companyDataFromOR.value.name+".pdf"
+        val tempPdfFile = File(context.cacheDir, tempPdfFileName)
+
+        FileOutputStream(tempPdfFile).use { outputStream ->
+            outputStream.write(pdfByteArray)
+            outputStream.flush()
         }
+
+       val pdfUri = FileProvider.getUriForFile(context, context.applicationContext.packageName + ".fileprovider", tempPdfFile)
+       val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+          //  putExtra(Intent.EXTRA_STREAM, pdfUri)
+            setClipData(ClipData.newRawUri("", pdfUri))
+            putExtra(Intent.EXTRA_STREAM, pdfUri)
+            putExtra(Intent.EXTRA_SUBJECT, "Výpis z obchodního rejstříku") //tohle je název
+            putExtra(Intent.EXTRA_TEXT, "Výpis z obchodního rejstříku: "+companyDataFromOR.value.name)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        }
+
         context.startActivity(
             Intent.createChooser(
                 intent,

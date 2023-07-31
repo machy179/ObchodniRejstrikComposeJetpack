@@ -10,4 +10,8 @@
 
     <color name="status_bar_color">#1A74BB</color>
     <color name="navigation_bar_color">#000000</color>
+
+    <color name="pozadi_pdf_vypisu_radek">#FFF8F8F8</color>
+
+
 </resources>

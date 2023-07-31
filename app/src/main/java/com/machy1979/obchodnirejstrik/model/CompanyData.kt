@@ -1,5 +1,6 @@
 package com.machy1979.obchodnirejstrik.model
 
+//je to třída pro výpis z OR
 data class CompanyData(
     var name: String = "",
     var ico: String = "",

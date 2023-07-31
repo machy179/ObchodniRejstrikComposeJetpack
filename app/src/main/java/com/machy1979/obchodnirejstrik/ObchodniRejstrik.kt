@@ -126,11 +126,17 @@ fun ObchodniRejstrikApp2(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
-                share = { orViewModel.share(context) }
+                share = {
+                    when (navController.currentBackStackEntry?.destination?.route) { //zjistí v jaké aktuální destinaci route se aplikace nachází a podle toho zavolá tu správnou metodu
+                        ObchodniRejstrik.VypisOR.name -> orViewModel.share(context)
+                        ObchodniRejstrik.VypisRZP.name -> rzpViewModel.share(context)
+                        ObchodniRejstrik.VypisRES.name -> resViewModel.share(context)
+                    }
+
+                    }
             )
         }
     ) { innerPadding ->
-     // val uiState by viewModel.uiState.collectAsState()
 
         NavHost(
             navController = navController,
@@ -241,7 +247,7 @@ private fun cancelOrderAndNavigateToStart(
 /**
  * Creates an intent to share order details
  */
-private fun shareOrder(context: Context, subject: String, summary: String) {
+/*private fun shareOrder(context: Context, subject: String, summary: String) {
     // Create an ACTION_SEND implicit intent with order details in the intent extras
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = "text/plain"
@@ -254,5 +260,5 @@ private fun shareOrder(context: Context, subject: String, summary: String) {
             context.getString(R.string.app_name)
         )
     )
-}
+}*/
 
