@@ -89,6 +89,7 @@ class ORViewModel : ViewModel() {
             outputStream.flush()
         }
 
+
        val pdfUri = FileProvider.getUriForFile(context, context.applicationContext.packageName + ".fileprovider", tempPdfFile)
        val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"

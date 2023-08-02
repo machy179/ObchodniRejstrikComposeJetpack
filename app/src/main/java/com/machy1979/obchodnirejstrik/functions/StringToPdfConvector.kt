@@ -21,7 +21,9 @@ class StringToPdfConvector {
 
     companion object {
 
-        val font = FontFactory.getFont("Times-Roman", "Cp1250", true)
+      //  val font = FontFactory.getFont("Times-Roman", "Cp1250", true)
+        val font = FontFactory.getFont(FontFactory.COURIER, BaseFont.CP1250, true) //české znaky umí: Courier
+
         val boldFont = Font(font)
         val nadpisFontSize = 16f
         val nadpisFont = Font(font.baseFont, nadpisFontSize, Font.BOLD)
@@ -55,8 +57,14 @@ class StringToPdfConvector {
             this.context = context
 
             try {
-                PdfWriter.getInstance(document, byteArrayOutputStream)
+/*                PdfWriter.getInstance(document, byteArrayOutputStream)
+                PdfWriter.PDF_VERSION_1_7
+                document.open()*/
+
+                val pdfWriter2 = PdfWriter.getInstance(document, byteArrayOutputStream)
+                pdfWriter2.setPdfVersion(PdfWriter.PDF_VERSION_1_7) //stále to nefunguje a ukládá to do pdf verze 1.4
                 document.open()
+
 
                 nastavVlastnostiTabulky()
 
