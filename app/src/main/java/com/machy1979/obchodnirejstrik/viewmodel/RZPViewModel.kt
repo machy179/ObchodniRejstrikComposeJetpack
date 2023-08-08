@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -103,4 +104,20 @@ class RZPViewModel : ViewModel() {
             )
         )
     }
+
+    fun saveToPdf(context: Context) {
+        //  fun share(context: Context) {
+
+
+        // Uložení PDF obsahu do souboru v interním úložišti Download složky
+        val pdfFileName = companyDataFromRZP.value.name + ".pdf"
+
+        val file = StringToPdfConvector.convertToPdf(pdfFileName,context,null, companyDataFromRZP.value)
+        if (file != null) {
+            Toast.makeText(context, "Soubor "+pdfFileName+" uložen v Downloads", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context,"Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
+        }
+}
+
 }

@@ -1,14 +1,14 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
 import android.content.ClipData
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,7 +24,7 @@ import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.*
-import java.nio.charset.StandardCharsets
+
 
 class ORViewModel : ViewModel() {
 
@@ -108,6 +108,18 @@ class ORViewModel : ViewModel() {
                 context.getString(R.string.app_name)
             )
         )
+    }
+    fun saveToPdf(context: Context) {
+  //  fun share(context: Context) {
+
+
+        // Uložení PDF obsahu do souboru v interním úložišti Download složky
+        val pdfFileName = companyDataFromOR.value.name + ".pdf"
+
+        val file = StringToPdfConvector.convertToPdf(pdfFileName,context,companyDataFromOR.value)
+
+
+
     }
 
 }

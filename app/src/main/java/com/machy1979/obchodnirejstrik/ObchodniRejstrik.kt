@@ -1,5 +1,9 @@
 package com.machy1979.obchodnirejstrik
 
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.Icon
+
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -12,8 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -62,6 +65,7 @@ fun ObchodniRejstrikAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     share: () -> Unit,
+    saveToPdf: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -93,6 +97,14 @@ fun ObchodniRejstrikAppBar(
                         contentDescription = stringResource(R.string.share_button)
                     )
                 }
+                    IconButton(
+                        onClick = saveToPdf
+                    ) {
+                        Icon(
+                            imageVector =  Icons.Filled.Download,
+                            contentDescription = stringResource(R.string.share_button)
+                        )
+                    }
                 }
             }
             }
@@ -126,6 +138,14 @@ fun ObchodniRejstrikApp2(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
+                saveToPdf = {
+                    when (navController.currentBackStackEntry?.destination?.route) { //zjistí v jaké aktuální destinaci route se aplikace nachází a podle toho zavolá tu správnou metodu
+                        ObchodniRejstrik.VypisOR.name -> orViewModel.saveToPdf(context)
+                        ObchodniRejstrik.VypisRZP.name -> rzpViewModel.saveToPdf(context)
+                        ObchodniRejstrik.VypisRES.name -> resViewModel.share(context)
+                    }
+
+                },
                 share = {
                     when (navController.currentBackStackEntry?.destination?.route) { //zjistí v jaké aktuální destinaci route se aplikace nachází a podle toho zavolá tu správnou metodu
                         ObchodniRejstrik.VypisOR.name -> orViewModel.share(context)

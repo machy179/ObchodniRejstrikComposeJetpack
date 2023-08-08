@@ -1,10 +1,18 @@
 package com.machy1979.obchodnirejstrik.functions
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.Settings
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.BaseFont
 import com.itextpdf.text.pdf.PdfPCell
@@ -31,24 +39,71 @@ class StringToPdfConvector {
         lateinit var context: Context
 
 
-        fun convertToPdf(text: String, outputPath: String): File? {
+        fun convertToPdf(outputPath: String, context: Context, companyDataOR: CompanyData? = null, companyDataRZP: CompanyDataRZP? = null, companyDataRES: CompanyDataRES? = null): File? {
             val document = Document()
-            try {
-                PdfWriter.getInstance(document, FileOutputStream(outputPath))
-                document.open()
+            this.context = context
 
-                val font = Font(Font.FontFamily.TIMES_ROMAN, 12f, Font.NORMAL)
-                val paragraph = Paragraph(text, font)
+           if (checkStoragePermissions()) {
+                // Permission granted, do your work
+                println("Oprávnění pro zápis uděleno")
+            } else {
+                // Permission not granted, redirect user to app settings to grant permission
+                println("Oprávnění pro zápis NEuděleno")
 
-                document.add(paragraph)
-                document.close()
-                println("Text byl úspěšně převeden do PDF souboru.")
+               AlertDialog.Builder(context)
+                   .setTitle("Potřebujeme povolení")
+                   .setMessage("Pro ukládání souborů potřebujeme vaše povolení. Klikněte na tlačítko Povolit pro pokračování.")
+                   .setPositiveButton("Povolit") { _, _ ->
+                       val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                       val uri = Uri.fromParts("package", context.packageName, null)
+                       intent.data = uri
+                       startActivity(context, intent, null)
+                   }
+                   .setNegativeButton("Zrušit") { _, _ -> }
+                   .show()
 
-                return File(outputPath)
-            } catch (e: Exception) {
-                println("Chyba při převodu textu do PDF: ${e.message}")
-                return null
             }
+
+
+
+                try {
+                    // Zkontrolujte, zda existuje složka pro ukládání PDF souboru
+                    val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    if (!downloadsDir.exists()) {
+                        downloadsDir.mkdirs()
+                    }
+
+                    // Nastavte cestu k výstupnímu PDF souboru
+                    val pdfFile = File(downloadsDir, outputPath)
+
+                    // Pokud již soubor existuje, smažeme ho, abychom zajistili, že nedojde k přepsání
+                    if (pdfFile.exists()) {
+                        pdfFile.delete()
+                    }
+
+                    PdfWriter.getInstance(document, FileOutputStream(pdfFile))
+                    document.open()
+
+
+                    nastavVlastnostiTabulky()
+
+                    if (!(companyDataOR==null)) companyDataOR?.let { vkladejUdajeDoTabulkyOR(it) }
+                    if (!(companyDataRZP==null)) companyDataRZP?.let { vkladejUdajeDoTabulkyRZP(it) }
+                    if (!(companyDataRES==null)) companyDataRES?.let { vkladejUdajeDoTabulkyRES(it) }
+
+                    document.add(table)
+                    document.close()
+
+                    println("Text byl úspěšně převeden do PDF souboru.")
+
+                    return pdfFile
+
+                } catch (e: Exception) {
+                    println("Chyba při převodu textu do PDF: ${e.message}")
+                    return null
+                }
+
+
         }
 
         fun createInMemoryPdf(context: Context, companyDataOR: CompanyData? = null, companyDataRZP: CompanyDataRZP? = null, companyDataRES: CompanyDataRES? = null): ByteArray {
@@ -57,9 +112,6 @@ class StringToPdfConvector {
             this.context = context
 
             try {
-/*                PdfWriter.getInstance(document, byteArrayOutputStream)
-                PdfWriter.PDF_VERSION_1_7
-                document.open()*/
 
                 val pdfWriter2 = PdfWriter.getInstance(document, byteArrayOutputStream)
                 pdfWriter2.setPdfVersion(PdfWriter.PDF_VERSION_1_7) //stále to nefunguje a ukládá to do pdf verze 1.4
@@ -321,6 +373,24 @@ class StringToPdfConvector {
             return "$day.$month.$year"
         }
 
+        fun checkStoragePermissions(): Boolean {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                //Android is 11 (R) or above
+                Environment.isExternalStorageManager()
+            } else {
+                //Below android 11
+                val write =
+                    ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                val read =
+                    ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                read == PackageManager.PERMISSION_GRANTED && write == PackageManager.PERMISSION_GRANTED
+            }
+        }
+
+
+
 
     }
+
+
 }

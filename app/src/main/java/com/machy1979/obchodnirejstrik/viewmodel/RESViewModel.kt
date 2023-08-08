@@ -3,10 +3,12 @@ package com.machy1979.obchodnirejstrik.viewmodel
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRES
+import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyDataRES
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -81,6 +83,21 @@ class RESViewModel : ViewModel() {
                 context.getString(R.string.app_name)
             )
         )
+    }
+
+    fun saveToPdf(context: Context) {
+        //  fun share(context: Context) {
+
+
+        // Uložení PDF obsahu do souboru v interním úložišti Download složky
+        val pdfFileName = companyDataFromRES.value.name + ".pdf"
+
+        val file = StringToPdfConvector.convertToPdf(pdfFileName,context,null, null, companyDataFromRES.value)
+        if (file != null) {
+            Toast.makeText(context, "Soubor "+pdfFileName+" uložen v Downloads", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context,"Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
