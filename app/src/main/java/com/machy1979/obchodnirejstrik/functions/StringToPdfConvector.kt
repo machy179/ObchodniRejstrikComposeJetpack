@@ -42,8 +42,11 @@ class StringToPdfConvector {
         fun convertToPdf(outputPath: String, context: Context, companyDataOR: CompanyData? = null, companyDataRZP: CompanyDataRZP? = null, companyDataRES: CompanyDataRES? = null): File? {
             val document = Document()
             this.context = context
+            println("Oprávnění .....444444")
 
-           if (checkStoragePermissions()) {
+           if (
+               true //checkStoragePermissions()
+           ) {
                 // Permission granted, do your work
                 println("Oprávnění pro zápis uděleno")
             } else {
@@ -58,6 +61,7 @@ class StringToPdfConvector {
                        val uri = Uri.fromParts("package", context.packageName, null)
                        intent.data = uri
                        startActivity(context, intent, null)
+                       println("Alert dialog PDF: až teď se toto provede")
                    }
                    .setNegativeButton("Zrušit") { _, _ -> }
                    .show()
@@ -73,7 +77,7 @@ class StringToPdfConvector {
                         downloadsDir.mkdirs()
                     }
 
-                    // Nastavte cestu k výstupnímu PDF souboru
+                    // Nastaví cestu k výstupnímu PDF souboru
                     val pdfFile = File(downloadsDir, outputPath)
 
                     // Pokud již soubor existuje, smažeme ho, abychom zajistili, že nedojde k přepsání

@@ -1,5 +1,8 @@
 package com.machy1979.obchodnirejstrik.screens.components
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.util.Log
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -15,16 +18,21 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.machy1979.obchodnirejstrik.model.Firma
 import com.machy1979.obchodnirejstrik.model.Nace
 import com.machy1979.obchodnirejstrik.model.Osoba
@@ -615,6 +623,50 @@ fun SeznamDvoupolozekNace(nazevSeznamuDvoupolozek: String, seznamDvoupolozek: Mu
         }
         Spacer(modifier = Modifier.height(OdsazeniMensi))
     }
+}
+
+@Composable
+fun AlertDialogWrapper(
+    onClickPovolit: () -> Unit = {},
+    onClickNe: () -> Unit = {},
+    onDismissFunction: () -> Unit = {}
+
+) {
+    val context = LocalContext.current
+    val buttonStatePovolit = remember { mutableStateOf(onClickPovolit) } // je to potřeba ošetřit takhle, protože: AlertDialog se zobrazí asynchronně a tím pádem by se onClickPovolit s dalšími funkcemi v bloku nevykonal. Kdyby byl sám bez bloku, tak by to nebylo třeba.
+
+
+        AlertDialog(
+            onDismissRequest = { onDismissFunction() }, // co se má stát, když dá uživatel zpět
+            title = { Text("Potřebujeme povolení") },
+            text = { Text("Pro ukládání souborů potřebujeme vaše povolení. Klikněte na tlačítko Povolit pro pokračování.") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        // onClickButton
+                        buttonStatePovolit.value()
+                        // Zde se spustí proces žádosti o oprávnění
+                        val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                        val uri = Uri.fromParts("package", context.packageName, null)
+                        intent.data = uri
+                        ContextCompat.startActivity(context, intent, null)
+                      //  LocalUriHandler.current.openUri(intent.toUri())
+                    }
+                ) {
+                    Text("Povolit")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = onClickNe
+                ) {
+                    Text("Ne")
+                }
+            }
+        )
+
+
+
 }
 
 

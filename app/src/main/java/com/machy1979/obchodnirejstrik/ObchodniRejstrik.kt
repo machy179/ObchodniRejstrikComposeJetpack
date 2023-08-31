@@ -17,9 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +31,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.machy1979.obchodnirejstrik.R
 import androidx.navigation.compose.rememberNavController
 import com.machy1979.obchodnirejstrik.screens.*
+import com.machy1979.obchodnirejstrik.screens.components.AlertDialogWrapper
 import com.machy1979.obchodnirejstrik.screens.components.VypisORObrazovka
 import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
@@ -46,6 +45,7 @@ import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
 var canShare: Boolean = false
 
 enum class ObchodniRejstrik (@StringRes val title: Int) {
+
     UvodniObrazovka(title = R.string.app_name),
     VypisFiremSeznam(title = R.string.vypis_firem_seznam),
     VypisIco(title = R.string.vypis_ico),
@@ -91,6 +91,7 @@ fun ObchodniRejstrikAppBar(
                 ) {
                 IconButton(
                     onClick = share
+
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Share,
@@ -121,6 +122,8 @@ fun ObchodniRejstrikApp2(
     rzpViewModel: RZPViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     orViewModel: ORViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     navController: NavHostController = rememberNavController()
+
+
 ) {
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -132,6 +135,8 @@ fun ObchodniRejstrikApp2(
     val errorMessage by viewModel.errorMessage.collectAsState()
     val context = LocalContext.current //tohle používat místo this
 
+    val showDialog = remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             ObchodniRejstrikAppBar(
@@ -139,6 +144,8 @@ fun ObchodniRejstrikApp2(
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
                 saveToPdf = {
+                    showDialog.value = true
+                   // AlertDialogWrapper(true)
                     when (navController.currentBackStackEntry?.destination?.route) { //zjistí v jaké aktuální destinaci route se aplikace nachází a podle toho zavolá tu správnou metodu
                         ObchodniRejstrik.VypisOR.name -> orViewModel.saveToPdf(context)
                         ObchodniRejstrik.VypisRZP.name -> rzpViewModel.saveToPdf(context)
@@ -154,6 +161,9 @@ fun ObchodniRejstrikApp2(
                     }
 
                     }
+
+
+
             )
         }
     ) { innerPadding ->
@@ -164,9 +174,11 @@ fun ObchodniRejstrikApp2(
             modifier = modifier.padding(innerPadding)
         ) {
             composable(route = ObchodniRejstrik.UvodniObrazovka.name) {
+
                 canShare = false
                 UvodniObrazovka(
                     viewModel = viewModel,
+
                     hledejDleIcoButton = {
                         viewModel.loadDataIco(it)
                         resViewModel.loadDataIcoRES(it)
@@ -183,6 +195,7 @@ fun ObchodniRejstrikApp2(
             composable(route = ObchodniRejstrik.VypisIco.name) {
                 val context = LocalContext.current
                 canShare = false
+
                 VypisIcoObrazovka(
                     viewModel = viewModel,
                     resViewModel = resViewModel,
@@ -223,6 +236,7 @@ fun ObchodniRejstrikApp2(
                 canShare = true
                 VypisORObrazovka(
                     viewModel = orViewModel,
+
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     }
@@ -250,6 +264,17 @@ fun ObchodniRejstrikApp2(
             }
 
         }
+        if (showDialog.value) {
+            AlertDialogWrapper(
+                onClickPovolit = {
+                println("Oprávnění .....44444-4")
+                showDialog.value = false
+                println("Oprávnění .....5555555-5")
+            },
+                onClickNe = { showDialog.value = false },
+                onDismissFunction = { showDialog.value = false }
+            )
+        }
     }
 }
 
@@ -264,21 +289,4 @@ private fun cancelOrderAndNavigateToStart(
     navController.popBackStack(ObchodniRejstrik.UvodniObrazovka.name, inclusive = false)
 }
 
-/**
- * Creates an intent to share order details
- */
-/*private fun shareOrder(context: Context, subject: String, summary: String) {
-    // Create an ACTION_SEND implicit intent with order details in the intent extras
-    val intent = Intent(Intent.ACTION_SEND).apply {
-        type = "text/plain"
-        putExtra(Intent.EXTRA_SUBJECT, subject)
-        putExtra(Intent.EXTRA_TEXT, summary)
-    }
-    context.startActivity(
-        Intent.createChooser(
-            intent,
-            context.getString(R.string.app_name)
-        )
-    )
-}*/
 
