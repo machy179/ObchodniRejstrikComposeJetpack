@@ -1,17 +1,25 @@
 package com.machy1979.obchodnirejstrik.functions
 
+import android.content.Context
+import android.location.Geocoder
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.Firma
 import com.machy1979.obchodnirejstrik.model.Osoba
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
+import com.google.android.gms.maps.model.LatLng
 
 class RozparzovaniDatDotazOR {
     companion object {
-        fun vratCompanyData(document: Document): CompanyData {
+        var context: Context? = null
+        fun vratCompanyData(document: Document, context: Context): CompanyData {
+
             Log.i("chybaaa2: ",document.toString())
+            this.context = context
             val name = document.select("D|OF").first()?.text() ?: " "
             val ico = document.select("D|ICO").first()?.text() ?: " "
             var address =  vratAdresu(document.select("D|SI"))
@@ -215,10 +223,11 @@ class RozparzovaniDatDotazOR {
             }
 
 
-/*            address =address +" "+ (document.select("D|CD").first()?.text() ?: "")//
-            address =address +", "+ (document.select("D|NCO").first()?.text() ?: " ")
-            address =address +", "+ (document.select("D|N").first()?.text() ?: " ")
-            address =address +", "+ (document.select("D|NS").first()?.text() ?: " ")*/
+            if (address != "") {
+                val gps =getGPSCoordinatesFromAddress(address)
+                address =address +", "+gps
+            }
+
             return address
         }
 
@@ -236,6 +245,23 @@ class RozparzovaniDatDotazOR {
         fun vratErrorHlasku(document: Document): String {
             val errorHlaska = document.select("D|ET").first()?.text() ?: " "
             return errorHlaska
+        }
+
+        fun getGPSCoordinatesFromAddress(address: String): LatLng {
+            println("GPS .....0"+ address)
+            println("GPS .....1")
+            val geocoder = Geocoder(context)
+            println("GPS .....2")
+            val addresses = geocoder.getFromLocationName(address, 1)
+            println("GPS .....3")
+            val latitude = addresses[0].latitude
+            println("GPS .....4")
+            println("GPS .....4"+latitude.toString())
+            val longitude = addresses[0].longitude
+            println("GPS .....5")
+            println("GPS .....5"+longitude.toString())
+
+            return LatLng(latitude, longitude)
         }
     }
 }

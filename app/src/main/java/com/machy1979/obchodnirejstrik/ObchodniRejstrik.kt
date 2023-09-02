@@ -30,6 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.machy1979.obchodnirejstrik.R
 import androidx.navigation.compose.rememberNavController
+import com.machy1979.obchodnirejstrik.functions.PermissionsChecker
 import com.machy1979.obchodnirejstrik.screens.*
 import com.machy1979.obchodnirejstrik.screens.components.AlertDialogWrapper
 import com.machy1979.obchodnirejstrik.screens.components.VypisORObrazovka
@@ -144,14 +145,19 @@ fun ObchodniRejstrikApp2(
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
                 saveToPdf = {
-                    showDialog.value = true
-                   // AlertDialogWrapper(true)
-                    when (navController.currentBackStackEntry?.destination?.route) { //zjistí v jaké aktuální destinaci route se aplikace nachází a podle toho zavolá tu správnou metodu
-                        ObchodniRejstrik.VypisOR.name -> orViewModel.saveToPdf(context)
-                        ObchodniRejstrik.VypisRZP.name -> rzpViewModel.saveToPdf(context)
-                        ObchodniRejstrik.VypisRES.name -> resViewModel.share(context)
-                    }
+                    if (PermissionsChecker.checkStoragePermissions()) {
+                        //oprávnění zápisu uděleno
+                        when (navController.currentBackStackEntry?.destination?.route) { //zjistí v jaké aktuální destinaci route se aplikace nachází a podle toho zavolá tu správnou metodu
+                            ObchodniRejstrik.VypisOR.name -> orViewModel.saveToPdf(context)
+                            ObchodniRejstrik.VypisRZP.name -> rzpViewModel.saveToPdf(context)
+                            ObchodniRejstrik.VypisRES.name -> resViewModel.share(context)
+                        }
+                    } else {
+                        //není uděleno oprávnění z kápisu, spustí se Dialog a uživatel se nasměruje do systému na udělení oprávnění
+                        showDialog.value = true //v compose musím řešit showDialog takto, protože sem se tato komponenta nemůže dát, musí se dát na místo, kde se mohou dávat compose funcions a řešil jsem to takot: if (showDialog.value) {AlertDialogWrapper(....
 
+
+                    }
                 },
                 share = {
                     when (navController.currentBackStackEntry?.destination?.route) { //zjistí v jaké aktuální destinaci route se aplikace nachází a podle toho zavolá tu správnou metodu
@@ -183,7 +189,7 @@ fun ObchodniRejstrikApp2(
                         viewModel.loadDataIco(it)
                         resViewModel.loadDataIcoRES(it)
                         rzpViewModel.loadDataIcoRZP(it)
-                        orViewModel.loadDataIcoOR(it)
+                        orViewModel.loadDataIcoOR(it,context)
                         navController.navigate(ObchodniRejstrik.VypisIco.name)
                     },
                     hledejDleNazvuButton = {
@@ -226,7 +232,7 @@ fun ObchodniRejstrikApp2(
                         viewModel.loadDataIco(it)
                         resViewModel.loadDataIcoRES(it)
                         rzpViewModel.loadDataIcoRZP(it)
-                        orViewModel.loadDataIcoOR(it)
+                        orViewModel.loadDataIcoOR(it, context)
                         navController.navigate(ObchodniRejstrik.VypisIco.name)
                     }
                 )

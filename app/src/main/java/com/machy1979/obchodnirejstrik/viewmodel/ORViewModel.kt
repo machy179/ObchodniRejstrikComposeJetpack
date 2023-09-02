@@ -4,15 +4,10 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +15,6 @@ import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazOR
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyData
-import com.machy1979.obchodnirejstrik.screens.components.AlertDialogWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -45,7 +39,8 @@ class ORViewModel : ViewModel() {
 
 
 
-    fun loadDataIcoOR(ico: String) {
+
+    fun loadDataIcoOR(ico: String, context: Context) {
         _buttonClickedOR.value = false
         _nacitaniOR.value = true
         viewModelScope.launch {
@@ -53,7 +48,7 @@ class ORViewModel : ViewModel() {
                 Log.i("aaaa", "ICO: " + ico)
                 val document = getAresDataIcoOR(ico)
                 if (document != null) {
-                    _companyDataFromOR.value = RozparzovaniDatDotazOR.vratCompanyData(document)
+                    _companyDataFromOR.value = RozparzovaniDatDotazOR.vratCompanyData(document, context)
                     if (_companyDataFromOR.value.ico == " ") {
                         _errorMessageOR.value = RozparzovaniDatDotazOR.vratErrorHlasku(document)
                     } else  {
@@ -119,40 +114,14 @@ class ORViewModel : ViewModel() {
 
 
     fun saveToPdf(context: Context) {
-  //  fun share(context: Context) {
 
-        // Aplikační stav pro sledování stavu oprávnění
-     //   var permissionGranted = MutableStateFlow(false)
-     //   val permissionGranted_2: StateFlow<Boolean> = permissionGranted
-
-   //     println("Oprávnění .....111111")
-        // Pokud jsou oprávnění udělena, provede se tato část kódu
-   //     if (permissionGranted_2.value) {
-     //       println("Oprávnění .....333333")
-            // Zde vložte váš kód, který se má provést po udělení oprávnění
-            val pdfFileName = companyDataFromOR.value.name + ".pdf"
-
-            val file = StringToPdfConvector.convertToPdf(pdfFileName,context,companyDataFromOR.value)
-/*        } else {
-            println("Oprávnění .....222222")
-            // Zde se zobrazí dialog pro žádost o oprávnění
-            AlertDialog.Builder(context)
-                .setTitle("Potřebujeme povolení")
-                .setMessage("Pro ukládání souborů potřebujeme vaše povolení. Klikněte na tlačítko Povolit pro pokračování.")
-                .setPositiveButton("Povolit") { _, _ ->
-                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                    val uri = Uri.fromParts("package", context.packageName, null)
-                    intent.data = uri
-                    ContextCompat.startActivity(context, intent, null)
-                    println("Alert dialog PDF: až teď se toto provede")
-                }
-                .setNegativeButton("Zrušit") { _, _ -> }
-                .show()
-        }*/
-        // Uložení PDF obsahu do souboru v interním úložišti Download složky
-      //  val pdfFileName = companyDataFromOR.value.name + ".pdf"
-
-        //val file = StringToPdfConvector.convertToPdf(pdfFileName,context,companyDataFromOR.value)
+        val pdfFileName = companyDataFromOR.value.name + ".pdf"
+        val file = StringToPdfConvector.convertToPdf(pdfFileName,context,companyDataFromOR.value)
+        if (file != null) {
+            Toast.makeText(context, "V Downloads uložen soubor "+pdfFileName, Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context,"Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
+        }
 
 
 

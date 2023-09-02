@@ -44,68 +44,49 @@ class StringToPdfConvector {
             this.context = context
             println("Oprávnění .....444444")
 
-           if (
-               true //checkStoragePermissions()
-           ) {
-                // Permission granted, do your work
+           if (PermissionsChecker.checkStoragePermissions()) {
                 println("Oprávnění pro zápis uděleno")
-            } else {
-                // Permission not granted, redirect user to app settings to grant permission
-                println("Oprávnění pro zápis NEuděleno")
-
-               AlertDialog.Builder(context)
-                   .setTitle("Potřebujeme povolení")
-                   .setMessage("Pro ukládání souborů potřebujeme vaše povolení. Klikněte na tlačítko Povolit pro pokračování.")
-                   .setPositiveButton("Povolit") { _, _ ->
-                       val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                       val uri = Uri.fromParts("package", context.packageName, null)
-                       intent.data = uri
-                       startActivity(context, intent, null)
-                       println("Alert dialog PDF: až teď se toto provede")
+               try {
+                   // Zkontrolujte, zda existuje složka pro ukládání PDF souboru
+                   println("Oprávnění pro zápis uděleno")
+                   val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                   if (!downloadsDir.exists()) {
+                       downloadsDir.mkdirs()
                    }
-                   .setNegativeButton("Zrušit") { _, _ -> }
-                   .show()
 
+                   // Nastaví cestu k výstupnímu PDF souboru
+                   val pdfFile = File(downloadsDir, outputPath)
+
+                   // Pokud již soubor existuje, smažeme ho, abychom zajistili, že nedojde k přepsání
+                   if (pdfFile.exists()) {
+                       pdfFile.delete()
+                   }
+
+                   PdfWriter.getInstance(document, FileOutputStream(pdfFile))
+                   document.open()
+
+
+                   nastavVlastnostiTabulky()
+
+                   if (!(companyDataOR==null)) companyDataOR?.let { vkladejUdajeDoTabulkyOR(it) }
+                   if (!(companyDataRZP==null)) companyDataRZP?.let { vkladejUdajeDoTabulkyRZP(it) }
+                   if (!(companyDataRES==null)) companyDataRES?.let { vkladejUdajeDoTabulkyRES(it) }
+
+                   document.add(table)
+                   document.close()
+
+                   println("Text byl úspěšně převeden do PDF souboru.")
+
+                   return pdfFile
+
+               } catch (e: Exception) {
+                   println("Chyba při převodu textu do PDF: ${e.message}")
+                   return null
+               }
+            } else {
+               println("Oprávnění pro zápis NEuděleno")
+               return null
             }
-
-
-
-                try {
-                    // Zkontrolujte, zda existuje složka pro ukládání PDF souboru
-                    val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    if (!downloadsDir.exists()) {
-                        downloadsDir.mkdirs()
-                    }
-
-                    // Nastaví cestu k výstupnímu PDF souboru
-                    val pdfFile = File(downloadsDir, outputPath)
-
-                    // Pokud již soubor existuje, smažeme ho, abychom zajistili, že nedojde k přepsání
-                    if (pdfFile.exists()) {
-                        pdfFile.delete()
-                    }
-
-                    PdfWriter.getInstance(document, FileOutputStream(pdfFile))
-                    document.open()
-
-
-                    nastavVlastnostiTabulky()
-
-                    if (!(companyDataOR==null)) companyDataOR?.let { vkladejUdajeDoTabulkyOR(it) }
-                    if (!(companyDataRZP==null)) companyDataRZP?.let { vkladejUdajeDoTabulkyRZP(it) }
-                    if (!(companyDataRES==null)) companyDataRES?.let { vkladejUdajeDoTabulkyRES(it) }
-
-                    document.add(table)
-                    document.close()
-
-                    println("Text byl úspěšně převeden do PDF souboru.")
-
-                    return pdfFile
-
-                } catch (e: Exception) {
-                    println("Chyba při převodu textu do PDF: ${e.message}")
-                    return null
-                }
 
 
         }
@@ -280,7 +261,7 @@ class StringToPdfConvector {
                 cell.horizontalAlignment = PdfPCell.ALIGN_CENTER
                 cell.colspan = 2 //spojí 2 buňky horizontálně
                 table.addCell(cell)
-            vlozRadekDoTabulkyJedenText("(výpis ke dni: "+getCurrentDate()+")", false, true, false)
+            vlozRadekDoTabulkyJedenText("(výpis ke dni: "+getCurrentDate()+")", false, true, false, false)
             vlozRadekDoTabulkyJedenText(" ", true, false, false)
 
 
@@ -351,8 +332,8 @@ class StringToPdfConvector {
 
         }
 
-        fun vlozRadekDoTabulkyJedenText(text: String, bold: Boolean, stred: Boolean, pozadi: Boolean = true) {
-            val cell = if (bold) PdfPCell(Paragraph(text, boldFont )) else PdfPCell(Paragraph("- "+text, font )) //když to bude bold, tak je to nadpis, v opačném případě je to normální položka, tak se tam přidá i pomlčka
+        fun vlozRadekDoTabulkyJedenText(text: String, bold: Boolean, stred: Boolean, pozadi: Boolean = true, pomlcka: Boolean = true) {
+            val cell = if (bold) PdfPCell(Paragraph(text, boldFont )) else PdfPCell(Paragraph(if (pomlcka) "- " +text else "" +text, font )) //když to bude bold, tak je to nadpis, v opačném případě je to normální položka, tak se tam přidá i pomlčka, ale když to bude pod nadpisem, tedy údaj o datumu pořízení, tak pomlcka bude false a nepřidá se tam
             cell.borderColor = BaseColor.WHITE
             if (stred) cell.horizontalAlignment = PdfPCell.ALIGN_CENTER
             if (pozadi) cell.backgroundColor = BaseColor(ContextCompat.getColor(context , R.color.pozadi_pdf_vypisu_radek))
@@ -376,23 +357,6 @@ class StringToPdfConvector {
 
             return "$day.$month.$year"
         }
-
-        fun checkStoragePermissions(): Boolean {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                //Android is 11 (R) or above
-                Environment.isExternalStorageManager()
-            } else {
-                //Below android 11
-                val write =
-                    ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                val read =
-                    ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-                read == PackageManager.PERMISSION_GRANTED && write == PackageManager.PERMISSION_GRANTED
-            }
-        }
-
-
-
 
     }
 

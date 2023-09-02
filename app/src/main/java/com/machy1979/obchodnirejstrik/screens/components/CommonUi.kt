@@ -16,6 +16,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,12 +29,15 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import com.machy1979.obchodnirejstrik.model.Firma
 import com.machy1979.obchodnirejstrik.model.Nace
@@ -57,6 +63,7 @@ fun VypisErrorHlasku(errorMessage: String) {
 
     }
 }
+
 @Composable
 fun Nacitani() {
     Box(
@@ -205,7 +212,6 @@ fun SeznamPolozekBezCard(nazevSeznamuPolozek: String, seznamPolozek: MutableList
 
     Spacer(modifier = Modifier.height(OdsazeniMensi))
 }
-
 
 @Composable
 fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTextSeznam: MutableList<String> =mutableListOf<String>()) {
@@ -424,9 +430,6 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
     }
 }
 
-
-
-
 @Composable
 fun ObycPolozkaNadpisHodnota(nadpis: String, hodnota: String, spodniOdsazeni: Boolean) {
 
@@ -633,13 +636,37 @@ fun AlertDialogWrapper(
 
 ) {
     val context = LocalContext.current
-    val buttonStatePovolit = remember { mutableStateOf(onClickPovolit) } // je to potřeba ošetřit takhle, protože: AlertDialog se zobrazí asynchronně a tím pádem by se onClickPovolit s dalšími funkcemi v bloku nevykonal. Kdyby byl sám bez bloku, tak by to nebylo třeba.
+    val buttonStatePovolit = remember { mutableStateOf(onClickPovolit) }
+    // je to potřeba ošetřit takhle, protože: AlertDialog se zobrazí asynchronně a tím pádem by se onClickPovolit s dalšími funkcemi v bloku nevykonal. Kdyby byl sám bez bloku, tak by to nebylo třeba.
+    val icon = Icons.Default.Info
 
 
         AlertDialog(
             onDismissRequest = { onDismissFunction() }, // co se má stát, když dá uživatel zpět
-            title = { Text("Potřebujeme povolení") },
-            text = { Text("Pro ukládání souborů potřebujeme vaše povolení. Klikněte na tlačítko Povolit pro pokračování.") },
+            title = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(0.dp)
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null, // Content description můžete nastavit dle potřeby
+                        tint = Color.Blue, // Barevná varianta ikony
+                        modifier = Modifier.size(40.dp)
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = "Potřebujeme povolení",
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
+                    )
+                }
+            },
+          //  title = { Text("Potřebujeme povolení") },
+            text = { Text("Pro ukládání souborů je třeba pro tuto aplikaci udělit oprávnění Přístup ke všem souborům. Klikněte na tlačítko Povolit pro pokračování.") },
+
             confirmButton = {
                 Button(
                     onClick = {

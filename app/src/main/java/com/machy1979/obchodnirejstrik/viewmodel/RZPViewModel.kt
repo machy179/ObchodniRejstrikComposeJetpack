@@ -114,7 +114,7 @@ class RZPViewModel : ViewModel() {
 
         val file = StringToPdfConvector.convertToPdf(pdfFileName,context,null, companyDataFromRZP.value)
         if (file != null) {
-            Toast.makeText(context, "Soubor "+pdfFileName+" uložen v Downloads", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "V Downloads uložen soubor "+pdfFileName, Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context,"Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
         }
