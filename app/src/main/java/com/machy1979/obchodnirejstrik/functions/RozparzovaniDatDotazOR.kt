@@ -15,7 +15,8 @@ import com.google.android.gms.maps.model.LatLng
 
 class RozparzovaniDatDotazOR {
     companion object {
-        var context: Context? = null
+        lateinit var context: Context
+        var pomocnyCounter = 0
         fun vratCompanyData(document: Document, context: Context): CompanyData {
 
             Log.i("chybaaa2: ",document.toString())
@@ -223,9 +224,13 @@ class RozparzovaniDatDotazOR {
             }
 
 
-            if (address != "") {
-                val gps =getGPSCoordinatesFromAddress(address)
-                address =address +", "+gps
+
+
+            if (pomocnyCounter== 0) {
+                println("GPS-mapa .....1")
+                StringToGpsToMap.presmerujZAdresyNaMapy(address, context)
+                println("GPS-mapa .....1konec")
+                pomocnyCounter++
             }
 
             return address
@@ -247,21 +252,6 @@ class RozparzovaniDatDotazOR {
             return errorHlaska
         }
 
-        fun getGPSCoordinatesFromAddress(address: String): LatLng {
-            println("GPS .....0"+ address)
-            println("GPS .....1")
-            val geocoder = Geocoder(context)
-            println("GPS .....2")
-            val addresses = geocoder.getFromLocationName(address, 1)
-            println("GPS .....3")
-            val latitude = addresses[0].latitude
-            println("GPS .....4")
-            println("GPS .....4"+latitude.toString())
-            val longitude = addresses[0].longitude
-            println("GPS .....5")
-            println("GPS .....5"+longitude.toString())
 
-            return LatLng(latitude, longitude)
-        }
     }
 }
