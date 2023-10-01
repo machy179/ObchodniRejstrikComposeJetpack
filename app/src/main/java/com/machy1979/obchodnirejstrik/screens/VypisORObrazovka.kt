@@ -72,7 +72,7 @@ fun VypisORObrazovka (
                         ObycPolozkaJenNadpisUprostred("Základní údaje subjektu", false)
                         ObycPolozkaNadpisHodnota("Název firmy:",companyDataFromOR.name, true)
                         ObycPolozkaNadpisHodnota("Ico:",companyDataFromOR.ico, true)
-                        ObycPolozkaNadpisHodnota("Sídlo:",companyDataFromOR.address, true)
+                        ObycPolozkaNadpisHodnota("Sídlo:",companyDataFromOR.address, true, true)
                         ObycPolozkaNadpisHodnota("Stav subjektu:",companyDataFromOR.stavSubjektu, true)
                         ObycPolozkaNadpisHodnota("Právní forma:",companyDataFromOR.pravniForma, true)
                         ObycPolozkaNadpisHodnota("Datum zápisu:",companyDataFromOR.datumZapisu, true)

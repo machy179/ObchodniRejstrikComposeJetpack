@@ -52,7 +52,7 @@ fun VypisRZPObrazovka (
                         ObycPolozkaJenNadpisUprostred("Základní údaje subjektu", false)
                         ObycPolozkaNadpisHodnota("Název firmy:",companyDataFromRZP.name, true)
                         ObycPolozkaNadpisHodnota("Ico:",companyDataFromRZP.ico, true)
-                        ObycPolozkaNadpisHodnota("Adresa:",companyDataFromRZP.address, true)
+                        ObycPolozkaNadpisHodnota("Adresa:",companyDataFromRZP.address, true, true)
                         ObycPolozkaNadpisHodnota("Právní forma:",companyDataFromRZP.pravniForma, true)
                         ObycPolozkaNadpisHodnota("Typ subjektu:",companyDataFromRZP.typSubjektu, true)
                         ObycPolozkaNadpisHodnota("Evidující úřad:",companyDataFromRZP.evidujiciUrad, true)

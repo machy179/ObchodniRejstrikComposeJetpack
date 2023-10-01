@@ -52,7 +52,7 @@ fun VypisRESObrazovka (
                         ObycPolozkaJenNadpisUprostred("Základní údaje subjektu", false)
                         ObycPolozkaNadpisHodnota("Název firmy:",companyDataFromRES.name, true)
                         ObycPolozkaNadpisHodnota("Ico:",companyDataFromRES.ico, true)
-                        ObycPolozkaNadpisHodnota("Sídlo:",companyDataFromRES.address, true)
+                        ObycPolozkaNadpisHodnota("Sídlo:",companyDataFromRES.address, true, true)
                         ObycPolozkaNadpisHodnota("Právní forma:",companyDataFromRES.pravniForma, true)
                         ObycPolozkaNadpisHodnota("Datum vzniku:",companyDataFromRES.datumVzniku, true)
                         ObycPolozkaNadpisHodnota("Základní územní jednotka:",companyDataFromRES.zakladniUzemniJednotka, true)

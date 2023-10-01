@@ -17,7 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,10 +35,12 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.machy1979.obchodnirejstrik.functions.StringToGpsToMap
 import com.machy1979.obchodnirejstrik.model.Firma
 import com.machy1979.obchodnirejstrik.model.Nace
 import com.machy1979.obchodnirejstrik.model.Osoba
@@ -263,7 +265,7 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
                                     it.titulyPredJmenem+ " "+it.jmeno+" "+it.prijmeni
                                 }, true)
                                 ObycPolozkaNadpisHodnota("Dat. nar.:", it.datNar, true)
-                                if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, false)
+                                if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, true, true)
                                 if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
                                 if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)
                                 if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad+" Kč", false)
@@ -348,7 +350,7 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
                                         it.titulyPredJmenem+ " "+it.jmeno+" "+it.prijmeni
                                     }, true)
                                     ObycPolozkaNadpisHodnota("Dat. nar.:", it.datNar, true)
-                                    ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, false)
+                                    ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, true, true)
                                     if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
                                     if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)
                                     if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad+" Kč", false)
@@ -394,7 +396,7 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
                                     }*/
                                     ObycPolozkaNadpisHodnota("Firma:", it.name, true)
                                     ObycPolozkaNadpisHodnota("ICO:", it.ico, true)
-                                    ObycPolozkaNadpisHodnota("Sídlo:", it.address, false)
+                                    ObycPolozkaNadpisHodnota("Sídlo:", it.address, false, true)
 /*                                    if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
                                     if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)*/
                                     if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad+" Kč", false)
@@ -431,7 +433,7 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
 }
 
 @Composable
-fun ObycPolozkaNadpisHodnota(nadpis: String, hodnota: String, spodniOdsazeni: Boolean) {
+fun ObycPolozkaNadpisHodnota(nadpis: String, hodnota: String, spodniOdsazeni: Boolean, buttonProMapy: Boolean=false) {
 
     Row(
         modifier = Modifier
@@ -467,7 +469,13 @@ fun ObycPolozkaNadpisHodnota(nadpis: String, hodnota: String, spodniOdsazeni: Bo
 
     }
 
-    if (spodniOdsazeni) Spacer(modifier = Modifier.height(VelikostSpodniOdsazeni))
+    if (buttonProMapy && hodnota != "") {
+        ButtonWithMapIcon(hodnota)
+    }
+
+    if (spodniOdsazeni) Spacer(modifier = Modifier.height(VelikostSpodniOdsazeni)
+        .background(color = Color.White))
+
 }
 
 @Composable
@@ -694,6 +702,41 @@ fun AlertDialogWrapper(
 
 
 
+}
+
+
+@Composable
+fun ButtonWithMapIcon(address: String) {
+    val context = LocalContext.current
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = PozadiTextu)
+
+    ) {
+        IconButton(
+            onClick = {
+                StringToGpsToMap.presmerujZAdresyNaMapy(address, context)
+            },
+            modifier = Modifier.padding(1.dp) // Nastavení mezery okolo tlačítka
+        ) {
+            Icon(
+                imageVector = Icons.Default.MapsHomeWork, // Použití ikony mapy z material design
+                contentDescription = null // Nepotřebujeme popis
+            )
+        }
+
+        // Další obsah tlačítka, například text
+    }
+
+}
+
+@Preview
+@Composable
+fun MyComposableFunctionPreview() {
+    // Provide sample values for the arguments
+    ObycPolozkaNadpisHodnota("aaaa", "bbbb", false, true)
 }
 
 

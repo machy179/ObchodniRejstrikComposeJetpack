@@ -228,7 +228,7 @@ class RozparzovaniDatDotazOR {
 
             if (pomocnyCounter== 0) {
                 println("GPS-mapa .....1")
-                StringToGpsToMap.presmerujZAdresyNaMapy(address, context)
+               // StringToGpsToMap.presmerujZAdresyNaMapy(address, context)
                 println("GPS-mapa .....1konec")
                 pomocnyCounter++
             }
