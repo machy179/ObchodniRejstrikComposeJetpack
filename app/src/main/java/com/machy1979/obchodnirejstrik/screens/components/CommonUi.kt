@@ -19,6 +19,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.materialIcon
+import androidx.compose.material.icons.rounded.Map
+import androidx.compose.material.icons.rounded.MapsHomeWork
+import androidx.compose.material.icons.sharp.MapsHomeWork
+import androidx.compose.material.icons.twotone.MapsHomeWork
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -709,25 +713,29 @@ fun AlertDialogWrapper(
 fun ButtonWithMapIcon(address: String) {
     val context = LocalContext.current
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.End,
         modifier = Modifier
             .fillMaxWidth()
+            .padding(0.dp)
             .background(color = PozadiTextu)
 
     ) {
         IconButton(
+            modifier = Modifier.
+            padding(2.dp).then(Modifier.size(24.dp)),
             onClick = {
                 StringToGpsToMap.presmerujZAdresyNaMapy(address, context)
             },
-            modifier = Modifier.padding(1.dp) // Nastavení mezery okolo tlačítka
+
         ) {
             Icon(
-                imageVector = Icons.Default.MapsHomeWork, // Použití ikony mapy z material design
+                imageVector = Icons.Rounded.Map, // Použití ikony mapy z material design
                 contentDescription = null // Nepotřebujeme popis
             )
         }
 
-        // Další obsah tlačítka, například text
+        //Text(text = "Zobrazit na mapě"
+         //)
     }
 
 }
