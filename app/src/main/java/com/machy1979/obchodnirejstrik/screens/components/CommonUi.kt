@@ -19,7 +19,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.MapsHomeWork
 import androidx.compose.material.icons.sharp.MapsHomeWork
 import androidx.compose.material.icons.twotone.MapsHomeWork
@@ -133,7 +132,7 @@ fun SeznamPolozekZivnosti(nazevSeznamuPolozek: String, seznamZivnosti: MutableLi
                                 ObycPolozkaNadpisHodnota("Název:",it.nazevZivnosti, true)
                                 ObycPolozkaNadpisHodnota("Druh:",it.druhZivnosti, true)
                                 ObycPolozkaNadpisHodnota("Vznik oprávnění:",it.vznikOpravneni, true)
-                                ObycPolozkaNadpisHodnota("Obory:","", false)
+                                ObycPolozkaNadpisHodnota("Obory:"," ", false) //tady je potřeba do hodnota dát " " a ne jen "", protože SelectionContainer házel chybu
                                 it.obory.forEach {
                                     ObycPolozkaHodnota(it.toString(),true,false)
 
@@ -729,7 +728,7 @@ fun ButtonWithMapIcon(address: String) {
 
         ) {
             Icon(
-                imageVector = Icons.Rounded.Map, // Použití ikony mapy z material design
+                imageVector = Icons.Default.Map, // Použití ikony mapy z material design
                 contentDescription = null // Nepotřebujeme popis
             )
         }
