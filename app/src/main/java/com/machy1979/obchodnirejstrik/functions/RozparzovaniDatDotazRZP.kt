@@ -43,6 +43,7 @@ class RozparzovaniDatDotazRZP {
                     "R" -> druhZivnosti ="Ohlašovací řemeslná"
                     "L" -> druhZivnosti="Ohlašovací volná"
                     "K" -> druhZivnosti="Koncesovaná"
+                    "V" -> druhZivnosti="Ohlašovací vázaná"
                 }
                 val vznikOpravneni = it.select("D|Vznik").first()?.text() ?: " "
                 val obory: MutableList<String> = mutableListOf<String>()

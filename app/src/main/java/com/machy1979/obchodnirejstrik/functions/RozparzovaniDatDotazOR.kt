@@ -210,6 +210,13 @@ class RozparzovaniDatDotazOR {
                     address =address +it
                 } else address =address +" "+it
             }
+
+            document.select("D|CA").first()?.text()?.let {
+                if(address=="") {
+                    address =address +it
+                } else address =address +" "+it
+            }
+
             document.select("D|NCO").first()?.text()?.let {
                 address =address +", "+it
             }

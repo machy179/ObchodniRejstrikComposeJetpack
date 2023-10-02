@@ -458,23 +458,38 @@ fun ObycPolozkaNadpisHodnota(nadpis: String, hodnota: String, spodniOdsazeni: Bo
             modifier = Modifier
                 .padding(bottom = 1.dp)
                 .weight(0.02f)
-            //   .fillMaxHeight()
         )
-       // SelectionContainer() {
+        if (buttonProMapy && hodnota != "") {
+            Text(text = hodnota,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .padding(bottom = 1.dp)
+                    .weight(0.60f)
+            )
+            Column(
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier
+                    .padding(0.dp)
+                    .weight(0.08f)
+                    .background(color = PozadiTextu)
+
+            ) {
+                ButtonWithMapIcon(hodnota)
+            }
+
+        } else  {
             Text(text = hodnota,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(bottom = 1.dp)
                     .weight(0.68f)
-                //   .fillMaxHeight()
             )
-    //    }
+        }
+
+
 
     }
 
-    if (buttonProMapy && hodnota != "") {
-        ButtonWithMapIcon(hodnota)
-    }
 
     if (spodniOdsazeni) Spacer(modifier = Modifier.height(VelikostSpodniOdsazeni)
         .background(color = Color.White))
@@ -711,14 +726,7 @@ fun AlertDialogWrapper(
 @Composable
 fun ButtonWithMapIcon(address: String) {
     val context = LocalContext.current
-    Column(
-        horizontalAlignment = Alignment.End,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(0.dp)
-            .background(color = PozadiTextu)
 
-    ) {
         IconButton(
             modifier = Modifier.
             padding(2.dp).then(Modifier.size(24.dp)),
@@ -735,7 +743,7 @@ fun ButtonWithMapIcon(address: String) {
 
         //Text(text = "Zobrazit na mapě"
          //)
-    }
+
 
 }
 
