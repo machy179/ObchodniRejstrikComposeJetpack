@@ -44,7 +44,8 @@ class StringToPdfConvector {
             this.context = context
             println("Oprávnění .....444444")
 
-           if (PermissionsChecker.checkStoragePermissions()) {
+           // if (PermissionsChecker.checkStoragePermissions()) { nakonec nebylo třeba checkovat, není potřeba povolení
+           if (true) {
                 println("Oprávnění pro zápis uděleno")
                try {
                    // Zkontrolujte, zda existuje složka pro ukládání PDF souboru

@@ -725,7 +725,7 @@ fun AlertDialogWrapper(
 
 @Composable
 fun ButtonWithMapIcon(address: String) {
-    val context = LocalContext.current
+        val context = LocalContext.current
 
         IconButton(
             modifier = Modifier.

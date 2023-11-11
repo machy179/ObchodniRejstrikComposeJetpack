@@ -1,5 +1,6 @@
 package com.machy1979.obchodnirejstrik.screens
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,18 +32,25 @@ fun UvodniObrazovka(
     val dotaz = remember { mutableStateOf(TextFieldValue()) }
 
 
-
-
     Column (
         modifier = modifier.padding(VelikostPaddingHlavnihoOkna).fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
+// Fetching current app configuration
+        val configuration = LocalConfiguration.current
+        val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
+        val paddingModifier = if (isLandscape) {
+            Modifier.padding(horizontal = 20.dp, vertical = 20.dp)
+        } else {
+            Modifier.padding(start = 20.dp, end = 20.dp, top = 100.dp, bottom = 20.dp)
+        }
         Card(
             elevation = VelikostElevation,
-            modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 10.dp),
+            // modifier = Modifier
+            //    .padding(horizontal = 20.dp, vertical = 70.dp),
+            modifier = paddingModifier,
             shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextField ),
 
         ) {

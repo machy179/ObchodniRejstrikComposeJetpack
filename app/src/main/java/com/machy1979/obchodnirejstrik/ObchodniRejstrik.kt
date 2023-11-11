@@ -20,10 +20,13 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign.Companion.Start
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,6 +37,9 @@ import com.machy1979.obchodnirejstrik.functions.PermissionsChecker
 import com.machy1979.obchodnirejstrik.screens.*
 import com.machy1979.obchodnirejstrik.screens.components.AlertDialogWrapper
 import com.machy1979.obchodnirejstrik.screens.components.VypisORObrazovka
+import com.machy1979.obchodnirejstrik.ui.theme.PaddingTopAplikace
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardHorizontal
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardVertical
 import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
@@ -47,7 +53,8 @@ var canShare: Boolean = false
 
 enum class ObchodniRejstrik (@StringRes val title: Int) {
 
-    UvodniObrazovka(title = R.string.app_name),
+  //  UvodniObrazovka(title = R.string.app_name),
+    UvodniObrazovka(title = R.string.prazdny_retezec),
     VypisFiremSeznam(title = R.string.vypis_firem_seznam),
     VypisIco(title = R.string.vypis_ico),
     VypisOR(title = R.string.vypis_or),
@@ -69,16 +76,20 @@ fun ObchodniRejstrikAppBar(
     saveToPdf: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
+    var appBarOffset by remember { mutableStateOf(0f) }
     TopAppBar(
-        title = { Text(stringResource(currentScreen.title)) },
+        title = { Text(stringResource(currentScreen.title), color = colorResource(id = R.color.pozadi_prvku_top_app_bar)) },
         modifier = modifier,
-        navigationIcon = {
+        backgroundColor = Color.Transparent, // Nastavíme transparentní barvu pozadí
+        elevation = if (appBarOffset > 0) 4.dp else 0.dp, // Přidáme stín, pokud je appBarOffset větší než 0
+
+                navigationIcon = {
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back_button)
+                        contentDescription = stringResource(R.string.back_button),
+                        tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
                     )
                 }
 
@@ -96,7 +107,8 @@ fun ObchodniRejstrikAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Share,
-                        contentDescription = stringResource(R.string.share_button)
+                        contentDescription = stringResource(R.string.share_button),
+                        tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
                     )
                 }
                     IconButton(
@@ -104,7 +116,8 @@ fun ObchodniRejstrikAppBar(
                     ) {
                         Icon(
                             imageVector =  Icons.Filled.Download,
-                            contentDescription = stringResource(R.string.share_button)
+                            contentDescription = stringResource(R.string.share_button),
+                            tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
                         )
                     }
                 }
@@ -144,8 +157,12 @@ fun ObchodniRejstrikApp2(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
+                modifier = Modifier
+                    .padding(top = PaddingTopAplikace)
+                    .fillMaxWidth(),
                 saveToPdf = {
-                    if (PermissionsChecker.checkStoragePermissions()) {
+                //    if (PermissionsChecker.checkStoragePermissions()) { nakonec nebylo třeba checkovat, není potřeba povolení
+                    if (true) {
                         //oprávnění zápisu uděleno
                         when (navController.currentBackStackEntry?.destination?.route) { //zjistí v jaké aktuální destinaci route se aplikace nachází a podle toho zavolá tu správnou metodu
                             ObchodniRejstrik.VypisOR.name -> orViewModel.saveToPdf(context)
@@ -260,7 +277,7 @@ fun ObchodniRejstrikApp2(
             }
             composable(route = ObchodniRejstrik.VypisRES.name) {
                 val context = LocalContext.current
-                canShare = true
+                canShare = false //tady dát true, až vyřeším share a uložit do pdf
                 VypisRESObrazovka(
                     viewModel = resViewModel,
                     onCancelButtonClicked = {

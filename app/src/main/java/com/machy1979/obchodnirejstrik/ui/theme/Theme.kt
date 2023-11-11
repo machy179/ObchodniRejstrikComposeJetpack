@@ -30,17 +30,9 @@ private val LightColorPalette = lightColors(
     primary = barvaPrimarni,
     primaryVariant = Purple700,
     secondary = Teal200,
-    background = BarvaPozadi
+    background = BarvaPozadi,
 
 
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
 
 @Composable
@@ -68,9 +60,12 @@ fun ObchodniRejstrikTheme(
                 .fillMaxHeight()
         ) {
             Image(
-                painter = painterResource(id = com.machy1979.obchodnirejstrik.R.mipmap.background),
+                // painter = painterResource(id = com.machy1979.obchodnirejstrik.R.mipmap.background),
+                painter = painterResource(id = com.machy1979.obchodnirejstrik.R.drawable.pozadi9
+                ),
                 contentDescription = "headerImage",
                 contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
             )
 
             MaterialTheme(

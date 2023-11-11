@@ -48,6 +48,7 @@ fun VypisORObrazovka (
 
 
 
+
     LazyColumn(modifier = Modifier.padding(VelikostPaddingHlavnihoOkna).fillMaxHeight())
     {
         //základní údaje

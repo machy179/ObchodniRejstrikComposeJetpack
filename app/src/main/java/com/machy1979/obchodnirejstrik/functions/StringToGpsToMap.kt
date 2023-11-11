@@ -46,14 +46,14 @@ class StringToGpsToMap {
             println("GPS .....2")
             val addresses = geocoder.getFromLocationName(address, 1)
             println("GPS .....3")
-            val latitude = addresses[0].latitude
+            val latitude = addresses?.get(0)?.latitude
             println("GPS .....4")
             println("GPS .....4"+latitude.toString())
-            val longitude = addresses[0].longitude
+            val longitude = addresses?.get(0)?.longitude
             println("GPS .....5")
             println("GPS .....5"+longitude.toString())
 
-            return LatLng(latitude, longitude)
+            return LatLng(latitude!!, longitude!!)
         }
 
 

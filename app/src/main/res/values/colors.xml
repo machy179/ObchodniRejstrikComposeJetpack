@@ -8,10 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="status_bar_color">#1A74BB</color>
-    <color name="navigation_bar_color">#000000</color>
+    <!--  <color name="status_bar_color">#1A74BB</color> -->
+      <color name="status_bar_color">#001A74BB</color>
+      <color name="navigation_bar_color">#000000</color>
 
-    <color name="pozadi_pdf_vypisu_radek">#FFF8F8F8</color>
+      <color name="pozadi_pdf_vypisu_radek">#FFF8F8F8</color>
+      <color name="pozadi_prvku_top_app_bar">#FFF8F8F8</color>
 
 
-</resources>
+  </resources>

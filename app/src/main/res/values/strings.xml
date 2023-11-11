@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Obchodní rejstřík</string>
+    <string name="prazdny_retezec"></string>
     <string name="vypis_firem_seznam">Výpis firem</string>
     <string name="vypis_ico">Výpis dle ICO</string>
     <string name="vypis_or">Výpis z OR</string>
