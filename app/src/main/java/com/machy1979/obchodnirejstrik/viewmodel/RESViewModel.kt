@@ -17,6 +17,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.parser.Parser
+import java.net.URL
 
 class RESViewModel : ViewModel() {
 
@@ -62,7 +64,11 @@ class RESViewModel : ViewModel() {
         return try {
             withContext(Dispatchers.IO) {
                 Log.i("aaaa", "10")
-                Jsoup.connect(url).get()
+/*                Jsoup.connect(url)
+                    .get()*/
+                //výše uvedené mi například při výpisu ZEPO Bohuslavice u dozorčí rady házelo v tagu &lt a dozorčí radu to nevypsalo
+                //tady jsem našel níže uvedené řešení: https://stackoverflow.com/questions/43773855/jsoup-parser-not-working-as-expected-for-particular-url-only
+                Jsoup.parse(URL(url).openStream(), "UTF-8", "", Parser.xmlParser());
 
             }
         } catch (e: Exception) {
@@ -90,7 +96,7 @@ class RESViewModel : ViewModel() {
 
 
         // Uložení PDF obsahu do souboru v interním úložišti Download složky
-        val pdfFileName = companyDataFromRES.value.name + ".pdf"
+        val pdfFileName = companyDataFromRES.value.name+"_RES"
 
         val file = StringToPdfConvector.convertToPdf(pdfFileName,context,null, null, companyDataFromRES.value)
         if (file != null) {

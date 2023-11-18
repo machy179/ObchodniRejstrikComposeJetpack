@@ -90,7 +90,7 @@ fun VypisORObrazovka (
         item {
             SeznamPolozek(nazevSeznamuPolozek = "Předmět podnikání:", seznamPolozek = companyDataFromOR.predmetPodnikani)
         }
-        item {
+        if(companyDataFromOR.ostatniSkutecnosti.size != 0) item {
             SeznamPolozek(nazevSeznamuPolozek = "Ostatní skutečnosti:", seznamPolozek = companyDataFromOR.ostatniSkutecnosti)
         }
         //kapitál
@@ -123,23 +123,23 @@ fun VypisORObrazovka (
 
         }
 
-        item {
+        if(companyDataFromOR.statutarniOrganOsoby.size != 0 || companyDataFromOR.statutarniOrganFirmy.size != 0 || companyDataFromOR.statutarniOrganSkutecnosti.size != 0) item {
             SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Statutární orgán:", seznamOsob = companyDataFromOR.statutarniOrganOsoby, seznamFirem = companyDataFromOR.statutarniOrganFirmy,dalsiTextSeznam = companyDataFromOR.statutarniOrganSkutecnosti)
         }
-        item {
+        if(companyDataFromOR.prokura.size != 0) item {
             SeznamOsob(nazevSeznamuOsob = "Prokura:", seznamOsob = companyDataFromOR.prokura)
         }
-        item {
+        if(companyDataFromOR.dozorciRada.size != 0) item {
             SeznamOsob(nazevSeznamuOsob = "Dozorčí rada:", seznamOsob = companyDataFromOR.dozorciRada)
         }
-        item {
+        if(companyDataFromOR.spolecniciSVklademOsoby.size != 0 || companyDataFromOR.spolecniciSVklademFirmy.size != 0) item {
             SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Společníci s vkladem:", seznamOsob = companyDataFromOR.spolecniciSVklademOsoby, seznamFirem = companyDataFromOR.spolecniciSVklademFirmy)
         }
-        item {
+        if(companyDataFromOR.akcionariOsoby.size != 0 || companyDataFromOR.akcionariFirmy.size != 0) item {
             SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Akcionáři:", seznamOsob = companyDataFromOR.akcionariOsoby, seznamFirem = companyDataFromOR.akcionariFirmy)
         }
 
-        item {
+        if(companyDataFromOR.likvidaceOsoby.size != 0 || companyDataFromOR.likvidaceFirmy.size != 0) item {
             SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Likvidace:", seznamOsob = companyDataFromOR.likvidaceOsoby, seznamFirem = companyDataFromOR.likvidaceFirmy)
         }
     }

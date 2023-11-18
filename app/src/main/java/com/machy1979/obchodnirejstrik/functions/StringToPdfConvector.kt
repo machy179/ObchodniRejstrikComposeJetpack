@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
@@ -56,15 +57,30 @@ class StringToPdfConvector {
                    }
 
                    // Nastaví cestu k výstupnímu PDF souboru
-                   val pdfFile = File(downloadsDir, outputPath)
+                   var pdfFile = File(downloadsDir, outputPath+".pdf")
 
-                   // Pokud již soubor existuje, smažeme ho, abychom zajistili, že nedojde k přepsání
+                   //zkusí, zda takový soubor již neexistuje, pokud ano, bdá názvu souboru na konec číslo
                    if (pdfFile.exists()) {
-                       pdfFile.delete()
+                       var number = 1
+                       Log.i("aaaaaaaaa","1")
+                       do {
+                           val newFileName = "${outputPath}_$number"+".pdf"
+                           Log.i("aaaaaaaaa","2")
+                           pdfFile = File(downloadsDir, newFileName)
+                           number++
+                           Log.i("aaaaaaaaa",newFileName)
+                       } while (pdfFile.exists())
+
+                       // Nyní máme názvu souboru, který neexistuje
+                       // Můžete použít newPdfFile pro další akce, např. uložení nebo zpracování
+                       // newPdfFile obsahuje nový unikátní název souboru
                    }
+                   Log.i("aaaaaaaaa","3")
 
                    PdfWriter.getInstance(document, FileOutputStream(pdfFile))
+                   Log.i("aaaaaaaaa","4")
                    document.open()
+                   Log.i("aaaaaaaaa","5")
 
 
                    nastavVlastnostiTabulky()
@@ -82,6 +98,7 @@ class StringToPdfConvector {
 
                } catch (e: Exception) {
                    println("Chyba při převodu textu do PDF: ${e.message}")
+                   println(e.toString())
                    return null
                }
             } else {

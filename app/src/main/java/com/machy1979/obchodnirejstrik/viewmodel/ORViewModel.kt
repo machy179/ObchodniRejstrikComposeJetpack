@@ -1,13 +1,11 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
-import android.app.AlertDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,7 +20,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.parser.Parser
 import java.io.*
+import java.net.URL
 
 
 class ORViewModel : ViewModel() {
@@ -69,10 +69,16 @@ class ORViewModel : ViewModel() {
 
     private suspend fun getAresDataIcoOR(ico: String): Document? {
         val url = "https://wwwinfo.mfcr.cz/cgi-bin/ares/darv_or.cgi?ico=$ico"
+
         return try {
             withContext(Dispatchers.IO) {
                 Log.i("aaaa", "10")
-                Jsoup.connect(url).get()
+/*                Jsoup.connect(url)
+                    .get()*/
+                //výše uvedené mi například při výpisu ZEPO Bohuslavice u dozorčí rady házelo v tagu &lt a dozorčí radu to nevypsalo
+                //tady jsem našel níže uvedené řešení: https://stackoverflow.com/questions/43773855/jsoup-parser-not-working-as-expected-for-particular-url-only
+                Jsoup.parse(URL(url).openStream(), "UTF-8", "", Parser.xmlParser())
+
 
             }
         } catch (e: Exception) {
@@ -115,7 +121,7 @@ class ORViewModel : ViewModel() {
 
     fun saveToPdf(context: Context) {
 
-        val pdfFileName = companyDataFromOR.value.name + ".pdf"
+        val pdfFileName = companyDataFromOR.value.name+"_OR"
         val file = StringToPdfConvector.convertToPdf(pdfFileName,context,companyDataFromOR.value)
         if (file != null) {
             Toast.makeText(context, "V Downloads uložen soubor "+pdfFileName, Toast.LENGTH_SHORT).show()
