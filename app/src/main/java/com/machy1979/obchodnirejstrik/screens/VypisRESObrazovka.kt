@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
-import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
+
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
 
 //zatím je to jen kopie z VypisRZPObrazovka, tak to předělat

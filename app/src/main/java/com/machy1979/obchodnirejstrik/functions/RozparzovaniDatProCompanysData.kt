@@ -1,7 +1,6 @@
 package com.machy1979.obchodnirejstrik.functions
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
+
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element

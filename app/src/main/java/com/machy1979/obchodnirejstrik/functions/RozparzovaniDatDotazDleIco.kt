@@ -2,7 +2,7 @@ package com.machy1979.obchodnirejstrik.functions
 
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
+
 
 class RozparzovaniDatDotazDleIco {
     companion object {

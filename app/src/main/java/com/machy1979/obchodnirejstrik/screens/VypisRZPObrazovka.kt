@@ -11,10 +11,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+
 import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
-import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
+
 import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
 
 @Composable

@@ -2,17 +2,13 @@ package com.machy1979.obchodnirejstrik.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.functions.*
 import com.machy1979.obchodnirejstrik.model.CompanyData
-import com.machy1979.obchodnirejstrik.model.CompanyDataRES
-import com.machy1979.obchodnirejstrik.model.CompanyDataRZP
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

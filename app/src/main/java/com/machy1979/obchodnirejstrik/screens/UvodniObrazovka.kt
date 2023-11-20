@@ -1,7 +1,7 @@
 package com.machy1979.obchodnirejstrik.screens
 
 import android.content.res.Configuration
-import android.util.Log
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*

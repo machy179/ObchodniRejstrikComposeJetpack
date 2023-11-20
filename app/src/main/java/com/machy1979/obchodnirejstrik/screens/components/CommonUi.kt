@@ -3,7 +3,6 @@ package com.machy1979.obchodnirejstrik.screens.components
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
@@ -18,10 +17,6 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.materialIcon
-import androidx.compose.material.icons.rounded.MapsHomeWork
-import androidx.compose.material.icons.sharp.MapsHomeWork
-import androidx.compose.material.icons.twotone.MapsHomeWork
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,9 +27,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -268,7 +261,7 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
                                     it.titulyPredJmenem+ " "+it.jmeno+" "+it.prijmeni
                                 }, true)
                                 ObycPolozkaNadpisHodnota("Dat. nar.:", it.datNar, true)
-                                if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, true, true)
+                                ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, true, true)
                                 if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
                                 if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)
                                 if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad+" Kč", false)
@@ -664,7 +657,7 @@ fun AlertDialogWrapper(
     val context = LocalContext.current
     val buttonStatePovolit = remember { mutableStateOf(onClickPovolit) }
     // je to potřeba ošetřit takhle, protože: AlertDialog se zobrazí asynchronně a tím pádem by se onClickPovolit s dalšími funkcemi v bloku nevykonal. Kdyby byl sám bez bloku, tak by to nebylo třeba.
-    val icon = Icons.Default.Info
+      val icon = Icons.Default.Info
 
 
         AlertDialog(

@@ -1,19 +1,14 @@
 package com.machy1979.obchodnirejstrik.functions
 
-import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
+
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
+
 import android.os.Environment
-import android.provider.Settings
+
 import android.util.Log
-import androidx.core.app.ActivityCompat
+
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
+
 import com.itextpdf.text.*
 import com.itextpdf.text.pdf.BaseFont
 import com.itextpdf.text.pdf.PdfPCell

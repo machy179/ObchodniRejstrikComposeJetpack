@@ -1,17 +1,16 @@
 package com.machy1979.obchodnirejstrik.functions
 
 import android.content.Context
-import android.location.Geocoder
+
 import android.util.Log
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContentProviderCompat.requireContext
+
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.Firma
 import com.machy1979.obchodnirejstrik.model.Osoba
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import com.google.android.gms.maps.model.LatLng
+
 
 class RozparzovaniDatDotazOR {
     companion object {

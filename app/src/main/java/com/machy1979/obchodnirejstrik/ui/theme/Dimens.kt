@@ -1,7 +1,7 @@
 package com.machy1979.obchodnirejstrik.ui.theme
 
 
-import androidx.compose.ui.unit.Dp
+
 import androidx.compose.ui.unit.dp
 
 val PaddingTopAplikace = 30.dp //protože jsem dal statusBar na transparent a android:windowTranslucentStatus na true v themes.xml, tak celá apka poskočila nahoru a zakrývala text ve statusBaru, tak musím apku posunout o tento padding

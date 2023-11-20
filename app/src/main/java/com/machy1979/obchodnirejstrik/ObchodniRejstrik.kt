@@ -1,15 +1,13 @@
 package com.machy1979.obchodnirejstrik
 
-import androidx.compose.material.icons.filled.Save
+
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.Icon
 
-import android.content.Context
-import android.content.Intent
-import android.util.Log
+
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Start
-import androidx.compose.foundation.layout.Arrangement
+//import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Start
+
 import androidx.compose.foundation.layout.Arrangement.Start
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,21 +23,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign.Companion.Start
-import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.machy1979.obchodnirejstrik.R
+
 import androidx.navigation.compose.rememberNavController
-import com.machy1979.obchodnirejstrik.functions.PermissionsChecker
+
 import com.machy1979.obchodnirejstrik.screens.*
 import com.machy1979.obchodnirejstrik.screens.components.AlertDialogWrapper
 import com.machy1979.obchodnirejstrik.screens.components.VypisORObrazovka
 import com.machy1979.obchodnirejstrik.ui.theme.PaddingTopAplikace
-import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardHorizontal
-import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardVertical
 import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
