@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -738,6 +739,18 @@ fun ButtonWithMapIcon(address: String) {
          //)
 
 
+}
+
+@Composable
+fun MyLinearProgressIndicator() {
+    // Display LinearProgressIndicator with a small height to create a thin horizontal line
+    LinearProgressIndicator(
+        modifier = Modifier
+            .padding(horizontal = PaddingLinearProgressIndicatoru)
+            .fillMaxWidth()
+            .height(4.dp) // Adjust the height as needed
+            .clip(RoundedCornerShape(100)) //zakulacené rohy
+    )
 }
 
 @Preview

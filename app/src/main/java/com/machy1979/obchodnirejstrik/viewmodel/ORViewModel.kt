@@ -10,9 +10,11 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
+import com.machy1979.obchodnirejstrik.canShare
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazOR
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyData
+import com.machy1979.obchodnirejstrik.model.SharedState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +28,6 @@ import java.net.URL
 
 
 class ORViewModel : ViewModel() {
-
     //pro výpis OR - obchodní rejstřík
     private val _companyDataFromOR = MutableStateFlow(CompanyData())
     val companyDataFromOR: StateFlow<CompanyData> = _companyDataFromOR
@@ -36,6 +37,7 @@ class ORViewModel : ViewModel() {
     val errorMessageOR: StateFlow<String> = _errorMessageOR
     private val _buttonClickedOR = MutableStateFlow<Boolean>(false)
     val buttonClickedOR: StateFlow<Boolean> =_buttonClickedOR
+
 
 
 
@@ -120,18 +122,27 @@ class ORViewModel : ViewModel() {
 
 
     fun saveToPdf(context: Context) {
+        //je třeba to spustit ve vláknu, při větších firmách se to dělalo dlouho a hlavní vlákno zamrzalo
+        Toast.makeText(context, "Ukládám soubor " + companyDataFromOR.value.name+"_OR", Toast.LENGTH_SHORT).show()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {//Tento dispatcher je určen pro asynchronní operace, které neblokují hlavní vlákno, jako jsou načítání nebo zápis do souborů, síťové operace atd.
+                SharedState.setSaveToPdfClicked(true)
+                val pdfFileName = companyDataFromOR.value.name+"_OR"
+                val file = StringToPdfConvector.convertToPdf(pdfFileName,context,companyDataFromOR.value)
+                SharedState.setSaveToPdfClicked(false)
 
-        val pdfFileName = companyDataFromOR.value.name+"_OR"
-        val file = StringToPdfConvector.convertToPdf(pdfFileName,context,companyDataFromOR.value)
-        if (file != null) {
-            Toast.makeText(context, "V Downloads uložen soubor "+pdfFileName, Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context,"Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main) {//se používá pro provádění operací, které mění UI nebo nějakým způsobem interagují s UI prvkem. Tento dispatcher by měl být použit, když potřebujete aktualizovat UI nebo spustit nějakou akci v hlavním vlákně (UI vláknu).
+                    if (file != null) {
+                        Toast.makeText(context, "V Downloads uložen soubor " + pdfFileName, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
-
-
-
     }
+
+
 
     @Composable
     fun saveToPdf2(context: Context) {

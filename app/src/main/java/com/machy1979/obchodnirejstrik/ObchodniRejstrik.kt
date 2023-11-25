@@ -1,17 +1,16 @@
 package com.machy1979.obchodnirejstrik
 
 
+import android.util.Log
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.Icon
 
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.*
 //import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Start
 
 import androidx.compose.foundation.layout.Arrangement.Start
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -31,15 +30,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 import androidx.navigation.compose.rememberNavController
+import com.machy1979.obchodnirejstrik.model.SharedState
 
 import com.machy1979.obchodnirejstrik.screens.*
 import com.machy1979.obchodnirejstrik.screens.components.AlertDialogWrapper
+import com.machy1979.obchodnirejstrik.screens.components.MyLinearProgressIndicator
 import com.machy1979.obchodnirejstrik.screens.components.VypisORObrazovka
 import com.machy1979.obchodnirejstrik.ui.theme.PaddingTopAplikace
 import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * enum values that represent the screens in the app
@@ -65,6 +67,7 @@ enum class ObchodniRejstrik (@StringRes val title: Int) {
  */
 @Composable
 fun ObchodniRejstrikAppBar(
+  //  viewModel: ObchodniRejstrikViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     currentScreen: ObchodniRejstrik,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
@@ -73,6 +76,9 @@ fun ObchodniRejstrikAppBar(
     modifier: Modifier = Modifier
 ) {
     var appBarOffset by remember { mutableStateOf(0f) }
+    val saveToPdfClickedState by SharedState.saveToPdfClicked.collectAsState()
+
+
     TopAppBar(
         title = { Text(stringResource(currentScreen.title), color = colorResource(id = R.color.pozadi_prvku_top_app_bar)) },
         modifier = modifier,
@@ -92,7 +98,7 @@ fun ObchodniRejstrikAppBar(
             }
         },
         actions = {
-            if (canShare) {
+            if (canShare && !saveToPdfClickedState) {
 
                 Row(
 
@@ -108,7 +114,9 @@ fun ObchodniRejstrikAppBar(
                     )
                 }
                     IconButton(
-                        onClick = saveToPdf
+                        onClick = {
+                            saveToPdf()
+                        }
                     ) {
                         Icon(
                             imageVector =  Icons.Filled.Download,
@@ -121,6 +129,7 @@ fun ObchodniRejstrikAppBar(
             }
 
     )
+
 }
 
 
@@ -141,11 +150,11 @@ fun ObchodniRejstrikApp2(
     val currentScreen = ObchodniRejstrik.valueOf(
         backStackEntry?.destination?.route ?: ObchodniRejstrik.UvodniObrazovka.name
     )
-    val companyData by  viewModel.companyData.collectAsState()
-    val errorMessage by viewModel.errorMessage.collectAsState()
+
     val context = LocalContext.current //tohle používat místo this
 
     val showDialog = remember { mutableStateOf(false) }
+    val saveToPdfClickedState by SharedState.saveToPdfClicked.collectAsState()
 
     Scaffold(
         topBar = {
@@ -185,13 +194,17 @@ fun ObchodniRejstrikApp2(
 
             )
         }
-    ) { innerPadding ->
+    )
 
+
+    { innerPadding ->
+        if (saveToPdfClickedState) MyLinearProgressIndicator() //pokud uživatel stisknul ulož do pdf, tak se spustí progress indicátor
         NavHost(
             navController = navController,
             startDestination = ObchodniRejstrik.UvodniObrazovka.name,
             modifier = modifier.padding(innerPadding)
         ) {
+
             composable(route = ObchodniRejstrik.UvodniObrazovka.name) {
 
                 canShare = false
@@ -253,6 +266,7 @@ fun ObchodniRejstrikApp2(
             composable(route = ObchodniRejstrik.VypisOR.name) {
                 val context = LocalContext.current
                 canShare = true
+
                 VypisORObrazovka(
                     viewModel = orViewModel,
 

@@ -10,6 +10,7 @@ import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRES
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyDataRES
+import com.machy1979.obchodnirejstrik.model.SharedState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -92,18 +93,23 @@ class RESViewModel : ViewModel() {
     }
 
     fun saveToPdf(context: Context) {
-        //  fun share(context: Context) {
+        //je třeba to spustit ve vláknu, při větších firmách se to dělalo dlouho a hlavní vlákno zamrzalo
+        Toast.makeText(context, "Ukládám soubor " + companyDataFromRES.value.name+"_OR", Toast.LENGTH_SHORT).show()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {//Tento dispatcher je určen pro asynchronní operace, které neblokují hlavní vlákno, jako jsou načítání nebo zápis do souborů, síťové operace atd.
+                SharedState.setSaveToPdfClicked(true)
+                val pdfFileName = companyDataFromRES.value.name+"_RES"
+                val file = StringToPdfConvector.convertToPdf(pdfFileName,context,null, null, companyDataFromRES.value)
+                SharedState.setSaveToPdfClicked(false)
 
-
-        // Uložení PDF obsahu do souboru v interním úložišti Download složky
-        val pdfFileName = companyDataFromRES.value.name+"_RES"
-
-        val file = StringToPdfConvector.convertToPdf(pdfFileName,context,null, null, companyDataFromRES.value)
-        if (file != null) {
-            Toast.makeText(context, "Soubor "+pdfFileName+" uložen v Downloads", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context,"Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main) {//se používá pro provádění operací, které mění UI nebo nějakým způsobem interagují s UI prvkem. Tento dispatcher by měl být použit, když potřebujete aktualizovat UI nebo spustit nějakou akci v hlavním vlákně (UI vláknu).
+                    if (file != null) {
+                        Toast.makeText(context, "V Downloads uložen soubor " + pdfFileName, Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
-
 }

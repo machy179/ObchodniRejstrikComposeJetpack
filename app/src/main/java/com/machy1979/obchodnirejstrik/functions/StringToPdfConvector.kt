@@ -16,6 +16,7 @@ import com.itextpdf.text.pdf.PdfPTable
 import java.io.FileOutputStream
 import com.itextpdf.text.pdf.PdfWriter
 import com.machy1979.obchodnirejstrik.R
+import com.machy1979.obchodnirejstrik.canShare
 import com.machy1979.obchodnirejstrik.model.*
 import java.io.ByteArrayOutputStream
 import java.io.File

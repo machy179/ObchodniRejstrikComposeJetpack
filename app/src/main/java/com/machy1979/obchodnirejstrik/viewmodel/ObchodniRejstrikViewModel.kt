@@ -1,13 +1,16 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.functions.*
 import com.machy1979.obchodnirejstrik.model.CompanyData
+import com.machy1979.obchodnirejstrik.model.SharedState
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,8 +35,6 @@ class ObchodniRejstrikViewModel  : ViewModel() {
 
     private val _errorMessage = MutableStateFlow<String>("")
     val errorMessage: StateFlow<String> = _errorMessage
-
-
 
 
 
