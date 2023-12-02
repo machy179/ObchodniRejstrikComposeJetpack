@@ -67,7 +67,7 @@ fun VypisRZPObrazovka (
         }
 
         item {
-            SeznamOsob(nazevSeznamuOsob = "Osoby:", seznamOsob = companyDataFromRZP.osoby)
+            if(companyDataFromRZP.osoby.size != 0) SeznamOsob(nazevSeznamuOsob = "Osoby:", seznamOsob = companyDataFromRZP.osoby)
         }
         item {
             SeznamPolozekZivnosti(nazevSeznamuPolozek = "Živnosti:", seznamZivnosti = companyDataFromRZP.zivnosti)

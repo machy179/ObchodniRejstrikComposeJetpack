@@ -8,16 +8,16 @@ val PaddingTopAplikace = 30.dp //protože jsem dal statusBar na transparent a an
 val PaddingLinearProgressIndicatoru = 13.dp
 val VelikostSpodniOdsazeni = 6.dp
 val OdsazeniMensi = 2.dp
-val VelikostZakulaceniRohu = 8.dp
-val VelikostZakulaceniRohuButton = 8.dp
-val VelikostZakulaceniRohuButtonTextField = 8.dp
+val VelikostZakulaceniRohu = 14.dp
+val VelikostZakulaceniRohuButton = 14.dp
+val VelikostZakulaceniRohuButtonTextField = 14.dp
 val VelikostElevation = 10.dp
 
 val VelikostPaddingHlavnihoOkna = 4.dp
 
 //card
 val VelikostPaddingCardHorizontal = 8.dp
-val VelikostPaddingCardVertical = 4.dp
+val VelikostPaddingCardVertical = 5.dp
 val VelikostBorderStrokeCard = 4.dp
 
 //hlavni udaje

@@ -10,4 +10,6 @@
     <string name="back_button">Back</string>
     <string name="share_button">Share</string>
     <string name="saveToPdf_button">Save</string>
+    <string name="expandable_button">Expandable button</string>
+
 </resources>

@@ -1,16 +1,13 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
 import android.util.Log
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.functions.*
 import com.machy1979.obchodnirejstrik.model.CompanyData
-import com.machy1979.obchodnirejstrik.model.SharedState
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -87,7 +84,6 @@ class ObchodniRejstrikViewModel  : ViewModel() {
 
         viewModelScope.launch {
             try {
-                Log.i("aaaa", "nazev: " + nazev)
                 val document = getAresDataNazev(nazev)
                 if (document != null) {
                     val zaznamy = document.select("are|Zaznam")
@@ -113,12 +109,9 @@ class ObchodniRejstrikViewModel  : ViewModel() {
 
     private suspend fun getAresDataNazev(nazev: String): Document? {
         val url = "https://wwwinfo.mfcr.cz/cgi-bin/ares/darv_std.cgi?obchodni_firma=${URLEncoder.encode(nazev, "iso-8859-2")}&max_pocet=200"
-        Log.i("aaaa", url)
         return try {
             withContext(Dispatchers.IO) {
-                Log.i("aaaa", "10")
                 Jsoup.connect(url).get()
-
             }
         } catch (e: Exception) {
             null

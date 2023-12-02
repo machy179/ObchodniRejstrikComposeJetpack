@@ -213,7 +213,9 @@ class StringToPdfConvector {
             vlozRadekDoTabulkyJedenText("Kapitál", true, true, false)
             vlozRadekDoTabulkyDvaTexty("Vklad: ",companyDataOR.vklad)
             vlozRadekDoTabulkyDvaTexty("Splaceno: ",companyDataOR.splaceno)
-            vlozRadekDoTabulkyDvaTexty("Akcie: ",companyDataOR.akcie)
+            companyDataOR.akcie.forEach {
+                vlozRadekDoTabulkyDvaTexty("Akcie: ",it)
+            }
 
             if(companyDataOR.statutarniOrganOsoby.size>0 || companyDataOR.statutarniOrganFirmy.size>0 || companyDataOR.statutarniOrganSkutecnosti.size>0) {
                 vlozRadekDoTabulkyJedenText(" ", true, false, false)
@@ -265,6 +267,13 @@ class StringToPdfConvector {
                 vypisFirmy(companyDataOR.likvidaceFirmy)
             }
 
+            if(companyDataOR.vedouciOrganizacniSlozky.size>0) {
+                vlozRadekDoTabulkyJedenText(" ", true, false, false)
+                vlozRadekDoTabulkyJedenText(" ", true, false, false)
+                vlozRadekDoTabulkyJedenText("Vedoucí organizační složky", true, true, false)
+                vypisOsoby(companyDataOR.vedouciOrganizacniSlozky)
+            }
+
 
         }
 
@@ -301,7 +310,8 @@ class StringToPdfConvector {
 
         private fun vypisOsoby(osoby: MutableList<Osoba>) {
             osoby.forEachIndexed { index, polozka ->
-                vlozRadekDoTabulkyDvaTexty("Funkce: ",polozka.funkce)
+                if(!(polozka.funkce=="")) vlozRadekDoTabulkyDvaTexty("Funkce: ",polozka.funkce)
+                if(!(polozka.organizacniSlozka==""))  vlozRadekDoTabulkyDvaTexty("Org. složka: ",polozka.organizacniSlozka)
                 vlozRadekDoTabulkyDvaTexty("Jméno: ",polozka.jmeno + " "+ polozka.prijmeni + " " +polozka.titulyPredJmenem)
                 vlozRadekDoTabulkyDvaTexty("Datum narození: ",polozka.datNar)
                 vlozRadekDoTabulkyDvaTexty("Bydliště: ",polozka.adresa)

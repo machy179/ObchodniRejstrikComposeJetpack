@@ -123,7 +123,7 @@ class ORViewModel : ViewModel() {
 
     fun saveToPdf(context: Context) {
         //je třeba to spustit ve vláknu, při větších firmách se to dělalo dlouho a hlavní vlákno zamrzalo
-        Toast.makeText(context, "Ukládám soubor " + companyDataFromOR.value.name+"_OR", Toast.LENGTH_SHORT).show()
+      //  Toast.makeText(context, "Ukládám", Toast.LENGTH_SHORT).show()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {//Tento dispatcher je určen pro asynchronní operace, které neblokují hlavní vlákno, jako jsou načítání nebo zápis do souborů, síťové operace atd.
                 SharedState.setSaveToPdfClicked(true)

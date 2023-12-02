@@ -1,12 +1,12 @@
 package com.machy1979.obchodnirejstrik.screens.components
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.unit.dp
@@ -15,13 +15,19 @@ import androidx.compose.foundation.BorderStroke
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
 
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 import com.machy1979.obchodnirejstrik.ui.theme.*
 import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
@@ -38,10 +44,14 @@ fun VypisORObrazovka (
 
 
 
-    LazyColumn(modifier = Modifier.padding(VelikostPaddingHlavnihoOkna).fillMaxHeight())
+    Column(
+        modifier = Modifier
+            .padding(VelikostPaddingHlavnihoOkna)
+            .fillMaxHeight()
+            .verticalScroll(rememberScrollState())
+    )
     {
         //základní údaje
-        item {
             Card(
                 //  backgroundColor = Color.Blue,
                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
@@ -75,15 +85,16 @@ fun VypisORObrazovka (
             }
 
             Spacer(modifier = Modifier.height(OdsazeniMensi))
-        }
-        if(companyDataFromOR.predmetPodnikani.size != 0) item {
+
+        if(companyDataFromOR.predmetPodnikani.size != 0) {
             SeznamPolozek(nazevSeznamuPolozek = "Předmět podnikání:", seznamPolozek = companyDataFromOR.predmetPodnikani)
         }
-        if(companyDataFromOR.ostatniSkutecnosti.size != 0) item {
+        if(companyDataFromOR.ostatniSkutecnosti.size != 0)  {
             SeznamPolozek(nazevSeznamuPolozek = "Ostatní skutečnosti:", seznamPolozek = companyDataFromOR.ostatniSkutecnosti)
         }
         //kapitál
-        if(companyDataFromOR.vklad != "" || companyDataFromOR.akcie != "") item {
+        if(companyDataFromOR.vklad != "" || companyDataFromOR.splaceno != "")  {
+            var expanded by remember { mutableStateOf(true) }
             Card(
                 //  backgroundColor = Color.Blue,
                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
@@ -91,7 +102,13 @@ fun VypisORObrazovka (
                 elevation = VelikostElevation,
                 modifier = Modifier
                     .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .animateContentSize( //efekt pro rozbalení
+                        animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioLowBouncy,
+                            stiffness = Spring.StiffnessLow
+                        )
+                    ),
 
                 ) {
                 SelectionContainer {
@@ -100,10 +117,36 @@ fun VypisORObrazovka (
                         modifier = Modifier
                             .padding(10.dp)
                     ) {
-                        ObycPolozkaJenNadpisUprostred("Kapitál:", false)
-                        ObycPolozkaNadpisHodnota("Vklad:",companyDataFromOR.vklad, true)
-                        ObycPolozkaNadpisHodnota("Splaceno:",companyDataFromOR.splaceno, true)
-                        ObycPolozkaNadpisHodnota("Akcie:",companyDataFromOR.akcie, false)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                           // ObycPolozkaJenNadpisUprostred("Kapitál:", false)
+                            Text(
+                                text = "Kapitál:",
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .weight(1f)
+                            )
+                            ExpandableItemButton(
+                                expanded = expanded,
+                                onClick = { expanded = !expanded },
+                                modifier = Modifier
+                                    .padding(0.dp)
+
+                            )
+                        }
+                        if (expanded) {
+                            ObycPolozkaNadpisHodnota("Vklad:",companyDataFromOR.vklad, true)
+                            ObycPolozkaNadpisHodnota("Splaceno:",companyDataFromOR.splaceno, true)
+                            companyDataFromOR.akcie.forEach {
+                                ObycPolozkaNadpisHodnota("Akcie:",it, true)
+                            }
+                        }
+
+
                     }
                 }
             }
@@ -112,24 +155,28 @@ fun VypisORObrazovka (
 
         }
 
-        if(companyDataFromOR.statutarniOrganOsoby.size != 0 || companyDataFromOR.statutarniOrganFirmy.size != 0 || companyDataFromOR.statutarniOrganSkutecnosti.size != 0) item {
+        if(companyDataFromOR.statutarniOrganOsoby.size != 0 || companyDataFromOR.statutarniOrganFirmy.size != 0 || companyDataFromOR.statutarniOrganSkutecnosti.size != 0)  {
             SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Statutární orgán:", seznamOsob = companyDataFromOR.statutarniOrganOsoby, seznamFirem = companyDataFromOR.statutarniOrganFirmy,dalsiTextSeznam = companyDataFromOR.statutarniOrganSkutecnosti)
         }
-        if(companyDataFromOR.prokura.size != 0) item {
+        if(companyDataFromOR.prokura.size != 0)  {
             SeznamOsob(nazevSeznamuOsob = "Prokura:", seznamOsob = companyDataFromOR.prokura)
         }
-        if(companyDataFromOR.dozorciRada.size != 0) item {
+        if(companyDataFromOR.dozorciRada.size != 0)  {
             SeznamOsob(nazevSeznamuOsob = "Dozorčí rada:", seznamOsob = companyDataFromOR.dozorciRada)
         }
-        if(companyDataFromOR.spolecniciSVklademOsoby.size != 0 || companyDataFromOR.spolecniciSVklademFirmy.size != 0) item {
+        if(companyDataFromOR.spolecniciSVklademOsoby.size != 0 || companyDataFromOR.spolecniciSVklademFirmy.size != 0)  {
             SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Společníci s vkladem:", seznamOsob = companyDataFromOR.spolecniciSVklademOsoby, seznamFirem = companyDataFromOR.spolecniciSVklademFirmy)
         }
-        if(companyDataFromOR.akcionariOsoby.size != 0 || companyDataFromOR.akcionariFirmy.size != 0) item {
+        if(companyDataFromOR.akcionariOsoby.size != 0 || companyDataFromOR.akcionariFirmy.size != 0)  {
             SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Akcionáři:", seznamOsob = companyDataFromOR.akcionariOsoby, seznamFirem = companyDataFromOR.akcionariFirmy)
         }
 
-        if(companyDataFromOR.likvidaceOsoby.size != 0 || companyDataFromOR.likvidaceFirmy.size != 0) item {
+        if(companyDataFromOR.likvidaceOsoby.size != 0 || companyDataFromOR.likvidaceFirmy.size != 0)  {
             SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Likvidace:", seznamOsob = companyDataFromOR.likvidaceOsoby, seznamFirem = companyDataFromOR.likvidaceFirmy)
+        }
+
+        if(companyDataFromOR.vedouciOrganizacniSlozky.size != 0)  {
+            SeznamOsob(nazevSeznamuOsob = "Vedoucí organizační složky:", seznamOsob = companyDataFromOR.vedouciOrganizacniSlozky)
         }
     }
 }

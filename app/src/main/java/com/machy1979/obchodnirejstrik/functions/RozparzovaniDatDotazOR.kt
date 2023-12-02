@@ -30,13 +30,23 @@ class RozparzovaniDatDotazOR {
             val soud: String= document.select("D|REG").select("D|T")?.text() ?: " "
             val spisovaZnacka= document.select("D|REG").select("D|OV")?.text() ?: " "
 
-            val vklad: String = document.select("D|KC").first()?.text() ?: " "
-            val splaceno: String = document.select("D|PRC").first()?.text() ?: " "
-            var akcie: String = document.select("D|DA").first()?.text() ?: " "
+            //akcie
+            val vklad: String = document.select("D|KC").first()?.text() ?: ""
+            val splaceno: String = document.select("D|PRC").first()?.text() ?: ""
 
-            document.select("D|H").first()?.let {akcie =akcie + ", hodnota: "+it.text()}
-            document.select("D|Pocet").first()?.let {akcie =akcie + ", počet akcií: "+it.text()}
-            document.select("D|PD").first()?.let {akcie =akcie + ", "+it.text()}
+
+
+            val listAkcie: MutableList<String> = mutableListOf<String>()
+            val zaznamyAkcie = document.select("D|Akcie").select("D|EM")
+            zaznamyAkcie.forEach() {
+                var akcie: String = it.select("D|DA").first()?.text() ?: ""
+                it.select("D|H").first()?.let {akcie =akcie + ",\nhodnota: "+it.text()}
+                it.select("D|Pocet").first()?.let {akcie =akcie + ",\npočet akcií: "+it.text()}
+                it.select("D|PD").first()?.let {akcie =akcie + ",\n"+it.text()}
+                it.select("D|T").first()?.let {akcie =akcie + ",\n"+it.text()}
+
+                listAkcie.add(akcie)
+            }
 
 
             //předmět podnikání
@@ -56,10 +66,18 @@ class RozparzovaniDatDotazOR {
             //statutární orgán osoby
             val listStatutarniOrganOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
             val zaznamyStatOrganOsoby = document.select("D|SO").select("D|CSO")
+            var listZaznamyStaturatniOrganOsoby: MutableList<String> = mutableListOf<String>()
             zaznamyStatOrganOsoby.forEach() {
                 var address = vratAdresu(it.select("D|FO"))
+
+                var zaznamyPoznamky = it.select("D|T")
+                listZaznamyStaturatniOrganOsoby = mutableListOf<String>()
+                zaznamyPoznamky.forEach(){
+                    listZaznamyStaturatniOrganOsoby.add(it.text())
+                }
+
                 if(!(it.select("D|FO").select("D|P").text()=="")) {
-                    listStatutarniOrganOsoby.add(vlozOsobu(it, address))
+                    listStatutarniOrganOsoby.add(vlozOsobu(it, address,listZaznamyStaturatniOrganOsoby))
                 }
             }
             //statutární orgán firmy - zapodmínkovat, že kdy to nenajde napřiklad D/PO nějaký text, tak se to vůbec nebude vkládat
@@ -76,8 +94,9 @@ class RozparzovaniDatDotazOR {
             val listStatutarniOrganSkutecnosti: MutableList<String> = mutableListOf<String>()
             val zaznamyStatutarniOrganSkutecnosti = document.select("D|SO").select("D|T")
             zaznamyStatutarniOrganSkutecnosti.forEach() {
-                listStatutarniOrganSkutecnosti.add(it.text())
-
+                if(!listZaznamyStaturatniOrganOsoby.contains(it.text())) {
+                    listStatutarniOrganSkutecnosti.add(it.text())
+                }
             }
 
             //prokura
@@ -171,13 +190,27 @@ class RozparzovaniDatDotazOR {
                 }
             }
 
+            //vedoucí organizační složky
+            Log.i("orgSlozka: ","1")
+            val listVedouciOrganizacniSlozkyOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+            Log.i("orgSlozka: ","2")
+            val zaznamyVedouciOrganizacniSlozkyOsoby = document.select("D|OZY").select("D|OZ")
+            Log.i("orgSlozka: ","3")
+            zaznamyVedouciOrganizacniSlozkyOsoby.forEach() {
+                Log.i("orgSlozka: ","444")
+                var address =  vratAdresu(it.select("D|FO"))
+                if(!(it.select("D|FO").select("D|P").text()=="")) {
+                    listVedouciOrganizacniSlozkyOsoby.add(vlozOsobu(it,address))
+                }
+            }
+
 
             //konečné vložení do companyData
             val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
                 listOstatniSkutecnosti,listStatutarniOrganOsoby, listStatutarniOrganFirmy,listStatutarniOrganSkutecnosti,listProkura,
                 listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
                 listAkcionariFirmy, listLikvidaceOsoby, listLikvidaceFirmy,stavSubjektu, pravniForma,
-                datumZapisu,soud,spisovaZnacka,vklad,splaceno, akcie)
+                datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,listVedouciOrganizacniSlozkyOsoby)
             return companyData
         }
 
@@ -195,7 +228,8 @@ class RozparzovaniDatDotazOR {
                 it?.select("D|VF")?.text() ?: "",
                 it?.select("D|VK")?.select("D|KC")?.text() ?: "",
                 it?.select("D|SPL")?.select("D|PRC")?.text() ?: "",
-                it?.select("D|OP")?.select("D|T")?.text() ?: ""
+                it?.select("D|OP")?.select("D|T")?.text() ?: "",
+                it?.select("D|OF")?.text() ?: ""
 
             )
         }

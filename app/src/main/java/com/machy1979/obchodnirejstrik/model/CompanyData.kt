@@ -34,7 +34,8 @@ data class CompanyData(
 
     var vklad: String = "",
     var splaceno: String = "",
-    var akcie: String = "",
+    var akcie: MutableList<String> = mutableListOf<String>(),
+    var vedouciOrganizacniSlozky: MutableList<Osoba> = mutableListOf<Osoba>(),
 
 
 

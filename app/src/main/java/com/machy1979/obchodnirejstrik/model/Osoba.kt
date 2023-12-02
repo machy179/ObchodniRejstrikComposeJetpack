@@ -16,4 +16,7 @@ data class Osoba(
     var splaceno: String = "",
     var obchodniPodil: String = "",
 
+    //pro vedoucí organizační složky
+    var organizacniSlozka: String = ""
+
 )

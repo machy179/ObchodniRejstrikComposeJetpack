@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,13 +21,10 @@ import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 @Composable
 fun UvodniObrazovka(
     viewModel: ObchodniRejstrikViewModel,
-    onSelectionChanged: (String) -> Unit = {},
-    onCancelButtonClicked: () -> Unit = {},
     hledejDleIcoButton: (String) -> Unit = {},
     hledejDleNazvuButton: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ){
-    var selectedValue by rememberSaveable { mutableStateOf("") }
     val dotaz = remember { mutableStateOf(TextFieldValue()) }
 
 
@@ -38,7 +34,7 @@ fun UvodniObrazovka(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
 // Fetching current app configuration
-        val configuration = LocalConfiguration.current
+
         val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
         val paddingModifier = if (isLandscape) {

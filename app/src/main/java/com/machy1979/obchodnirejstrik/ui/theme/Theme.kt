@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 
 
 
-private val DarkColorPalette = darkColors(
+private val DarkColorPalette = darkColors( //zatím nepoužito
     primary = Purple200,
     primaryVariant = Purple700,
     secondary = Teal200
@@ -78,33 +78,3 @@ fun ObchodniRejstrikTheme(
 
 
     }
-
-@Composable
-fun ObchodniRejstrikTheme2( //nepoužito, je tam jen pozadí barvy, musím jí ještě specifikovat v Color.kt
-
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
-    val view = LocalView.current
-    val window = (view.context as Activity).window
-//    window.statusBarColor = StatusBarColor.toArgb()
-//    window.navigationBarColor = NavigationBarColor.toArgb()
-
-
-    val colors = if (darkTheme) {
-        LightColorPalette
-    } else {
-        LightColorPalette
-    }
-
-
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
-
-
-}

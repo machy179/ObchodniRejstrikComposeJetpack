@@ -1,15 +1,10 @@
 package com.machy1979.obchodnirejstrik
-
-
-import android.util.Log
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.Icon
 
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
-//import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Start
-
 import androidx.compose.foundation.layout.Arrangement.Start
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -33,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.machy1979.obchodnirejstrik.model.SharedState
 
 import com.machy1979.obchodnirejstrik.screens.*
-import com.machy1979.obchodnirejstrik.screens.components.AlertDialogWrapper
+import com.machy1979.obchodnirejstrik.screens.components.AlertDialogWrapperOpravneni
 import com.machy1979.obchodnirejstrik.screens.components.MyLinearProgressIndicator
 import com.machy1979.obchodnirejstrik.screens.components.VypisORObrazovka
 import com.machy1979.obchodnirejstrik.ui.theme.PaddingTopAplikace
@@ -41,7 +36,6 @@ import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
-import kotlinx.coroutines.flow.StateFlow
 
 /**
  * enum values that represent the screens in the app
@@ -297,12 +291,10 @@ fun ObchodniRejstrikApp2(
             }
 
         }
-        if (showDialog.value) {
-            AlertDialogWrapper(
+        if (showDialog.value) { //nakonec nepoužito, nechám to tady zatím, pokud v budoucnu budu chtí
+            AlertDialogWrapperOpravneni(
                 onClickPovolit = {
-                println("Oprávnění .....44444-4")
                 showDialog.value = false
-                println("Oprávnění .....5555555-5")
             },
                 onClickNe = { showDialog.value = false },
                 onDismissFunction = { showDialog.value = false }
