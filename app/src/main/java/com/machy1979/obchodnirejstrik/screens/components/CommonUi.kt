@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import com.machy1979.obchodnirejstrik.MainActivity
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.StringToGpsToMap
 import com.machy1979.obchodnirejstrik.model.Firma
@@ -84,7 +83,10 @@ fun SeznamPolozekZivnosti(nazevSeznamuPolozek: String, seznamZivnosti: MutableLi
         border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
         elevation = VelikostElevation,
         modifier = Modifier
-            .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+            .padding(
+                horizontal = VelikostPaddingCardHorizontal,
+                vertical = VelikostPaddingCardVertical
+            )
             .fillMaxWidth(),
 
         ) {
@@ -157,7 +159,10 @@ fun SeznamPolozek(nazevSeznamuPolozek: String, seznamPolozek: MutableList<String
         border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
         elevation = VelikostElevation,
         modifier = Modifier
-            .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+            .padding(
+                horizontal = VelikostPaddingCardHorizontal,
+                vertical = VelikostPaddingCardVertical
+            )
             .fillMaxWidth(),
 
         ) {
@@ -219,7 +224,10 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
         border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
         elevation = VelikostElevation,
         modifier = Modifier
-            .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+            .padding(
+                horizontal = VelikostPaddingCardHorizontal,
+                vertical = VelikostPaddingCardVertical
+            )
             .fillMaxWidth()
             .animateContentSize( //efekt pro rozbalení
                 animationSpec = spring(
@@ -268,7 +276,10 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
                                 border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
                                 elevation = VelikostElevation,
                                 modifier = Modifier
-                                    .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+                                    .padding(
+                                        horizontal = VelikostPaddingCardHorizontal,
+                                        vertical = VelikostPaddingCardVertical
+                                    )
                                     .fillMaxWidth(),
 
                                 ) {
@@ -326,7 +337,12 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
 }
 
 @Composable
-fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Osoba>, seznamFirem: MutableList<Firma>, dalsiTextSeznam: MutableList<String> =mutableListOf<String>()) {
+fun SeznamOsobAFirem(
+    onClickedButtonIcoSubjekt: (String) -> Unit = {},
+    nazevSeznamuOsobAFirem: String,
+    seznamOsob: MutableList<Osoba>,
+    seznamFirem: MutableList<Firma>,
+    dalsiTextSeznam: MutableList<String> =mutableListOf<String>()) {
     var expanded by remember { mutableStateOf(true) }
     Card(
         //  backgroundColor = Color.Blue,
@@ -334,7 +350,10 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
         border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
         elevation = VelikostElevation,
         modifier = Modifier
-            .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+            .padding(
+                horizontal = VelikostPaddingCardHorizontal,
+                vertical = VelikostPaddingCardVertical
+            )
             .fillMaxWidth()
             .animateContentSize( //efekt pro rozbalení
                 animationSpec = spring(
@@ -384,7 +403,10 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
                                 border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
                                 elevation = VelikostElevation,
                                 modifier = Modifier
-                                    .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+                                    .padding(
+                                        horizontal = VelikostPaddingCardHorizontal,
+                                        vertical = VelikostPaddingCardVertical
+                                    )
                                     .fillMaxWidth(),
 
                                 ) {
@@ -434,7 +456,10 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
                                 border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
                                 elevation = VelikostElevation,
                                 modifier = Modifier
-                                    .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+                                    .padding(
+                                        horizontal = VelikostPaddingCardHorizontal,
+                                        vertical = VelikostPaddingCardVertical
+                                    )
                                     .fillMaxWidth(),
 
                                 ) {
@@ -446,7 +471,12 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
                                         ObycPolozkaNadpisHodnota("Funkce:", it.funkce, true)
                                     }*/
                                         ObycPolozkaNadpisHodnota("Firma:", it.name, true)
-                                        ObycPolozkaNadpisHodnota("ICO:", it.ico, true)
+                                        ObycPolozkaNadpisHodnota(
+                                            "ICO:",
+                                            it.ico,
+                                            true,
+                                            false,
+                                            onClickedButtonIcoSubjekt)
                                         ObycPolozkaNadpisHodnota("Sídlo:", it.address, false, true)
 /*                                    if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
                                     if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)*/
@@ -487,7 +517,13 @@ fun SeznamOsobAFirem(nazevSeznamuOsobAFirem: String, seznamOsob: MutableList<Oso
 }
 
 @Composable
-fun ObycPolozkaNadpisHodnota(nadpis: String, hodnota: String, spodniOdsazeni: Boolean, buttonProMapy: Boolean=false) {
+fun ObycPolozkaNadpisHodnota(
+    nadpis: String,
+    hodnota: String,
+    spodniOdsazeni: Boolean,
+    buttonProMapy: Boolean=false,
+    onClickedButtonIcoSubjekt: (String) -> Unit = {}
+) {
 
     Row(
         modifier = Modifier
@@ -528,6 +564,23 @@ fun ObycPolozkaNadpisHodnota(nadpis: String, hodnota: String, spodniOdsazeni: Bo
                 ButtonWithMapIcon(hodnota)
             }
 
+        } else if (nadpis.equals("ICO:") && hodnota != "") {
+            Text(text = hodnota,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .padding(bottom = 1.dp)
+                    .weight(0.60f)
+            )
+            Column(
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier
+                    .padding(0.dp)
+                    .weight(0.08f)
+                    .background(color = PozadiTextu)
+
+            ) {
+                ButtonWithSearchIcoIcon(onClickedButtonIcoSubjekt,hodnota)
+            }
         } else  {
             Text(text = hodnota,
                 textAlign = TextAlign.Start,
@@ -542,7 +595,8 @@ fun ObycPolozkaNadpisHodnota(nadpis: String, hodnota: String, spodniOdsazeni: Bo
     }
 
 
-    if (spodniOdsazeni) Spacer(modifier = Modifier.height(VelikostSpodniOdsazeni)
+    if (spodniOdsazeni) Spacer(modifier = Modifier
+        .height(VelikostSpodniOdsazeni)
         .background(color = Color.White))
 
 }
@@ -600,10 +654,21 @@ fun CustomButton(nadpis: String, nacitani: Boolean,buttonClicked: Boolean,
         enabled = buttonClicked,
 
         modifier = if (nacitani)
-                { Modifier.padding(PaddingVButtonu).height(60.dp).shadow(
-                    elevation = VelikostElevation)}
-                else  {Modifier.padding(PaddingVButtonu).width(250.dp).height(60.dp).shadow(
-                    elevation = VelikostElevation) },
+                {
+                    Modifier
+                        .padding(PaddingVButtonu)
+                        .height(60.dp)
+                        .shadow(
+                            elevation = VelikostElevation
+                        )}
+                else  {
+            Modifier
+                .padding(PaddingVButtonu)
+                .width(250.dp)
+                .height(60.dp)
+                .shadow(
+                    elevation = VelikostElevation
+                ) },
             ) {
             if(nacitani) {
                 ProgressIndicatorLoading(
@@ -660,7 +725,10 @@ fun SeznamDvoupolozekNace(nazevSeznamuDvoupolozek: String, seznamDvoupolozek: Mu
         border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
         elevation = VelikostElevation,
         modifier = Modifier
-            .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+            .padding(
+                horizontal = VelikostPaddingCardHorizontal,
+                vertical = VelikostPaddingCardVertical
+            )
             .fillMaxWidth(),
 
         ) {
@@ -685,7 +753,10 @@ fun SeznamDvoupolozekNace(nazevSeznamuDvoupolozek: String, seznamDvoupolozek: Mu
                             border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
                             elevation = VelikostElevation,
                             modifier = Modifier
-                                .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+                                .padding(
+                                    horizontal = VelikostPaddingCardHorizontal,
+                                    vertical = VelikostPaddingCardVertical
+                                )
                                 .fillMaxWidth(),
 
                             ) {
@@ -710,8 +781,9 @@ fun ButtonWithMapIcon(address: String) {
         val context = LocalContext.current
 
         IconButton(
-            modifier = Modifier.
-            padding(2.dp).then(Modifier.size(24.dp)),
+            modifier = Modifier
+                .padding(2.dp)
+                .then(Modifier.size(24.dp)),
             onClick = {
                 StringToGpsToMap.presmerujZAdresyNaMapy(address, context)
             },
@@ -732,15 +804,18 @@ fun ButtonWithMapIcon(address: String) {
 //tohle dodělat, nastavit to k výpisu u položek, kde je ico
 //a v onClick to udělat tak, že MainActivity bude automaticky hned vyhledávat to ICO
 @Composable
-fun ButtonWithSearchIcoIcon(ico: String) {
+fun ButtonWithSearchIcoIcon(
+    onClickedButtonIcoSubjekt: (String) -> Unit = {},
+    ico: String
+) {
     val context = LocalContext.current
 
     IconButton(
-        modifier = Modifier.
-        padding(2.dp).then(Modifier.size(24.dp)),
+        modifier = Modifier
+            .padding(2.dp)
+            .then(Modifier.size(24.dp)),
         onClick = {
-            val intent = Intent(context, MainActivity::class.java)
-            context.startActivity(intent)
+            onClickedButtonIcoSubjekt(ico)
         },
 
         ) {
@@ -782,7 +857,8 @@ fun SeznamPolozekBezCard2(nazevSeznamuPolozek: String, seznamPolozek: MutableLis
                     stiffness = Spring.StiffnessLow
                 )
             )
-            .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
+            .padding(2.dp)
+            .fillMaxWidth()
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -815,7 +891,7 @@ fun SeznamPolozekBezCard2(nazevSeznamuPolozek: String, seznamPolozek: MutableLis
                             Text(
                                 "- "+it.toString(),
                                 modifier = Modifier
-                                    .padding(vertical = 3.dp)
+                                    .padding(vertical = 3.dp, horizontal = VelikostPaddingMezeryMeziHlavnimiZaznamy)
                                     .background(color = PozadiTextu)
                                     .fillMaxWidth()
                             )

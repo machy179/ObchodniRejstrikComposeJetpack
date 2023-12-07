@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.BorderStroke
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +34,7 @@ import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 @Composable
 fun VypisORObrazovka (
     viewModel: ORViewModel,
+    onClickedButtonIcoSubjekt: (String) -> Unit,
     onCancelButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -115,10 +115,11 @@ fun VypisORObrazovka (
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
-                            .padding(10.dp)
+                            .padding(2.dp)
+                            .fillMaxWidth()
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.padding(2.dp).fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
@@ -128,6 +129,7 @@ fun VypisORObrazovka (
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier
+                                    .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
                                     .weight(1f)
                             )
                             ExpandableItemButton(
@@ -139,10 +141,16 @@ fun VypisORObrazovka (
                             )
                         }
                         if (expanded) {
-                            ObycPolozkaNadpisHodnota("Vklad:",companyDataFromOR.vklad, true)
-                            ObycPolozkaNadpisHodnota("Splaceno:",companyDataFromOR.splaceno, true)
-                            companyDataFromOR.akcie.forEach {
-                                ObycPolozkaNadpisHodnota("Akcie:",it, true)
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .padding(horizontal = VelikostPaddingMezeryMeziHlavnimiZaznamy)
+                            ) {
+                                ObycPolozkaNadpisHodnota("Vklad:",companyDataFromOR.vklad, true)
+                                ObycPolozkaNadpisHodnota("Splaceno:",companyDataFromOR.splaceno, true)
+                                companyDataFromOR.akcie.forEach {
+                                    ObycPolozkaNadpisHodnota("Akcie:",it, true)
+                                }
                             }
                         }
 
@@ -156,7 +164,12 @@ fun VypisORObrazovka (
         }
 
         if(companyDataFromOR.statutarniOrganOsoby.size != 0 || companyDataFromOR.statutarniOrganFirmy.size != 0 || companyDataFromOR.statutarniOrganSkutecnosti.size != 0)  {
-            SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Statutární orgán:", seznamOsob = companyDataFromOR.statutarniOrganOsoby, seznamFirem = companyDataFromOR.statutarniOrganFirmy,dalsiTextSeznam = companyDataFromOR.statutarniOrganSkutecnosti)
+            SeznamOsobAFirem(
+                onClickedButtonIcoSubjekt = onClickedButtonIcoSubjekt,
+                nazevSeznamuOsobAFirem = "Statutární orgán:",
+                seznamOsob = companyDataFromOR.statutarniOrganOsoby,
+                seznamFirem = companyDataFromOR.statutarniOrganFirmy,
+                dalsiTextSeznam = companyDataFromOR.statutarniOrganSkutecnosti)
         }
         if(companyDataFromOR.prokura.size != 0)  {
             SeznamOsob(nazevSeznamuOsob = "Prokura:", seznamOsob = companyDataFromOR.prokura)
@@ -165,14 +178,26 @@ fun VypisORObrazovka (
             SeznamOsob(nazevSeznamuOsob = "Dozorčí rada:", seznamOsob = companyDataFromOR.dozorciRada)
         }
         if(companyDataFromOR.spolecniciSVklademOsoby.size != 0 || companyDataFromOR.spolecniciSVklademFirmy.size != 0)  {
-            SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Společníci s vkladem:", seznamOsob = companyDataFromOR.spolecniciSVklademOsoby, seznamFirem = companyDataFromOR.spolecniciSVklademFirmy)
+            SeznamOsobAFirem(
+                onClickedButtonIcoSubjekt = onClickedButtonIcoSubjekt,
+                nazevSeznamuOsobAFirem = "Společníci s vkladem:",
+                seznamOsob = companyDataFromOR.spolecniciSVklademOsoby,
+                seznamFirem = companyDataFromOR.spolecniciSVklademFirmy)
         }
         if(companyDataFromOR.akcionariOsoby.size != 0 || companyDataFromOR.akcionariFirmy.size != 0)  {
-            SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Akcionáři:", seznamOsob = companyDataFromOR.akcionariOsoby, seznamFirem = companyDataFromOR.akcionariFirmy)
+            SeznamOsobAFirem(
+                onClickedButtonIcoSubjekt = onClickedButtonIcoSubjekt,
+                nazevSeznamuOsobAFirem = "Akcionáři:",
+                seznamOsob = companyDataFromOR.akcionariOsoby,
+                seznamFirem = companyDataFromOR.akcionariFirmy)
         }
 
         if(companyDataFromOR.likvidaceOsoby.size != 0 || companyDataFromOR.likvidaceFirmy.size != 0)  {
-            SeznamOsobAFirem(nazevSeznamuOsobAFirem = "Likvidace:", seznamOsob = companyDataFromOR.likvidaceOsoby, seznamFirem = companyDataFromOR.likvidaceFirmy)
+            SeznamOsobAFirem(
+                onClickedButtonIcoSubjekt = onClickedButtonIcoSubjekt,
+                nazevSeznamuOsobAFirem = "Likvidace:",
+                seznamOsob = companyDataFromOR.likvidaceOsoby,
+                seznamFirem = companyDataFromOR.likvidaceFirmy)
         }
 
         if(companyDataFromOR.vedouciOrganizacniSlozky.size != 0)  {

@@ -42,6 +42,7 @@ import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
  */
 
 var canShare: Boolean = false
+var canNavigateBack: Boolean = false
 
 enum class ObchodniRejstrik (@StringRes val title: Int) {
 
@@ -67,6 +68,7 @@ fun ObchodniRejstrikAppBar(
     navigateUp: () -> Unit,
     share: () -> Unit,
     saveToPdf: () -> Unit,
+    navigateHome: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var appBarOffset by remember { mutableStateOf(0f) }
@@ -92,32 +94,36 @@ fun ObchodniRejstrikAppBar(
             }
         },
         actions = {
-            if (canShare && !saveToPdfClickedState) {
+            if (canNavigateBack) {
 
                 Row(
 
                 ) {
-                IconButton(
-                    onClick = share
-
-                ) {
+                    if (canShare && !saveToPdfClickedState) {
+                        IconButton(onClick = share) {
+                            Icon(
+                                imageVector = Icons.Filled.Share,
+                                contentDescription = stringResource(R.string.share_button),
+                                tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
+                            )
+                        }
+                        IconButton(onClick = {
+                            saveToPdf()
+                        }) {
+                            Icon(
+                                imageVector =  Icons.Filled.Download,
+                                contentDescription = stringResource(R.string.share_button),
+                                tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
+                            )
+                        }
+                    }
+                    IconButton(onClick = navigateHome) {
                     Icon(
-                        imageVector = Icons.Filled.Share,
-                        contentDescription = stringResource(R.string.share_button),
+                        imageVector = Icons.Filled.Home,
+                        contentDescription = stringResource(R.string.home_button),
                         tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
                     )
                 }
-                    IconButton(
-                        onClick = {
-                            saveToPdf()
-                        }
-                    ) {
-                        Icon(
-                            imageVector =  Icons.Filled.Download,
-                            contentDescription = stringResource(R.string.share_button),
-                            tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
-                        )
-                    }
                 }
             }
             }
@@ -154,7 +160,7 @@ fun ObchodniRejstrikApp2(
         topBar = {
             ObchodniRejstrikAppBar(
                 currentScreen = currentScreen,
-                canNavigateBack = navController.previousBackStackEntry != null,
+                canNavigateBack = navController.previousBackStackEntry != null && navController.currentBackStackEntry?.destination?.route !=ObchodniRejstrik.UvodniObrazovka.name,
                 navigateUp = { navController.navigateUp() },
                 modifier = Modifier
                     .padding(top = PaddingTopAplikace)
@@ -182,7 +188,8 @@ fun ObchodniRejstrikApp2(
                         ObchodniRejstrik.VypisRES.name -> resViewModel.share(context)
                     }
 
-                    }
+                    },
+                navigateHome  = { navController.navigate(ObchodniRejstrik.UvodniObrazovka.name) }
 
 
 
@@ -233,7 +240,7 @@ fun ObchodniRejstrikApp2(
                     hledejORButtonClicked = {
                         navController.navigate(ObchodniRejstrik.VypisOR.name)
                     },
-                   hledejRZPButtonClicked = {
+                    hledejRZPButtonClicked = {
                         navController.navigate(ObchodniRejstrik.VypisRZP.name)
                     },
                     hledejRESButtonClicked = {
@@ -263,7 +270,13 @@ fun ObchodniRejstrikApp2(
 
                 VypisORObrazovka(
                     viewModel = orViewModel,
-
+                    onClickedButtonIcoSubjekt = {  clickedIco -> //tato funkce je pro butto ve výpisu, kde je u jednotlivých subjektů ico, aby šlo prokliknout
+                        viewModel.loadDataIco(clickedIco)
+                        resViewModel.loadDataIcoRES(clickedIco)
+                        rzpViewModel.loadDataIcoRZP(clickedIco)
+                        orViewModel.loadDataIcoOR(clickedIco, context)
+                        navController.navigate(ObchodniRejstrik.VypisIco.name)
+                                                },
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     }
