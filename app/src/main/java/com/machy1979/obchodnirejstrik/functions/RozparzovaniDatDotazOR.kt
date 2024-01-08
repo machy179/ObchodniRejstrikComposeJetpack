@@ -3,10 +3,12 @@ package com.machy1979.obchodnirejstrik.functions
 import android.content.Context
 
 import android.util.Log
+import com.machy1979.obchodnirejstrik.R
 
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.Firma
 import com.machy1979.obchodnirejstrik.model.Osoba
+import org.json.JSONObject
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
@@ -16,7 +18,262 @@ class RozparzovaniDatDotazOR {
     companion object {
         lateinit var context: Context
         var pomocnyCounter = 0
-        fun vratCompanyData(document: Document, context: Context): CompanyData {
+        fun vratCompanyData(jsonObject: JSONObject, context: Context): CompanyData {
+
+            Log.i("RopzarzovaniOR: uvnitř",jsonObject.toString())
+            this.context = context
+            val obchodniJmenoArray = jsonObject.getJSONArray("obchodniJmeno")
+            val name = obchodniJmenoArray.getJSONObject(0).optString("hodnota", " ") ?: " "
+            Log.i("RopzarzovaniOR: jmeno",name)
+            val icoArray = jsonObject.getJSONArray("ico")
+            val ico = icoArray.getJSONObject(0).optString("hodnota", " ") ?: " "
+            Log.i("RopzarzovaniOR: ico",ico)
+
+            var address: String
+            val addressesArray = jsonObject.getJSONArray("adresy")
+            Log.i("RopzarzovaniOR: addressesArray",addressesArray.toString())
+            if (addressesArray.length() > 0) {
+                val firstAddressObject = addressesArray.getJSONObject(0).getJSONObject("adresa")
+                address = firstAddressObject.optString("textovaAdresa", " ") ?: " "
+
+            } else {
+                address = " " // Adresa není k dispozici, nastavte výchozí hodnotu
+            }
+            Log.i("RopzarzovaniOR: address",address)
+            var stavSubjektu= jsonObject.optString("stavSubjektu", " ") ?: " "
+            if (stavSubjektu.equals("AKTIVNI")) stavSubjektu= "Aktivní"
+
+            //právní forma
+            val pravniFormaArray = jsonObject.getJSONArray("pravniForma")
+            val pravniFormaZnacka= pravniFormaArray.getJSONObject(0).optString("hodnota", " ") ?: " "
+            val pravniFormyCiselnikArray = context.resources.getStringArray(R.array.pravni_forma)
+            val pravniFormyCiselnikMap = pravniFormyCiselnikArray.map { it.split(",") }.associate { it[0] to it[1] }
+            val pravniForma = pravniFormyCiselnikMap[pravniFormaZnacka] ?: pravniFormaZnacka
+            Log.i("RopzarzovaniOR: pravniForma",pravniForma)
+
+            val datumZapisu= jsonObject.optString("datumZapisu", " ") ?: " "
+
+            val spisovaZnackaArray = jsonObject.getJSONArray("spisovaZnacka")
+            var spisovaZnacka= spisovaZnackaArray.getJSONObject(0).optString("oddil", " ") ?: " "
+            spisovaZnacka= spisovaZnacka+" " + spisovaZnackaArray.getJSONObject(0).optString("vlozka", " ") ?: " "
+
+            val soudZnacka: String= spisovaZnackaArray.getJSONObject(0).optString("soud", " ") ?: " "
+            val soudyCislenikArray = context.resources.getStringArray(R.array.soudy)
+            val soudyCiselnikMap = soudyCislenikArray.map { it.split(",") }.associate { it[0] to it[1] }
+            val soud = soudyCiselnikMap[soudZnacka] ?: soudZnacka
+
+/*
+
+            //akcie
+            val vklad: String = document.select("D|KC").first()?.text() ?: ""
+            val splaceno: String = document.select("D|PRC").first()?.text() ?: ""
+
+
+
+            val listAkcie: MutableList<String> = mutableListOf<String>()
+            val zaznamyAkcie = document.select("D|Akcie").select("D|EM")
+            zaznamyAkcie.forEach() {
+                var akcie: String = it.select("D|DA").first()?.text() ?: ""
+                it.select("D|H").first()?.let {akcie =akcie + ",\nhodnota: "+it.text()}
+                it.select("D|Pocet").first()?.let {akcie =akcie + ",\npočet akcií: "+it.text()}
+                it.select("D|PD").first()?.let {akcie =akcie + ",\n"+it.text()}
+                it.select("D|T").first()?.let {akcie =akcie + ",\n"+it.text()}
+
+                listAkcie.add(akcie)
+            }
+
+
+            //předmět podnikání
+            val listPredmetPodnikani: MutableList<String> = mutableListOf<String>()
+            val zaznamyPP = document.select("D|CIN").select("D|T")
+            zaznamyPP.forEach() {
+                listPredmetPodnikani.add(it.text())
+            }
+
+            //Ostatní skutečnosti
+            val listOstatniSkutecnosti: MutableList<String> = mutableListOf<String>()
+            val zaznamyOstSkusenosti = document.select("D|OSK").select("D|T")
+            zaznamyOstSkusenosti.forEach() {
+                listOstatniSkutecnosti.add(it.text())
+            }
+
+            //statutární orgán osoby
+            val listStatutarniOrganOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+            val zaznamyStatOrganOsoby = document.select("D|SO").select("D|CSO")
+            var listZaznamyStaturatniOrganOsoby: MutableList<String> = mutableListOf<String>()
+            zaznamyStatOrganOsoby.forEach() {
+                var address = vratAdresu(it.select("D|FO"))
+
+                var zaznamyPoznamky = it.select("D|T")
+                listZaznamyStaturatniOrganOsoby = mutableListOf<String>()
+                zaznamyPoznamky.forEach(){
+                    listZaznamyStaturatniOrganOsoby.add(it.text())
+                }
+
+                if(!(it.select("D|FO").select("D|P").text()=="")) {
+                    listStatutarniOrganOsoby.add(vlozOsobu(it, address,listZaznamyStaturatniOrganOsoby))
+                }
+            }
+            //statutární orgán firmy - zapodmínkovat, že kdy to nenajde napřiklad D/PO nějaký text, tak se to vůbec nebude vkládat
+            val listStatutarniOrganFirmy: MutableList<Firma> = mutableListOf<Firma>()
+            val zaznamyStatOrganFirmy = document.select("D|SO").select("D|CSO")
+            zaznamyStatOrganFirmy.forEach() {
+                var address = vratAdresu(it.select("D|PO"))
+                if(!(it.select("D|PO").select("D|OF").text()=="")) {
+                    listStatutarniOrganFirmy.add(vlozFirmu(it, address))
+                }
+            }
+
+            //statutární orgán ostatní skutečnosti
+            val listStatutarniOrganSkutecnosti: MutableList<String> = mutableListOf<String>()
+            val zaznamyStatutarniOrganSkutecnosti = document.select("D|SO").select("D|T")
+            zaznamyStatutarniOrganSkutecnosti.forEach() {
+                if(!listZaznamyStaturatniOrganOsoby.contains(it.text())) {
+                    listStatutarniOrganSkutecnosti.add(it.text())
+                }
+            }
+
+            //prokura
+            val listProkura: MutableList<Osoba> = mutableListOf<Osoba>()
+            val zaznamyProkura = document.select("D|PRO").select("D|PRA")
+            zaznamyProkura.forEach() {
+                var address =  vratAdresu(it.allElements)
+
+                Log.i("aaaa", "PROKURA: " + it.select("D|P").text())
+
+                val listZaznamy: MutableList<String> = mutableListOf<String>()
+                var zaznamyPoznamky = it.select("D|T")
+                zaznamyPoznamky.forEach(){
+                    listZaznamy.add(it.text())
+                }
+
+
+                listProkura.add(vlozOsobu(it,address,listZaznamy))
+            }
+
+            //dozorčí rada
+            val listDozorciRada: MutableList<Osoba> = mutableListOf<Osoba>()
+            val zaznamyDozorciRada = document.select("D|DR").select("D|CDR")
+            zaznamyDozorciRada.forEach() {
+                var address =  vratAdresu(it.allElements)
+                listDozorciRada.add(vlozOsobu(it,address))
+
+            }
+
+            //společníci s vkladem osoby - zapodmínkovat, že kdy to nenajde napřiklad D/FO nějaký text, tak se to vůbec nebude vkládat
+            val listspolecniciSVklademOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+            val zaznamySpolecniciSVklademOsoby = document.select("D|SSV").select("D|SS")
+            zaznamySpolecniciSVklademOsoby.forEach() {
+                var address =  vratAdresu(it.select("D|FO"))
+                if(!(it.select("D|FO").select("D|P").text()=="")) {
+                    listspolecniciSVklademOsoby.add(vlozOsobu(it,address))
+                }
+            }
+
+            //společníci s vkladem firmy - zapodmínkovat, že kdy to nenajde napřiklad D/PO nějaký text, tak se to vůbec nebude vkládat
+            val listspolecniciSVklademFirmy: MutableList<Firma> = mutableListOf<Firma>()
+            val zaznamySpolecniciSVklademFirmy = document.select("D|SSV").select("D|SS")
+            zaznamySpolecniciSVklademFirmy.forEach() {
+                var address =  vratAdresu(it.select("D|PO"))
+                if(!(it.select("D|PO").select("D|OF").text()=="")) {
+                    listspolecniciSVklademFirmy.add(vlozFirmu(it,address))
+                }
+            }
+
+            //akcioáři osoby - zapodmínkovat, že kdy to nenajde napřiklad D/FO nějaký text, tak se to vůbec nebude vkládat
+            val listAkcionariOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+            val zaznamyAkcionariOsoby = document.select("D|AKI").select("D|AKR")
+            zaznamyAkcionariOsoby.forEach() {
+                var address =  vratAdresu(it.select("D|FO"))
+                if(!(it.select("D|FO").select("D|P").text()=="")) {
+                    listAkcionariOsoby.add(vlozOsobu(it,address))
+                }
+            }
+
+            //akcionari firmy - zapodmínkovat, že kdy to nenajde napřiklad D/PO nějaký text, tak se to vůbec nebude vkládat
+            val listAkcionariFirmy: MutableList<Firma> = mutableListOf<Firma>()
+            val zaznamyAkcionariFirmy = document.select("D|AKI").select("D|AKR")
+            Log.i("chybaaa: ",document.toString())
+            zaznamyAkcionariFirmy.forEach() {
+                var address =  vratAdresu(it.select("D|PO"))
+                Log.i("chybaaa2: ",it.select("D|PO").select("D|OF").text())
+                if(!(it.select("D|PO").select("D|OF").text()=="")) {
+                    listAkcionariFirmy.add(vlozFirmu(it,address))
+                }
+            }
+
+            //likvidace osoby - zapodmínkovat, že kdy to nenajde napřiklad D/FO nějaký text, tak se to vůbec nebude vkládat
+            val listLikvidaceOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+            val zaznamyLikvidaceOsoby = document.select("D|LI").select("D|LIR")
+            zaznamyLikvidaceOsoby.forEach() {
+                var address =  vratAdresu(it.select("D|FO"))
+                if(!(it.select("D|FO").select("D|P").text()=="")) {
+                    listLikvidaceOsoby.add(vlozOsobu(it,address))
+                }
+            }
+
+            //likvidace firmy - zapodmínkovat, že kdy to nenajde napřiklad D/PO nějaký text, tak se to vůbec nebude vkládat
+            val listLikvidaceFirmy: MutableList<Firma> = mutableListOf<Firma>()
+            val zaznamyLikvidaceFirmy = document.select("D|LI").select("D|LIR")
+            Log.i("chybaaa: ",document.toString())
+            zaznamyLikvidaceFirmy.forEach() {
+                var address =  vratAdresu(it.select("D|PO"))
+                Log.i("chybaaa2: ",it.select("D|PO").select("D|OF").text())
+                if(!(it.select("D|PO").select("D|OF").text()=="")) {
+                    listLikvidaceFirmy.add(vlozFirmu(it,address))
+                }
+            }
+
+            //vedoucí organizační složky
+            Log.i("orgSlozka: ","1")
+            val listVedouciOrganizacniSlozkyOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+            Log.i("orgSlozka: ","2")
+            val zaznamyVedouciOrganizacniSlozkyOsoby = document.select("D|OZY").select("D|OZ")
+            Log.i("orgSlozka: ","3")
+            zaznamyVedouciOrganizacniSlozkyOsoby.forEach() {
+                Log.i("orgSlozka: ","444")
+                var address =  vratAdresu(it.select("D|FO"))
+                if(!(it.select("D|FO").select("D|P").text()=="")) {
+                    listVedouciOrganizacniSlozkyOsoby.add(vlozOsobu(it,address))
+                }
+            }
+
+
+            //konečné vložení do companyData
+            val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
+                listOstatniSkutecnosti,listStatutarniOrganOsoby, listStatutarniOrganFirmy,listStatutarniOrganSkutecnosti,listProkura,
+                listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
+                listAkcionariFirmy, listLikvidaceOsoby, listLikvidaceFirmy,stavSubjektu, pravniForma,
+                datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,listVedouciOrganizacniSlozkyOsoby)*/
+            val companyData = CompanyData(name, ico,"", address,mutableListOf<String>(),
+                mutableListOf<String>(),mutableListOf<Osoba>(),mutableListOf<Firma>(),mutableListOf<String>(),mutableListOf<Osoba>(),mutableListOf<Osoba>(),
+                mutableListOf<Osoba>(), mutableListOf<Firma>(), mutableListOf<Osoba>(),
+                mutableListOf<Firma>(), mutableListOf<Osoba>(), mutableListOf<Firma>(),stavSubjektu, pravniForma,
+                datumZapisu,soud,spisovaZnacka,"","", mutableListOf<String>(),mutableListOf<Osoba>())
+            return companyData
+        }
+
+        private fun vlozOsobu(it: Element?, address: String, listZaznamy: MutableList<String> = mutableListOf<String>()): Osoba {
+            return Osoba(
+                it?.select("D|FO")?.select("D|TP")?.text() ?: "",
+                it?.select("D|FO")?.select("D|J")?.text() ?: "",
+                it?.select("D|FO")?.select("D|P")?.text()?: "",
+                it?.select("D|F")?.text() ?: "", //tady byla změna z it?.select("D|FO")?.select("D|F")?.text() ?: "",
+
+                it?.select("D|FO")?.select("D|DN")?.text()?: "",
+                address,
+                listZaznamy,
+                it?.select("D|CLE")?.text() ?: "",
+                it?.select("D|VF")?.text() ?: "",
+                it?.select("D|VK")?.select("D|KC")?.text() ?: "",
+                it?.select("D|SPL")?.select("D|PRC")?.text() ?: "",
+                it?.select("D|OP")?.select("D|T")?.text() ?: "",
+                it?.select("D|OF")?.text() ?: ""
+
+            )
+        }
+
+        fun vratCompanyDataOld(document: Document, context: Context): CompanyData {
 
             Log.i("chybaaa2: ",document.toString())
             this.context = context
@@ -214,7 +471,7 @@ class RozparzovaniDatDotazOR {
             return companyData
         }
 
-        private fun vlozOsobu(it: Element?, address: String, listZaznamy: MutableList<String> = mutableListOf<String>()): Osoba {
+        private fun vlozOsobuOld(it: Element?, address: String, listZaznamy: MutableList<String> = mutableListOf<String>()): Osoba {
             return Osoba(
                 it?.select("D|FO")?.select("D|TP")?.text() ?: "",
                 it?.select("D|FO")?.select("D|J")?.text() ?: "",
@@ -233,7 +490,6 @@ class RozparzovaniDatDotazOR {
 
             )
         }
-
 
 
         fun vratAdresu(document: Elements): String {

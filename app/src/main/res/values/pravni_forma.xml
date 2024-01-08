@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pravni_forma">
+        <item>0,Zatím neurčeno</item>
+        <item>101,Fyzická osoba podnikající dle živnostenského zákona</item>
+        <item>102,Fyzická osoba podnikající dle živnostenského zákona zapsaná v obchodním rejstříku</item>
+        <item>103,Samostatně hospodařící rolník nezapsaný v obchodním rejstříku</item>
+        <item>104,Samostatně hospodařící rolník zapsaný v obchodním rejstříku</item>
+        <item>105,Fyzická osoba podnikající dle jiných zákonů než živnostenského a zákona o zemědělství</item>
+        <item>106,Fyzická osoba podnikající dle jiných zákonů než živnostenského a o samost. hosp. rolnících zapsaná v obchodním rejstříku</item>
+        <item>106,Fyzická osoba podnikající dle jiných zákonů než živnostenského a zákona o zemědělství zapsaná v obchodním rejstříku</item>
+        <item>107,Zemědělský podnikatel - fyzická osoba</item>
+        <item>108,Zemědělský podnikatel - fyzická osoba zapsaná v obchodním rejstříku</item>
+        <item>111,Veřejná obchodní společnost</item>
+        <item>112,Společnost s ručením omezeným</item>
+        <item>113,Společnost komanditní</item>
+        <item>114,Společnost komanditní na akcie</item>
+        <item>115,Společný podnik</item>
+        <item>116,Zájmové sdružení</item>
+        <item>117,Nadace</item>
+        <item>118,Nadační fond</item>
+        <item>121,Akciová společnost</item>
+        <item>131,Svépomocné zemědělské družstvo</item>
+        <item>141,Obecně prospěšná společnost</item>
+        <item>145,Společenství vlastníků jednotek</item>
+        <item>151,Komoditní burza</item>
+        <item>161,Ústav</item>
+        <item>201,Zemědělské družstvo</item>
+        <item>205,Družstvo</item>
+        <item>211,Družstevní podnik zemědělský</item>
+        <item>231,Výrobní družstvo</item>
+        <item>232,Spotřební družstvo</item>
+        <item>233,Bytové družstvo</item>
+        <item>234,Jiné družstvo</item>
+        <item>241,Družstevní podnik (s jedním zakladatelem)</item>
+        <item>242,Společný podnik (s více zakladateli)</item>
+        <item>251,Zájmová organizace družstev</item>
+        <item>261,Společná zájmová organizace družstev</item>
+        <item>301,Státní podnik</item>
+        <item>311,Státní banka československá</item>
+        <item>312,Banka-státní peněžní ústav</item>
+        <item>313,Česká národní banka</item>
+        <item>314,Česká konsolidační agentura</item>
+        <item>321,Rozpočtová organizace</item>
+        <item>325,Organizační složka státu</item>
+        <item>326,Stálý rozhodčí soud</item>
+        <item>331,Příspěvková organizace</item>
+        <item>341,Státní hospodářská organizace řízená okresním úřadem</item>
+        <item>343,Obecní podnik</item>
+        <item>351,Československé státní dráhy - státní organizace</item>
+        <item>352,České dráhy</item>
+        <item>352,Správa železniční dopravní cesty, státní organizace</item>
+        <item>352,Státní organizace Správa železnic</item>
+        <item>353,Rada pro veřejný dohled nad auditem</item>
+        <item>361,Veřejně prospěšná instituce</item>
+        <item>361,Veřejnoprávní instituce (ČT,ČRo,ČTK)</item>
+        <item>381,Fond (ze zákona)</item>
+        <item>391,Zdravotní pojišťovna</item>
+        <item>401,Sdružení mezinárodního obchodu</item>
+        <item>411,Podnik se zahraniční majetkovou účastí</item>
+        <item>421,Odštěpný závod zahraniční právnické osoby</item>
+        <item>422,Organizační složka zahraničního nadačního fondu</item>
+        <item>423,Organizační složka zahraniční nadace</item>
+        <item>424,Zahraniční fyzická osoba</item>
+        <item>425,Odštěpný závod zahraniční fyzické osoby</item>
+        <item>426,Zastoupení zahraniční banky</item>
+        <item>431,Banka - akciová společnost</item>
+        <item>432,Spořitelna</item>
+        <item>435,Pojišťovna - státní podnik</item>
+        <item>436,Pojišťovna - akciová společnost</item>
+        <item>437,Pojišťovna - družstvo</item>
+        <item>438,Pojišťovna - družstevní podnik</item>
+        <item>441,Podnik zahraničního obchodu</item>
+        <item>442,Účelová zahraničně obchodní organizace</item>
+        <item>501,Odštěpný závod nebo jiná organizační složka podniku zapisující se do obchodního rejstříku</item>
+        <item>511,Pobočka státního peněžního ústavu</item>
+        <item>513,Pobočka spořitelny</item>
+        <item>514,Oblastní závod pojišťovny</item>
+        <item>521,Samostatná drobná provozovna obecního úřadu</item>
+        <item>531,Oblastní organizační jednotka ČD</item>
+        <item>532,Účelová organizační jednotka ČD</item>
+        <item>533,Specializovaná organizační jednotka ČD</item>
+        <item>534,Jednotka státní drážní -technická inspekce</item>
+        <item>535,Jednotka sboru ozbrojené ochrany železnic</item>
+        <item>536,Jednotka drážního správního úřadu</item>
+        <item>541,Podílový, penzijní fond</item>
+        <item>601,Vysoká škola (veřejná, státní)</item>
+        <item>602,Fakulta vysoké školy</item>
+        <item>603,Jiné pracoviště vysoké školy / fakulty</item>
+        <item>611,Střední škola</item>
+        <item>621,Základní škola</item>
+        <item>625,Školské zařízení</item>
+        <item>631,Předškolní zařízení</item>
+        <item>641,Školská právnická osoba</item>
+        <item>651,Zdravotnické zařízení</item>
+        <item>661,Veřejná výzkumná instituce</item>
+        <item>671,Veřejné neziskové ústavní zdravotnické zařízení</item>
+        <item>701,Sdružení (svaz, spolek, společnost, klub aj.)</item>
+        <item>702,Pojišťovací spolek</item>
+        <item>703,Odborová organizace a organizace zaměstnavatelů</item>
+        <item>704,Zvláštní organizace pro zastoupení českých zájmů v mezinárodních nevládních organizacích</item>
+        <item>705,Podnik nebo hospodářské zařízení sdružení</item>
+        <item>706,Spolek</item>
+        <item>707,Odborová organizace</item>
+        <item>708,Organizace zaměstnavatelů</item>
+        <item>711,Politická strana, politické hnutí</item>
+        <item>715,Podnik nebo hospodářské zařízení politické strany</item>
+        <item>721,Církevní organizace a náboženské společnosti</item>
+        <item>721,Církve a náboženské společnosti</item>
+        <item>722,Evidované církevní právnické osoby</item>
+        <item>723,Svazy církví a náboženských společností</item>
+        <item>731,Organizační jednotka sdružení</item>
+        <item>732,Organizační jednotka politické strany, politického hnutí</item>
+        <item>733,Organizační jednotka odborové organizace a organizace zaměstnavatelů</item>
+        <item>734,Organizační jednotka zvláštní organizace pro zastoupení českých zájmů v mezinárodních nevládních organizacích</item>
+        <item>736,Pobočný spolek</item>
+        <item>741,Stavovská organizace - profesní komora</item>
+        <item>745,Komora (s výjimkou profesních komor)</item>
+        <item>751,Zájmové sdružení právnických osob</item>
+        <item>761,Honební společenstvo</item>
+        <item>771,Dobrovolný svazek obcí</item>
+        <item>801,Obec (obecní úřad)</item>
+        <item>801,Obec nebo městská část hlavního města Prahy</item>
+        <item>802,Okresní úřad</item>
+        <item>804,Kraj a hl.m.Praha</item>
+        <item>805,Regionální rada regionu soudržnosti</item>
+        <item>901,Zastupitelský orgán jiných států</item>
+        <item>906,Zahraniční spolek</item>
+        <item>907,Mezinárodní odborová organizace</item>
+        <item>908,Mezinárodní organizace zaměstnavatelů</item>
+        <item>911,Zahraniční kulturní, informační středisko, rozhlasová, tisková a televizní agentura</item>
+        <item>921,Mezinárodní nevládní organizace</item>
+        <item>922,Organizační jednotka mezinárodní nevládní organizace</item>
+        <item>931,Evropské hospodářské zájmové sdružení</item>
+        <item>932,Evropská společnost</item>
+        <item>933,Evropská družstevní společnost</item>
+        <item>936,Zahraniční pobočný spolek</item>
+        <item>937,Pobočná mezinárodní odborová organizace</item>
+        <item>938,Pobočná mezinárodní organizace zaměstnavatelů</item>
+        <item>941,Evropské seskupení pro územní spolupráci</item>
+        <item>950,Subjekt právním řádem výslovně neupravený</item>
+        <item>951,Mezinárodní vojenská organizace vzniklá na základě mezinárodní smlouvy</item>
+        <item>952,Konsorcium evropské výzkumné infrastruktury</item>
+        <item>960,Právnická osoba zřízená zvláštním zákonem zapisovaná do veřejného rejstříku</item>
+    </string-array>
+</resources>

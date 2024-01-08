@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="soudy">
+        <item>MSPH,Městský soud v Praze</item>
+        <item>KSPH,Krajský soud v Praze</item>
+        <item>KSCB,Krajský soud v Českých Budějovicích</item>
+        <item>KSTB,Krajský soud v Českých Budějovicích – pobočka v Táboře</item>
+        <item>KSPL,Krajský soud v Plzni</item>
+        <item>KSKV,Krajský soud v Plzni – pobočka v Karlových Varech</item>
+        <item>KSUL,Krajský soud v Ústí nad Labem</item>
+        <item>KSLB,Krajský soud v Ústí nad Labem – pobočka v Liberci</item>
+        <item>KSHK,Krajský soud v Hradci Králové</item>
+        <item>KSPA,Krajský soud v Hradci Králové – pobočka v Pardubicích</item>
+        <item>KSBR,Krajský soud v Brně</item>
+        <item>KSJI,Krajský soud v Brně – pobočka v Jihlavě</item>
+        <item>KSZL,Krajský soud v Brně – pobočka ve Zlíně</item>
+        <item>KSOS,Krajský soud v Ostravě</item>
+        <item>KSOL,Krajský soud v Ostravě – pobočka v Olomouci</item>
+        <item>VSPH,Vrchní soud v Praze</item>
+        <item>VSOL,Vrchní soud v Olomouci</item>
+        <item>NSCR,Nejvyšší soud České republiky</item>
+    </string-array>
+</resources>
