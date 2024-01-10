@@ -22,30 +22,39 @@ class RozparzovaniDatDotazOR {
 
             Log.i("RopzarzovaniOR: uvnitř",jsonObject.toString())
             this.context = context
-            val obchodniJmenoArray = jsonObject.getJSONArray("obchodniJmeno")
-            val name = obchodniJmenoArray.getJSONObject(0).optString("hodnota", " ") ?: " "
+            val obchodniJmenoArray = jsonObject.optJSONArray("obchodniJmeno")
+            val name = obchodniJmenoArray?.optJSONObject(0)?.optString("hodnota", " ") ?: " "
             Log.i("RopzarzovaniOR: jmeno",name)
-            val icoArray = jsonObject.getJSONArray("ico")
-            val ico = icoArray.getJSONObject(0).optString("hodnota", " ") ?: " "
+            val icoArray = jsonObject.optJSONArray("ico")
+            val ico = icoArray?.optJSONObject(0)?.optString("hodnota", " ") ?: " "
             Log.i("RopzarzovaniOR: ico",ico)
 
             var address: String
-            val addressesArray = jsonObject.getJSONArray("adresy")
+            val addressesArray = jsonObject.optJSONArray("adresy")
             Log.i("RopzarzovaniOR: addressesArray",addressesArray.toString())
+            jsonObject.optJSONArray("adresy")?.let { addressesArray ->
+                val firstAddressObject = addressesArray.optJSONObject(0)?.getJSONObject("adresa")
+                address = firstAddressObject?.optString("textovaAdresa", " ") ?: " "
+
+            }?: run {
+                address = " " // Adresa není k dispozici, nastavte výchozí hodnotu
+            }
+
             if (addressesArray.length() > 0) {
-                val firstAddressObject = addressesArray.getJSONObject(0).getJSONObject("adresa")
-                address = firstAddressObject.optString("textovaAdresa", " ") ?: " "
+                val firstAddressObject = addressesArray.optJSONObject(0)?.getJSONObject("adresa")
+                address = firstAddressObject?.optString("textovaAdresa", " ") ?: " "
 
             } else {
                 address = " " // Adresa není k dispozici, nastavte výchozí hodnotu
             }
             Log.i("RopzarzovaniOR: address",address)
+
             var stavSubjektu= jsonObject.optString("stavSubjektu", " ") ?: " "
             if (stavSubjektu.equals("AKTIVNI")) stavSubjektu= "Aktivní"
 
             //právní forma
-            val pravniFormaArray = jsonObject.getJSONArray("pravniForma")
-            val pravniFormaZnacka= pravniFormaArray.getJSONObject(0).optString("hodnota", " ") ?: " "
+            val pravniFormaArray = jsonObject.optJSONArray("pravniForma")
+            val pravniFormaZnacka= pravniFormaArray?.optJSONObject(0)?.optString("hodnota", " ") ?: " "
             val pravniFormyCiselnikArray = context.resources.getStringArray(R.array.pravni_forma)
             val pravniFormyCiselnikMap = pravniFormyCiselnikArray.map { it.split(",") }.associate { it[0] to it[1] }
             val pravniForma = pravniFormyCiselnikMap[pravniFormaZnacka] ?: pravniFormaZnacka
@@ -53,35 +62,103 @@ class RozparzovaniDatDotazOR {
 
             val datumZapisu= jsonObject.optString("datumZapisu", " ") ?: " "
 
-            val spisovaZnackaArray = jsonObject.getJSONArray("spisovaZnacka")
-            var spisovaZnacka= spisovaZnackaArray.getJSONObject(0).optString("oddil", " ") ?: " "
-            spisovaZnacka= spisovaZnacka+" " + spisovaZnackaArray.getJSONObject(0).optString("vlozka", " ") ?: " "
+            val spisovaZnackaArray = jsonObject.optJSONArray("spisovaZnacka")
+            var spisovaZnacka= spisovaZnackaArray?.optJSONObject(0)?.optString("oddil", " ") ?: " "
+            spisovaZnacka= spisovaZnacka+" " + spisovaZnackaArray?.optJSONObject(0)?.optString("vlozka", " ") ?: " "
 
-            val soudZnacka: String= spisovaZnackaArray.getJSONObject(0).optString("soud", " ") ?: " "
+            val soudZnacka: String= spisovaZnackaArray.optJSONObject(0)?.optString("soud", " ") ?: " "
             val soudyCislenikArray = context.resources.getStringArray(R.array.soudy)
             val soudyCiselnikMap = soudyCislenikArray.map { it.split(",") }.associate { it[0] to it[1] }
             val soud = soudyCiselnikMap[soudZnacka] ?: soudZnacka
 
-/*
-
-            //akcie
-            val vklad: String = document.select("D|KC").first()?.text() ?: ""
-            val splaceno: String = document.select("D|PRC").first()?.text() ?: ""
-
-
-
-            val listAkcie: MutableList<String> = mutableListOf<String>()
-            val zaznamyAkcie = document.select("D|Akcie").select("D|EM")
-            zaznamyAkcie.forEach() {
-                var akcie: String = it.select("D|DA").first()?.text() ?: ""
-                it.select("D|H").first()?.let {akcie =akcie + ",\nhodnota: "+it.text()}
-                it.select("D|Pocet").first()?.let {akcie =akcie + ",\npočet akcií: "+it.text()}
-                it.select("D|PD").first()?.let {akcie =akcie + ",\n"+it.text()}
-                it.select("D|T").first()?.let {akcie =akcie + ",\n"+it.text()}
-
-                listAkcie.add(akcie)
+            //vklad a splaceno musím řešit tak, že načte celý list a z něho vybere jen ten platný - u kterého není datum výmazu
+            var vklad: String = ""
+            var splaceno: String = ""
+            jsonObject.optJSONArray("zakladniKapital")?.let { zakladniKapitalArray ->
+                for (i in 0 until zakladniKapitalArray.length()) {
+                    val kapitalObject = zakladniKapitalArray.optJSONObject(i)
+                    Log.i("RopzarzovaniOR: kapitalObject:",kapitalObject.toString())
+                    if (!kapitalObject.has("datumVymazu")) {
+                        vklad = kapitalObject.optJSONObject("vklad")?.optString("hodnota", " ") ?: " "
+                        if (!vklad.equals(" ")) vklad=upravFinancniCastku(vklad)
+                        Log.i("RopzarzovaniOR: vklad:",vklad)
+                        splaceno = kapitalObject.optJSONObject("splaceni")?.optString("hodnota") ?: " "
+                        if (!splaceno.equals(" ")) splaceno=splaceno + " "+"%"
+                        Log.i("RopzarzovaniOR: splaceno:",splaceno)
+                    }
+                }
             }
 
+            //akcie:
+            val listAkcie: MutableList<String> = mutableListOf<String>()
+            Log.i("RopzarzovaniOR: akcie","1")
+            jsonObject.optJSONArray("akcie")?.let { akcieArray ->
+                Log.i("RopzarzovaniOR: akcie",akcieArray.toString())
+                for (i in 0 until akcieArray.length()) {
+                    val akcielObject = akcieArray.optJSONObject(i)
+                    Log.i("RopzarzovaniOR: akcie",akcielObject.toString())
+                    var akcie: String = akcielObject.optString("typAkcie", " ") ?: " "
+                    Log.i("RopzarzovaniOR: akcie","2")
+                    when (akcie) {
+                        "NA_JMENO" -> {
+                            akcie = "Na jméno"
+                        }
+                        "KMENOVE_NA_JMENO" -> {
+                            akcie = "Kmenové na jméno"
+                        }
+                        "NA_MAJITELE" -> {
+                            akcie = "Na majitele"
+                        }
+                        "KMENOVE_NA_MAJITELE" -> {
+                            akcie = "Kmenové na majitele"
+                        }
+                        else -> {
+                        }
+                    }
+                    Log.i("RopzarzovaniOR: akcie","3")
+                    if (akcielObject.has("pocet")) {
+                        Log.i("RopzarzovaniOR: akcie","4")
+                        akcie += "\npočet akcií: ${akcielObject.optString("pocet", " ")}"
+                    }
+                    Log.i("RopzarzovaniOR: akcie","5")
+                    if (akcielObject.optJSONObject("hodnota").has("hodnota")) {
+                        akcie += "\nhodnota: ${akcielObject.optJSONObject("hodnota")?.optString("hodnota", " ")
+                            ?.let { upravFinancniCastku(it) }}"
+                    }
+                    listAkcie.add(akcie)
+                }
+            }
+
+            //předmět podnikání
+            val listPredmetPodnikani: MutableList<String> = mutableListOf<String>()
+            val cinnosti = jsonObject.optJSONObject("cinnosti")
+            Log.i("RopzarzovaniOR: PP:",cinnosti.toString())
+            if (cinnosti != null) {
+                Log.i("RopzarzovaniOR: PP:","1")
+                cinnosti.optJSONArray("predmetPodnikani")?.let {predmetPodnikaniArray ->
+                    Log.i("RopzarzovaniOR: PP:","11")
+                    for (i in 0 until predmetPodnikaniArray.length()) {
+                        val predmetPodnikanilObject = predmetPodnikaniArray.optJSONObject(i)
+                        listPredmetPodnikani.add(predmetPodnikanilObject.optString("hodnota", " "))
+                        Log.i("RopzarzovaniOR: PP:","1-1")
+                    }
+
+                }
+                Log.i("RopzarzovaniOR: PP:","2")
+                cinnosti.optJSONArray("predmetCinnosti")?.let {predmetCinnostiArray ->
+                    Log.i("RopzarzovaniOR: PP:","22")
+                    for (i in 0 until predmetCinnostiArray.length()) {
+                        val predmetCinnostiObject = predmetCinnostiArray.optJSONObject(i)
+                        listPredmetPodnikani.add(predmetCinnostiObject.optString("hodnota", " "))
+                        Log.i("RopzarzovaniOR: PP:","2-2")
+                    }
+
+                }
+
+
+            }
+
+/*
 
             //předmět podnikání
             val listPredmetPodnikani: MutableList<String> = mutableListOf<String>()
@@ -245,11 +322,11 @@ class RozparzovaniDatDotazOR {
                 listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
                 listAkcionariFirmy, listLikvidaceOsoby, listLikvidaceFirmy,stavSubjektu, pravniForma,
                 datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,listVedouciOrganizacniSlozkyOsoby)*/
-            val companyData = CompanyData(name, ico,"", address,mutableListOf<String>(),
+            val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
                 mutableListOf<String>(),mutableListOf<Osoba>(),mutableListOf<Firma>(),mutableListOf<String>(),mutableListOf<Osoba>(),mutableListOf<Osoba>(),
                 mutableListOf<Osoba>(), mutableListOf<Firma>(), mutableListOf<Osoba>(),
                 mutableListOf<Firma>(), mutableListOf<Osoba>(), mutableListOf<Firma>(),stavSubjektu, pravniForma,
-                datumZapisu,soud,spisovaZnacka,"","", mutableListOf<String>(),mutableListOf<Osoba>())
+                datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,mutableListOf<Osoba>())
             return companyData
         }
 
@@ -546,6 +623,20 @@ class RozparzovaniDatDotazOR {
         fun vratErrorHlasku(document: Document): String {
             val errorHlaska = document.select("D|ET").first()?.text() ?: " "
             return errorHlaska
+        }
+
+        fun upravFinancniCastku(input: String): String {
+            // Odstranění všeho za ";"
+            val cleanedString = input.substringBefore(";")
+            // Odstranění všech nečíselných znaků
+            val digitsOnly = cleanedString.replace(Regex("[^\\d]"), "")
+            // Rozdělení na skupiny po třech znacích a spojení s mezerami
+            val reversedParts = digitsOnly.reversed().chunked(3)
+            var formattedString = reversedParts.joinToString(" ").reversed()
+            formattedString += ",- Kč"
+
+
+            return formattedString
         }
 
 
