@@ -144,31 +144,35 @@ class RozparzovaniDatDotazOR {
             //předmět podnikání
             val listPredmetPodnikani: MutableList<String> = mutableListOf<String>()
             val cinnosti = jsonObject.optJSONObject("cinnosti")
-            Log.i("RopzarzovaniOR: PP:",cinnosti.toString())
             if (cinnosti != null) {
-                Log.i("RopzarzovaniOR: PP:","1")
                 cinnosti.optJSONArray("predmetPodnikani")?.let {predmetPodnikaniArray ->
-                    Log.i("RopzarzovaniOR: PP:","11")
                     for (i in 0 until predmetPodnikaniArray.length()) {
                         val predmetPodnikanilObject = predmetPodnikaniArray.optJSONObject(i)
                         listPredmetPodnikani.add(predmetPodnikanilObject.optString("hodnota", " "))
-                        Log.i("RopzarzovaniOR: PP:","1-1")
                     }
 
                 }
-                Log.i("RopzarzovaniOR: PP:","2")
                 cinnosti.optJSONArray("predmetCinnosti")?.let {predmetCinnostiArray ->
-                    Log.i("RopzarzovaniOR: PP:","22")
                     for (i in 0 until predmetCinnostiArray.length()) {
                         val predmetCinnostiObject = predmetCinnostiArray.optJSONObject(i)
                         listPredmetPodnikani.add(predmetCinnostiObject.optString("hodnota", " "))
-                        Log.i("RopzarzovaniOR: PP:","2-2")
                     }
 
                 }
 
 
             }
+
+            //ostatní skutečnosti
+            val listOstatniSkutecnosti: MutableList<String> = mutableListOf<String>()
+            jsonObject.optJSONArray("ostatniSkutecnosti")?.let {ostatniSkutecnosti ->
+                for (i in 0 until ostatniSkutecnosti.length()) {
+                    val ostatniSkutecnostiObject = ostatniSkutecnosti.optJSONObject(i)
+                    listOstatniSkutecnosti.add(ostatniSkutecnostiObject.optString("hodnota", " "))
+                }
+
+            }
+
 
             //statutarni organy, "ostatniOrgany" a "spolecnici" - je tam níže uvedené
             var listProkura: MutableList<Osoba> = mutableListOf<Osoba>()
@@ -178,41 +182,47 @@ class RozparzovaniDatDotazOR {
             var listAkcionariOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
             var listAkcionariFirmy: MutableList<Firma> = mutableListOf<Firma>()
             val listspolecniciSVklademFirmy: MutableList<Firma> = mutableListOf<Firma>()
+            val listStatutarniOrganFirmy: MutableList<Firma> = mutableListOf<Firma>()
+            val listStatutarniOrganSkutecnosti: MutableList<String> = mutableListOf<String>()
+
+
             val objektyOrgany: Array<String> = arrayOf("statutarniOrgany", "ostatniOrgany", "spolecnici")
 
             for (str in objektyOrgany) {
                 jsonObject.optJSONArray(str)?.let { statutarniOrganyArray ->
-                    Log.i("statutarniOrgany: array",statutarniOrganyArray.toString())
                     for (i in 0 until statutarniOrganyArray.length()) {
                         val statutarniOrganyObject = statutarniOrganyArray.optJSONObject(i)
-                        Log.i("statutarniOrgany: object", statutarniOrganyObject.toString())
+                        //když už bude projíždět tento cyklus, tak se tady pokusím naplnit listStatutarniOrganSkutecnosti
+                        if (str.equals("statutarniOrgany")) {
+                            statutarniOrganyObject.optJSONArray("zpusobJednani")?.let { zpusobJednaniArray ->
+                                for (i in 0 until zpusobJednaniArray.length()) {
+                                    val zpusobJednaniObject = zpusobJednaniArray.optJSONObject(i)
+                                    if (!zpusobJednaniObject.has("datumVymazu")) {
+                                        listStatutarniOrganSkutecnosti.add(zpusobJednaniObject.optString("hodnota", " "))
+                                    }
+                                }
+                            }
+                        }
                         val listClenoveOrganu: MutableList<Osoba> = mutableListOf<Osoba>()
                         val listClenoveOrganuFirmy: MutableList<Firma> = mutableListOf<Firma>()
                         val objektyPopisListuOsob: Array<String> = arrayOf("clenoveOrganu", "spolecnik")
                         for (popisListu in objektyPopisListuOsob) {
                             statutarniOrganyObject.optJSONArray(popisListu)?.let { clenoveOrganuArray ->
-                                Log.i("statutarniOrgany: clenoveOrganuarray",clenoveOrganuArray.toString())
                                 for (i in 0 until clenoveOrganuArray.length()) {
                                     val clenOrganuObject = clenoveOrganuArray.optJSONObject(i)
-                                    Log.i("statutarniOrgany: clenOrganuObject", clenOrganuObject.toString())
                                     if (!clenOrganuObject.has("datumVymazu")) {
                                         if(clenOrganuObject.has("fyzickaOsoba")) {
-                                            if(popisListu.equals("spolecnik")) {
+                                            listClenoveOrganu.add(vlozOsobu(clenOrganuObject))
+                                        } else if(clenOrganuObject.has("pravnickaOsoba")) {
+                                            listClenoveOrganuFirmy.add(vlozFirmu(clenOrganuObject))
+                                        } else if(clenOrganuObject.has("osoba")) { //takto to ma strukturováno spolecnik
+                                            if (clenOrganuObject.optJSONObject("osoba").has("fyzickaOsoba")) {
                                                 listClenoveOrganu.add(vlozOsobuSpolecnik(clenOrganuObject))
-                                            } else {
-                                                listClenoveOrganu.add(vlozOsobu(clenOrganuObject))
-                                            }
-                                        } else {
-                                            if(popisListu.equals("spolecnik")) {
+                                            } else if (clenOrganuObject.optJSONObject("osoba").has("pravnickaOsoba")) {
                                                 listClenoveOrganuFirmy.add(vlozFirmuSpolecnik(clenOrganuObject))
-                                            } else {
-                                                listClenoveOrganuFirmy.add(vlozFirmu(clenOrganuObject))
                                             }
                                         }
-
                                     }
-                                    Log.i("statutarniOrgany: pocetOsob", listClenoveOrganu.size.toString())
-
                                 }
                                 when (statutarniOrganyObject.optString("typOrganu")) {
                                     "PROKURA" -> {
@@ -220,12 +230,14 @@ class RozparzovaniDatDotazOR {
                                     }
                                     "STATUTARNI_ORGAN" -> {
                                         listStatutarniOrganOsoby.addAll(listClenoveOrganu)
+                                        listStatutarniOrganFirmy.addAll(listClenoveOrganuFirmy)
                                     }
                                     "DOZORCI_RADA" -> {
                                         listDozorciRada.addAll(listClenoveOrganu)
                                     }
                                     "SPOLECNIK" -> {
                                         listspolecniciSVklademOsoby.addAll(listClenoveOrganu)
+                                        listspolecniciSVklademFirmy.addAll(listClenoveOrganuFirmy)
                                     }
                                     "AKCIONAR_SEKCE" -> {
                                         listAkcionariOsoby.addAll(listClenoveOrganu)
@@ -236,8 +248,6 @@ class RozparzovaniDatDotazOR {
                                 }
                             }
                         }
-
-
                     }
                 }
             }
@@ -246,13 +256,6 @@ class RozparzovaniDatDotazOR {
 
 /*
 
-
-            //Ostatní skutečnosti
-            val listOstatniSkutecnosti: MutableList<String> = mutableListOf<String>()
-            val zaznamyOstSkusenosti = document.select("D|OSK").select("D|T")
-            zaznamyOstSkusenosti.forEach() {
-                listOstatniSkutecnosti.add(it.text())
-            }
 
             //statutární orgán osoby
             val listStatutarniOrganOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
@@ -271,24 +274,8 @@ class RozparzovaniDatDotazOR {
                     listStatutarniOrganOsoby.add(vlozOsobu(it, address,listZaznamyStaturatniOrganOsoby))
                 }
             }
-            //statutární orgán firmy - zapodmínkovat, že kdy to nenajde napřiklad D/PO nějaký text, tak se to vůbec nebude vkládat
-            val listStatutarniOrganFirmy: MutableList<Firma> = mutableListOf<Firma>()
-            val zaznamyStatOrganFirmy = document.select("D|SO").select("D|CSO")
-            zaznamyStatOrganFirmy.forEach() {
-                var address = vratAdresu(it.select("D|PO"))
-                if(!(it.select("D|PO").select("D|OF").text()=="")) {
-                    listStatutarniOrganFirmy.add(vlozFirmu(it, address))
-                }
-            }
 
-            //statutární orgán ostatní skutečnosti
-            val listStatutarniOrganSkutecnosti: MutableList<String> = mutableListOf<String>()
-            val zaznamyStatutarniOrganSkutecnosti = document.select("D|SO").select("D|T")
-            zaznamyStatutarniOrganSkutecnosti.forEach() {
-                if(!listZaznamyStaturatniOrganOsoby.contains(it.text())) {
-                    listStatutarniOrganSkutecnosti.add(it.text())
-                }
-            }
+
 
             //prokura
             val listProkura: MutableList<Osoba> = mutableListOf<Osoba>()
@@ -308,56 +295,10 @@ class RozparzovaniDatDotazOR {
                 listProkura.add(vlozOsobu(it,address,listZaznamy))
             }
 
-            //dozorčí rada
-            val listDozorciRada: MutableList<Osoba> = mutableListOf<Osoba>()
-            val zaznamyDozorciRada = document.select("D|DR").select("D|CDR")
-            zaznamyDozorciRada.forEach() {
-                var address =  vratAdresu(it.allElements)
-                listDozorciRada.add(vlozOsobu(it,address))
 
-            }
 
-            //společníci s vkladem osoby - zapodmínkovat, že kdy to nenajde napřiklad D/FO nějaký text, tak se to vůbec nebude vkládat
-            val listspolecniciSVklademOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
-            val zaznamySpolecniciSVklademOsoby = document.select("D|SSV").select("D|SS")
-            zaznamySpolecniciSVklademOsoby.forEach() {
-                var address =  vratAdresu(it.select("D|FO"))
-                if(!(it.select("D|FO").select("D|P").text()=="")) {
-                    listspolecniciSVklademOsoby.add(vlozOsobu(it,address))
-                }
-            }
 
-            //společníci s vkladem firmy - zapodmínkovat, že kdy to nenajde napřiklad D/PO nějaký text, tak se to vůbec nebude vkládat
-            val listspolecniciSVklademFirmy: MutableList<Firma> = mutableListOf<Firma>()
-            val zaznamySpolecniciSVklademFirmy = document.select("D|SSV").select("D|SS")
-            zaznamySpolecniciSVklademFirmy.forEach() {
-                var address =  vratAdresu(it.select("D|PO"))
-                if(!(it.select("D|PO").select("D|OF").text()=="")) {
-                    listspolecniciSVklademFirmy.add(vlozFirmu(it,address))
-                }
-            }
 
-            //akcioáři osoby - zapodmínkovat, že kdy to nenajde napřiklad D/FO nějaký text, tak se to vůbec nebude vkládat
-            val listAkcionariOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
-            val zaznamyAkcionariOsoby = document.select("D|AKI").select("D|AKR")
-            zaznamyAkcionariOsoby.forEach() {
-                var address =  vratAdresu(it.select("D|FO"))
-                if(!(it.select("D|FO").select("D|P").text()=="")) {
-                    listAkcionariOsoby.add(vlozOsobu(it,address))
-                }
-            }
-
-            //akcionari firmy - zapodmínkovat, že kdy to nenajde napřiklad D/PO nějaký text, tak se to vůbec nebude vkládat
-            val listAkcionariFirmy: MutableList<Firma> = mutableListOf<Firma>()
-            val zaznamyAkcionariFirmy = document.select("D|AKI").select("D|AKR")
-            Log.i("chybaaa: ",document.toString())
-            zaznamyAkcionariFirmy.forEach() {
-                var address =  vratAdresu(it.select("D|PO"))
-                Log.i("chybaaa2: ",it.select("D|PO").select("D|OF").text())
-                if(!(it.select("D|PO").select("D|OF").text()=="")) {
-                    listAkcionariFirmy.add(vlozFirmu(it,address))
-                }
-            }
 
             //likvidace osoby - zapodmínkovat, že kdy to nenajde napřiklad D/FO nějaký text, tak se to vůbec nebude vkládat
             val listLikvidaceOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
@@ -403,8 +344,8 @@ class RozparzovaniDatDotazOR {
                 listAkcionariFirmy, listLikvidaceOsoby, listLikvidaceFirmy,stavSubjektu, pravniForma,
                 datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,listVedouciOrganizacniSlozkyOsoby)*/
             val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
-                mutableListOf<String>(),listStatutarniOrganOsoby,mutableListOf<Firma>(),mutableListOf<String>(),listProkura,
-                listDozorciRada,listspolecniciSVklademOsoby, mutableListOf<Firma>(), listAkcionariOsoby,
+                listOstatniSkutecnosti,listStatutarniOrganOsoby,listStatutarniOrganFirmy,listStatutarniOrganSkutecnosti,listProkura,
+                listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
                 listAkcionariFirmy, mutableListOf<Osoba>(), mutableListOf<Firma>(),stavSubjektu, pravniForma,
                 datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,mutableListOf<Osoba>())
             return companyData
@@ -779,7 +720,7 @@ class RozparzovaniDatDotazOR {
                 it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optJSONObject("adresa")?.optString("textovaAdresa", " ") ?: "",
                 it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: "",
                 it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ") ?: "",
-                it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: ""
+                it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")?.optString("hodnota", " ") ?: ""
             )
         }
 
