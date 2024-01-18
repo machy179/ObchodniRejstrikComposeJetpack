@@ -9,6 +9,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
+import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazOR
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRZP
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyDataRZP
@@ -18,6 +19,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
@@ -37,23 +41,40 @@ class RZPViewModel : ViewModel() {
     private val _buttonClickedRZP = MutableStateFlow<Boolean>(false)
     val buttonClickedRZP: StateFlow<Boolean> =_buttonClickedRZP
 
-    fun loadDataIcoRZP(ico: String) {
+    fun loadDataIcoRZP(ico: String, context: Context) {
         _buttonClickedRZP.value = false
         _nacitaniRZP.value = true
         viewModelScope.launch {
             try {
                 Log.i("aaaa", "ICO: " + ico)
-                val document = getAresDataIcoRZP(ico)
-                if (document != null) {
-                    _companyDataFromRZP.value = RozparzovaniDatDotazRZP.vratCompanyData(document)
-                    if (_companyDataFromRZP.value.ico == " ") {
-                        _errorMessageRZP.value = RozparzovaniDatDotazRZP.vratErrorHlasku(document)
-                    } else  {
-                        _errorMessageRZP.value = " "
-                        _buttonClickedRZP.value = true
+                val document = null
+                val documentString = getAresDataIcoRZP(ico)
+                Log.i("RopzarzovaniOR: documentString:",documentString.toString())
+                val jsonObject = JSONObject(documentString)
+                val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
+                if (kodValue=="") {
+                    Log.i("RopzarzovaniOR: ","222")
+                    if (documentString != null) {
+                        val zaznamyArray = jsonObject.getJSONArray("zaznamy")
+                        if (zaznamyArray.length() > 0) {
+                            val firstZaznamObject = zaznamyArray.getJSONObject(0)
+                            Log.i("RopzarzovaniOR: ","333")
+                            _companyDataFromRZP.value = RozparzovaniDatDotazRZP.vratCompanyData(firstZaznamObject, context)
+                            Log.i("RopzarzovaniOR: ","444")
+                            _errorMessageRZP.value = " "
+                            _buttonClickedRZP.value = true
+                        } else {
+                            _errorMessageRZP.value = "Žádný záznam k subjektu vARESu"
+                            Log.i("RopzarzovaniOR: ","555")
+                        }
+
+                    } else {
+                        _errorMessageRZP.value = "Nepodařilo se načíst data z ARESu"
+                        Log.i("RopzarzovaniOR: ","666")
                     }
                 } else {
-                    _errorMessageRZP.value = "Nepodařilo se načíst data z ARESu"
+                    _errorMessageRZP.value = jsonObject.optString("popis").replace("&nbsp;", "") //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
+                    Log.i("RopzarzovaniOR: ","777")
                 }
 
             } catch (e: Exception) {
@@ -64,16 +85,22 @@ class RZPViewModel : ViewModel() {
         }
     }
 
-    private suspend fun getAresDataIcoRZP(ico: String): Document? {
-        val url = "https://wwwinfo.mfcr.cz/cgi-bin/ares/darv_rzp.cgi?ico=$ico"
+    private suspend fun getAresDataIcoRZP(ico: String): String? {
+        //val url = "https://wwwinfo.mfcr.cz/cgi-bin/ares/darv_rzp.cgi?ico=$ico"
+        val url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-rzp/$ico"
+        val client = OkHttpClient()
         return try {
             withContext(Dispatchers.IO) {
-                Log.i("aaaa", "10")
-/*                Jsoup.connect(url)
-                    .get()*/
-                //výše uvedené mi například při výpisu ZEPO Bohuslavice u dozorčí rady házelo v tagu &lt a dozorčí radu to nevypsalo
-                //tady jsem našel níže uvedené řešení: https://stackoverflow.com/questions/43773855/jsoup-parser-not-working-as-expected-for-particular-url-only
-                Jsoup.parse(URL(url).openStream(), "UTF-8", "", Parser.xmlParser());
+                val request = Request.Builder()
+                    .url(url)
+                    .header("User-Agent", "Mozilla")
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .build()
+
+                val response = client.newCall(request).execute()
+                response.body?.string()
+
 
             }
         } catch (e: Exception) {

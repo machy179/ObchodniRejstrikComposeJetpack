@@ -426,8 +426,8 @@ fun SeznamOsobAFirem(
                                         ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, true, true)
                                         if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
                                         if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)
-                                        if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad+" Kč", false)
-                                        if(!(it.splaceno=="")) ObycPolozkaNadpisHodnota("Splaceno:", it.splaceno+" %", false)
+                                        if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad, false)
+                                        if(!(it.splaceno=="")) ObycPolozkaNadpisHodnota("Splaceno:", it.splaceno, false)
                                         if(!(it.obchodniPodil=="")) ObycPolozkaNadpisHodnota("Obchodní podíl:", it.obchodniPodil, false)
 
                                         Column(modifier = Modifier) {
@@ -480,8 +480,8 @@ fun SeznamOsobAFirem(
                                         ObycPolozkaNadpisHodnota("Sídlo:", it.address, false, true)
 /*                                    if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
                                     if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)*/
-                                        if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad+" Kč", false)
-                                        if(!(it.splaceno=="")) ObycPolozkaNadpisHodnota("Splaceno:", it.splaceno+" %", false)
+                                        if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad, false)
+                                        if(!(it.splaceno=="")) ObycPolozkaNadpisHodnota("Splaceno:", it.splaceno, false)
                                         if(!(it.obchodniPodil=="")) ObycPolozkaNadpisHodnota("Obchodní podíl:", it.obchodniPodil, false)
 /*
                                     Column(modifier = Modifier) {

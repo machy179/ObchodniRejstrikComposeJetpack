@@ -54,7 +54,8 @@ fun VypisFiremSeznamObrazovka (
                     modifier = Modifier
                         .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
                         .fillMaxWidth()
-                        .clickable {onCardClicked(it.ico)
+                        .clickable {
+                            onCardClicked(it.ico)
                         },
 
                     ) {

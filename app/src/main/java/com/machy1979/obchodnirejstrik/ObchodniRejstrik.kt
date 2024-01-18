@@ -1,4 +1,5 @@
 package com.machy1979.obchodnirejstrik
+import android.util.Log
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.Icon
 
@@ -215,7 +216,7 @@ fun ObchodniRejstrikApp2(
                     hledejDleIcoButton = {
                         viewModel.loadDataIco(it)
                         resViewModel.loadDataIcoRES(it)
-                        rzpViewModel.loadDataIcoRZP(it)
+                        rzpViewModel.loadDataIcoRZP(it, context)
                         orViewModel.loadDataIcoOR(it,context)
                         navController.navigate(ObchodniRejstrik.VypisIco.name)
                     },
@@ -256,11 +257,16 @@ fun ObchodniRejstrikApp2(
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     },
                     onCardClicked = {
-                        viewModel.loadDataIco(it)
-                        resViewModel.loadDataIcoRES(it)
-                        rzpViewModel.loadDataIcoRZP(it)
-                        orViewModel.loadDataIcoOR(it, context)
-                        navController.navigate(ObchodniRejstrik.VypisIco.name)
+                        Log.i("clickedIt: ","111")
+                        Log.i("clickedIt: ",it)
+                        if (!it.equals(" ")) {
+                            Log.i("clickedIt: ","222")
+                            viewModel.loadDataIco(it)
+                            resViewModel.loadDataIcoRES(it)
+                            rzpViewModel.loadDataIcoRZP(it, context)
+                            orViewModel.loadDataIcoOR(it, context)
+                            navController.navigate(ObchodniRejstrik.VypisIco.name)
+                        }
                     }
                 )
             }
@@ -273,7 +279,7 @@ fun ObchodniRejstrikApp2(
                     onClickedButtonIcoSubjekt = {  clickedIco -> //tato funkce je pro butto ve výpisu, kde je u jednotlivých subjektů ico, aby šlo prokliknout
                         viewModel.loadDataIco(clickedIco)
                         resViewModel.loadDataIcoRES(clickedIco)
-                        rzpViewModel.loadDataIcoRZP(clickedIco)
+                        rzpViewModel.loadDataIcoRZP(clickedIco, context)
                         orViewModel.loadDataIcoOR(clickedIco, context)
                         navController.navigate(ObchodniRejstrik.VypisIco.name)
                                                 },
