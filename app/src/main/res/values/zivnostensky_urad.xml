@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="zivnostensky_urad">
+        <item>310001,Úřad městské části Praha 1</item>
+        <item>310002,Úřad městské části Praha 2</item>
+        <item>310003,Úřad městské části Praha 3</item>
+        <item>310004,Úřad městské části Praha 4</item>
+        <item>310005,Úřad městské části Praha 5</item>
+        <item>310006,Úřad městské části Praha 6</item>
+        <item>310007,Úřad městské části Praha 7</item>
+        <item>310008,Úřad městské části Praha 8</item>
+        <item>310009,Úřad městské části Praha 9</item>
+        <item>310010,Úřad městské části Praha 10</item>
+        <item>310011,Úřad městské části Praha 11</item>
+        <item>310012,Úřad městské části Praha 12</item>
+        <item>310013,Úřad městské části Praha 13</item>
+        <item>310014,Úřad městské části Praha 20</item>
+        <item>310015,Úřad městské části Praha 14</item>
+        <item>310016,Úřad městské části Praha 18</item>
+        <item>310020,Úřad městské části Praha 16</item>
+        <item>310024,Úřad městské části Praha 19</item>
+        <item>310025,Úřad městské části Praha 21</item>
+        <item>310026,Úřad městské části Praha 15</item>
+        <item>310027,Úřad městské části Praha 22</item>
+        <item>310028,Úřad městské části Praha 17</item>
+        <item>320101,Městský úřad Benešov</item>
+        <item>320102,Městský úřad Votice</item>
+        <item>320104,Městský úřad Vlašim</item>
+        <item>320201,Městský úřad Beroun</item>
+        <item>320202,Městský úřad Hořovice</item>
+        <item>320301,Magistrát města Kladna</item>
+        <item>320302,Městský úřad Slaný</item>
+        <item>320401,Městský úřad Kolín</item>
+        <item>320402,Městský úřad Český Brod</item>
+        <item>320501,Městský úřad Kutná Hora</item>
+        <item>320502,Městský úřad Čáslav</item>
+        <item>320601,Městský úřad Mělník</item>
+        <item>320602,Městský úřad Kralupy nad Vltavou</item>
+        <item>320603,Městský úřad Neratovice</item>
+        <item>320704,Magistrát města Mladá Boleslav</item>
+        <item>320705,Městský úřad Mnichovo Hradiště</item>
+        <item>320820,Městský úřad Nymburk</item>
+        <item>320830,Městský úřad Poděbrady</item>
+        <item>320840,Městský úřad Lysá nad Labem</item>
+        <item>320901,Městský úřad Brandýs nad Labem</item>
+        <item>320903,Městský úřad Říčany</item>
+        <item>321001,Městský úřad Černošice</item>
+        <item>321102,Městský úřad Příbram</item>
+        <item>321103,Městský úřad Sedlčany</item>
+        <item>321104,Městský úřad Dobříš</item>
+        <item>321201,Městský úřad Rakovník</item>
+        <item>330101,Magistrát města Českých Budějovic</item>
+        <item>330106,Městský úřad Trhové Sviny</item>
+        <item>330107,Městský úřad Týn nad Vltavou</item>
+        <item>330201,Městský úřad Český Krumlov</item>
+        <item>330219,Městský úřad Kaplice</item>
+        <item>330302,Městský úřad Dačice</item>
+        <item>330303,Městský úřad Jindřichův Hradec</item>
+        <item>330307,Městský úřad Třeboň</item>
+        <item>330402,Městský úřad Pelhřimov</item>
+        <item>330403,Městský úřad Humpolec</item>
+        <item>330404,Městský úřad Pacov</item>
+        <item>330501,Městský úřad Písek</item>
+        <item>330532,Městský úřad Milevsko</item>
+        <item>330601,Městský úřad Prachatice</item>
+        <item>330622,Městský úřad Vimperk</item>
+        <item>330702,Městský úřad Strakonice</item>
+        <item>330703,Městský úřad Blatná</item>
+        <item>330705,Městský úřad Vodňany</item>
+        <item>330801,Městský úřad Tábor</item>
+        <item>330805,Městský úřad Soběslav</item>
+        <item>340101,Městský úřad Domažlice</item>
+        <item>340106,Městský úřad Horšovský Týn</item>
+        <item>340201,Městský úřad Cheb</item>
+        <item>340202,Městský úřad Aš</item>
+        <item>340203,Městský úřad Mariánské Lázně</item>
+        <item>340301,Magistrát města Karlovy Vary</item>
+        <item>340302,Městský úřad Ostrov</item>
+        <item>340401,Městský úřad Klatovy</item>
+        <item>340402,Městský úřad Sušice</item>
+        <item>340403,Městský úřad Horažďovice</item>
+        <item>340500,Magistrát města Plzně</item>
+        <item>340602,Městský úřad Blovice</item>
+        <item>340604,Městský úřad Nepomuk</item>
+        <item>340605,Městský úřad Přeštice</item>
+        <item>340607,Městský úřad Stod</item>
+        <item>340701,Městský úřad Kralovice</item>
+        <item>340704,Městský úřad Nýřany</item>
+        <item>340801,Městský úřad Rokycany</item>
+        <item>340902,Městský úřad Kraslice</item>
+        <item>340906,Městský úřad Sokolov</item>
+        <item>341001,Městský úřad Tachov</item>
+        <item>341002,Městský úřad Stříbro</item>
+        <item>350101,Městský úřad Česká Lípa</item>
+        <item>350106,Městský úřad Nový Bor</item>
+        <item>350201,Městský úřad Děčín</item>
+        <item>350202,Městský úřad Rumburk</item>
+        <item>350206,Městský úřad Varnsdorf</item>
+        <item>350302,Městský úřad Chomutov</item>
+        <item>350304,Městský úřad Kadaň</item>
+        <item>350402,Městský úřad Jablonec nad Nisou</item>
+        <item>350403,Městský úřad Tanvald</item>
+        <item>350404,Městský úřad Železný Brod</item>
+        <item>350502,Městský úřad Frýdlant</item>
+        <item>350506,Magistrát města Liberce</item>
+        <item>350601,Městský úřad Litoměřice</item>
+        <item>350602,Městský úřad Roudnice nad Labem</item>
+        <item>350603,Městský úřad Lovosice</item>
+        <item>350701,Městský úřad Louny</item>
+        <item>350702,Městský úřad Žatec</item>
+        <item>350703,Městský úřad Podbořany</item>
+        <item>350801,Magistrát města Mostu</item>
+        <item>350802,Městský úřad Litvínov</item>
+        <item>350901,Magistrát města Teplice</item>
+        <item>350902,Městský úřad Bílina</item>
+        <item>351001,Magistrát města Ústí nad Labem</item>
+        <item>360101,Městský úřad Havlíčkův Brod</item>
+        <item>360102,Městský úřad Chotěboř</item>
+        <item>360104,Městský úřad Světlá nad Sázavou</item>
+        <item>360201,Magistrát města Hradce Králové</item>
+        <item>360203,Městský úřad Nový Bydžov</item>
+        <item>360301,Městský úřad Hlinsko</item>
+        <item>360304,Městský úřad Chrudim</item>
+        <item>360401,Městský úřad Jičín</item>
+        <item>360402,Městský úřad Hořice</item>
+        <item>360403,Městský úřad Nová Paka</item>
+        <item>360501,Městský úřad Náchod</item>
+        <item>360504,Městský úřad Nové Město nad Metují</item>
+        <item>360505,Městský úřad Broumov</item>
+        <item>360509,Městský úřad Jaroměř</item>
+        <item>360601,Magistrát města Pardubic</item>
+        <item>360603,Městský úřad Přelouč</item>
+        <item>360604,Městský úřad Holice</item>
+        <item>360701,Městský úřad Dobruška</item>
+        <item>360702,Městský úřad Kostelec nad Orlicí</item>
+        <item>360705,Městský úřad Rychnov nad Kněžnou</item>
+        <item>360802,Městský úřad Semily</item>
+        <item>360803,Městský úřad Turnov</item>
+        <item>360804,Městský úřad Jilemnice</item>
+        <item>360901,Městský úřad Svitavy</item>
+        <item>360902,Městský úřad Polička</item>
+        <item>360903,Městský úřad Litomyšl</item>
+        <item>360960,Městský úřad Moravská Třebová</item>
+        <item>361001,Městský úřad Dvůr Králové nad Labem</item>
+        <item>361005,Městský úřad Trutnov</item>
+        <item>361007,Městský úřad Vrchlabí</item>
+        <item>361101,Městský úřad Ústí nad Orlicí</item>
+        <item>361102,Městský úřad Česká Třebová</item>
+        <item>361105,Městský úřad Králíky</item>
+        <item>361106,Městský úřad Lanškroun</item>
+        <item>361108,Městský úřad Vysoké Mýto</item>
+        <item>361109,Městský úřad Žamberk</item>
+        <item>370101,Městský úřad Blansko</item>
+        <item>370102,Městský úřad Boskovice</item>
+        <item>370200,Magistrát města Brna</item>
+        <item>370301,Městský úřad Ivančice</item>
+        <item>370302,Městský úřad Kuřim</item>
+        <item>370303,Městský úřad Rosice</item>
+        <item>370304,Městský úřad Šlapanice</item>
+        <item>370305,Městský úřad Tišnov</item>
+        <item>370306,Městský úřad Židlochovice</item>
+        <item>370401,Městský úřad Břeclav</item>
+        <item>370402,Městský úřad Mikulov</item>
+        <item>370403,Městský úřad Hustopeče</item>
+        <item>370404,Městský úřad Pohořelice</item>
+        <item>370502,Magistrát města Zlína</item>
+        <item>370503,Městský úřad Otrokovice</item>
+        <item>370504,Městský úřad Luhačovice</item>
+        <item>370505,Městský úřad Valašské Klobouky</item>
+        <item>370507,Městský úřad Vizovice</item>
+        <item>370602,Městský úřad Hodonín</item>
+        <item>370603,Městský úřad Kyjov</item>
+        <item>370604,Městský úřad Veselí nad Moravou</item>
+        <item>370701,Magistrát města Jihlavy</item>
+        <item>370703,Městský úřad Telč</item>
+        <item>370801,Městský úřad Bystřice pod Hostýnem</item>
+        <item>370802,Městský úřad Holešov</item>
+        <item>370806,Městský úřad Kroměříž</item>
+        <item>370901,Městský úřad Prostějov</item>
+        <item>370902,Městský úřad Konice</item>
+        <item>371002,Městský úřad Třebíč</item>
+        <item>371003,Městský úřad Náměšť nad Oslavou</item>
+        <item>371004,Městský úřad Moravské Budějovice</item>
+        <item>371101,Městský úřad Uherské Hradiště</item>
+        <item>371102,Městský úřad Uherský Brod</item>
+        <item>371201,Městský úřad Vyškov</item>
+        <item>371202,Městský úřad Slavkov u Brna</item>
+        <item>371203,Městský úřad Bučovice</item>
+        <item>371301,Městský úřad Znojmo</item>
+        <item>371302,Městský úřad Moravský Krumlov</item>
+        <item>371401,Městský úřad Žďár nad Sázavou</item>
+        <item>371402,Městský úřad Velké Meziříčí</item>
+        <item>371403,Městský úřad Nové Město na Moravě</item>
+        <item>371404,Městský úřad Bystřice nad Pernštejnem</item>
+        <item>380101,Městský úřad Bruntál</item>
+        <item>380102,Městský úřad Krnov</item>
+        <item>380103,Městský úřad Rýmařov</item>
+        <item>380202,Městský úřad Frýdek-Místek</item>
+        <item>380203,Městský úřad Třinec</item>
+        <item>380204,Městský úřad Jablunkov</item>
+        <item>380205,Městský úřad Frýdlant n. Ostr.</item>
+        <item>380301,Městský úřad Bohumín</item>
+        <item>380302,Městský úřad Český Těšín</item>
+        <item>380303,Magistrát města Havířova</item>
+        <item>380304,Magistrát města Karviné</item>
+        <item>380305,Městský úřad Orlová</item>
+        <item>380402,Městský úřad Nový Jičín</item>
+        <item>380403,Městský úřad Kopřivnice</item>
+        <item>380404,Městský úřad Bílovec</item>
+        <item>380405,Městský úřad Odry</item>
+        <item>380407,Městský úřad Frenštát pod Radhoštěm</item>
+        <item>380501,Magistrát města Olomouce</item>
+        <item>380503,Městský úřad Uničov</item>
+        <item>380504,Městský úřad Litovel</item>
+        <item>380509,Městský úřad Šternberk</item>
+        <item>380601,Magistrát města Opavy</item>
+        <item>380602,Městský úřad Vítkov</item>
+        <item>380603,Městský úřad Hlučín</item>
+        <item>380604,Městský úřad Kravaře</item>
+        <item>380701,Magistrát města Ostravy</item>
+        <item>380802,Městský úřad Přerov</item>
+        <item>380803,Městský úřad Hranice</item>
+        <item>380805,Městský úřad Lipník n. Bečvou</item>
+        <item>380901,Městský úřad Šumperk</item>
+        <item>380902,Městský úřad Zábřeh</item>
+        <item>380904,Městský úřad Mohelnice</item>
+        <item>381004,Městský úřad Valašské Meziříčí</item>
+        <item>381005,Městský úřad Rožnov pod Radhoštěm</item>
+        <item>381006,Městský úřad Vsetín</item>
+        <item>381101,Městský úřad Jeseník</item>
+    </string-array>
+</resources>

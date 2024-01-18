@@ -340,7 +340,27 @@ class RozparzovaniDatDotazOR {
             }
 
 
-            */
+            //vedoucí organizační složky
+            Log.i("orgSlozka: ","1")
+            val listVedouciOrganizacniSlozkyOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+            Log.i("orgSlozka: ","2")
+            val zaznamyVedouciOrganizacniSlozkyOsoby = document.select("D|OZY").select("D|OZ")
+            Log.i("orgSlozka: ","3")
+            zaznamyVedouciOrganizacniSlozkyOsoby.forEach() {
+                Log.i("orgSlozka: ","444")
+                var address =  vratAdresu(it.select("D|FO"))
+                if(!(it.select("D|FO").select("D|P").text()=="")) {
+                    listVedouciOrganizacniSlozkyOsoby.add(vlozOsobu(it,address))
+                }
+            }
+
+
+            //konečné vložení do companyData
+            val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
+                listOstatniSkutecnosti,listStatutarniOrganOsoby, listStatutarniOrganFirmy,listStatutarniOrganSkutecnosti,listProkura,
+                listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
+                listAkcionariFirmy, listLikvidaceOsoby, listLikvidaceFirmy,stavSubjektu, pravniForma,
+                datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,listVedouciOrganizacniSlozkyOsoby)*/
             val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
                 listOstatniSkutecnosti,listStatutarniOrganOsoby,listStatutarniOrganFirmy,listStatutarniOrganSkutecnosti,listProkura,
                 listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
@@ -349,12 +369,7 @@ class RozparzovaniDatDotazOR {
             return companyData
         }
 
-        fun vratErrorHlasku(document: Document): String {
-            val errorHlaska = document.select("D|ET").first()?.text() ?: " "
-            return errorHlaska
-        }
-
-        fun upravFinancniCastku(input: String): String {
+        private fun upravFinancniCastku(input: String): String {
             // Odstranění všeho za ";"
             val cleanedString = input.substringBefore(";")
             // Odstranění všech nečíselných znaků
@@ -368,7 +383,7 @@ class RozparzovaniDatDotazOR {
             return formattedString
         }
 
-        fun upravSplaceni(input: String, typObnosu: String): String { //nakonec použito i pro velikost podílu
+        private fun upravSplaceni(input: String, typObnosu: String): String { //nakonec použito i pro velikost podílu
             Log.i("upravSplaceni: ",input+"---"+typObnosu)
             var formattedString: String = ""
             // Odstranění všeho za ";"
@@ -387,8 +402,6 @@ class RozparzovaniDatDotazOR {
 
             return formattedString
         }
-
-
 
         private fun vlozOsobu(it: JSONObject): Osoba {
             val funkce = it?.optJSONObject("clenstvi")?.optJSONObject("funkce")?.optString("nazev", " ") ?: ""

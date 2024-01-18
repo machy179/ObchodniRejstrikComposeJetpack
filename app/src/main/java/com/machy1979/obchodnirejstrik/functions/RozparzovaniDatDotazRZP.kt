@@ -44,7 +44,16 @@ class RozparzovaniDatDotazRZP {
                 "F" -> typSubjektu ="fyzická osoba"
                 "P" -> typSubjektu ="právnická osoba"
             }
-            val evidujiciUrad= jsonObject.optString("zivnostenskyUrad", " ") ?: " " //musím ještě udělat číselník a namapovat to obdobně, jako právní forma
+
+            //evdidujici úřad
+            val evidujiciUradZnacka= jsonObject.optString("zivnostenskyUrad", " ") ?: " " //musím ještě udělat číselník a namapovat to obdobně, jako právní forma
+            val evidujiciUradyCiselnikArray = context.resources.getStringArray(R.array.zivnostensky_urad)
+            val evidujiciUradyCiselnikMap = evidujiciUradyCiselnikArray.map { it.split(",") }.associate { it[0] to it[1] }
+            val evidujiciUrad = evidujiciUradyCiselnikMap[evidujiciUradZnacka] ?: evidujiciUradZnacka
+
+
+
+
             val vznikPrvniZivnosti= jsonObject.optString("datumVzniku", " ") ?: " "
 
             //osoba podnikatel
@@ -95,119 +104,17 @@ class RozparzovaniDatDotazRZP {
             }
 
 
-/*            //osoby
-            val listOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
-            val zaznamyOsoby = document.select("D|Osoby").select("D|Osoba")
-            zaznamyOsoby.forEach() {
-                var address =  ""
-                listOsoby.add(vlozOsobu(it,address))
-                when (listOsoby.last().funkce) {
-                    "P" -> listOsoby.last().funkce="podnikatel"
-                    "S" -> listOsoby.last().funkce="člen statutárního orgánu"
-                }
-
-            }
-
-            //živnosti
-            val listZivnosti: MutableList<Zivnosti> = mutableListOf<Zivnosti>()
-            val zaznamyZivnosti = document.select("D|ZI").select("D|Z")
-            zaznamyZivnosti.forEach() {
-                val nazevZivnosti = it.select("D|PP").first()?.text() ?: " "
-                var druhZivnosti = it.select("D|Druh").first()?.text() ?: " "
-                when (druhZivnosti) {
-                    "R" -> druhZivnosti ="Ohlašovací řemeslná"
-                    "L" -> druhZivnosti="Ohlašovací volná"
-                    "K" -> druhZivnosti="Koncesovaná"
-                    "V" -> druhZivnosti="Ohlašovací vázaná"
-                }
-                val vznikOpravneni = it.select("D|Vznik").first()?.text() ?: " "
-                val obory: MutableList<String> = mutableListOf<String>()
-                val zaznamyObory = it.select("D|T")
-                zaznamyObory.forEach() {
-                    obory.add(it.text())
-                }
-
-                listZivnosti.add(Zivnosti(nazevZivnosti, druhZivnosti,vznikOpravneni,obory))
-            }
-
-
-            val companyDataRZP = CompanyDataRZP(name, ico,"", address, pravniForma,typSubjektu,evidujiciUrad,vznikPrvniZivnosti,
-            listOsoby,listZivnosti)*/
-
             val companyDataRZP = CompanyDataRZP(name, ico,"", address, pravniForma,typSubjektu,evidujiciUrad,vznikPrvniZivnosti,
                 listOsoby,listZivnosti)
 
             return companyDataRZP
         }
 
-        private fun vlozOsobu(it: Element?, address: String, listZaznamy: MutableList<String> = mutableListOf<String>()): Osoba {
-            return Osoba(
-                it?.select("D|TP")?.text() ?: "",
-                it?.select("D|J")?.text() ?: "",
-                it?.select("D|P")?.text()?: "",
-                it?.select("D|Role")?.text() ?: "",
-
-                it?.select("D|DN")?.text()?: "",
-                address,
-                listZaznamy,
-                it?.select("D|CLE")?.text() ?: "",
-                it?.select("D|VF")?.text() ?: "",
-                it?.select("D|VK")?.select("D|KC")?.text() ?: "",
-                it?.select("D|SPL")?.select("D|PRC")?.text() ?: "",
-                it?.select("D|OP")?.select("D|T")?.text() ?: ""
-
-            )
-        }
-
-        fun vratErrorHlasku(document: Document): String {
-            val errorHlaska = document.select("D|ET").first()?.text() ?: " "
-            return errorHlaska
-        }
-
-        fun vratAdresu(document: Elements): String {
-            var address = document.select("D|NU").first()?.text() ?: ""
-            document.select("D|CD").first()?.text()?.let {
-                if(address=="") {
-                    address =address +it
-                } else address =address +" "+it
-            }
-            document.select("D|NCO").first()?.text()?.let {
-                address =address +", "+it
-            }
-            document.select("D|N").first()?.text()?.let {
-                address =address +", "+it
-            }
-            document.select("D|PSC").first()?.text()?.let {
-                address =address +", "+it
-            }
-            document.select("D|NS").first()?.text()?.let {
-                address =address +", "+it
-            }
-
-
-/*            address =address +" "+ (document.select("D|CD").first()?.text() ?: "")//
-            address =address +", "+ (document.select("D|NCO").first()?.text() ?: " ")
-            address =address +", "+ (document.select("D|N").first()?.text() ?: " ")
-            address =address +", "+ (document.select("D|NS").first()?.text() ?: " ")*/
-            return address
-        }
-
-        private fun vlozFirmu(it: Element?, address: String): Firma {
-            return Firma(
-                it?.select("D|PO")?.select("D|ICO")?.text()?: "",
-                it?.select("D|PO")?.select("D|OF")?.text() ?: "",
-                address,
-                it?.select("D|VK")?.select("D|KC")?.text() ?: "",
-                it?.select("D|SPL")?.select("D|PRC")?.text() ?: "",
-                it?.select("D|OP")?.select("D|T")?.text() ?: ""
-            )
-        }
-
         private fun vlozOsobu(it: JSONObject): Osoba {
             var typAngazma = it?.optString("typAngazma", " ") ?: ""
             when (typAngazma) {
-                "PODNIKATEL_RZP" -> typAngazma ="podnikatel"
-                "STATUTARNI_ZASTUPCE_RZP" -> typAngazma ="statutární zástupce"
+                "PODNIKATEL_RZP" -> typAngazma ="Podnikatel"
+                "STATUTARNI_ZASTUPCE_RZP" -> typAngazma ="Statutární zástupce"
             }
 
             return Osoba(

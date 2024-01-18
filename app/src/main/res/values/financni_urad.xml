@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="financni_urad">
+        <item>000,Generální finanční ředitelství</item>
+        <item>001,Územní pracoviště pro Prahu 1</item>
+        <item>002,Územní pracoviště pro Prahu 2</item>
+        <item>003,Územní pracoviště pro Prahu 3</item>
+        <item>004,Územní pracoviště pro Prahu 4</item>
+        <item>005,Územní pracoviště pro Prahu 5</item>
+        <item>006,Územní pracoviště pro Prahu 6</item>
+        <item>007,Územní pracoviště pro Prahu 7</item>
+        <item>008,Územní pracoviště pro Prahu 8</item>
+        <item>009,Územní pracoviště pro Prahu 9</item>
+        <item>010,Územní pracoviště pro Prahu 10</item>
+        <item>011,Územní pracoviště pro Prahu - Jižní Město</item>
+        <item>012,Územní pracoviště v Praze - Modřanech</item>
+        <item>013,Specializovaný finanční úřad</item>
+        <item>021,Územní pracoviště v Benešově</item>
+        <item>022,Územní pracoviště ve Vlašimi</item>
+        <item>026,Územní pracoviště v Berouně</item>
+        <item>027,Územní pracoviště v Hořovicích</item>
+        <item>030,Územní pracoviště v Kladně</item>
+        <item>031,Územní pracoviště ve Slaném</item>
+        <item>034,Územní pracoviště v Kolíně</item>
+        <item>038,Územní pracoviště v Kutné Hoře</item>
+        <item>039,Územní pracoviště v Čáslavi</item>
+        <item>043,Územní pracoviště v Mělníce</item>
+        <item>044,Územní pracoviště v Kralupech nad Vltavou</item>
+        <item>048,Územní pracoviště v Mladé Boleslavi</item>
+        <item>053,Územní pracoviště v Nymburku</item>
+        <item>055,Územní pracoviště v Poděbradech</item>
+        <item>057,"Územní pracoviště Praha-východ Územní pracoviště v Brandýse n.L.-Staré Bol."</item>
+        <item>059,Územní pracoviště v Říčanech</item>
+        <item>060,Územní pracoviště Praha-západ</item>
+        <item>063,Územní pracoviště v Příbrami</item>
+        <item>069,Územní pracoviště v Rakovníku</item>
+        <item>077,Územní pracoviště v Českých Budějovicích</item>
+        <item>082,Územní pracoviště v Českém Krumlově</item>
+        <item>086,Územní pracoviště v Jindřichově Hradci</item>
+        <item>091,Územní pracoviště v Pelhřimově</item>
+        <item>097,Územní pracoviště v Písku</item>
+        <item>101,Územní pracoviště v Prachaticích</item>
+        <item>105,Územní pracoviště ve Strakonicích</item>
+        <item>110,Územní pracoviště v Táboře</item>
+        <item>118,Územní pracoviště v Domažlicích</item>
+        <item>123,Územní pracoviště v Chebu</item>
+        <item>128,Územní pracoviště v Karlových Varech</item>
+        <item>133,Územní pracoviště v Klatovech</item>
+        <item>138,Územní pracoviště v Plzni</item>
+        <item>140,Územní pracoviště Plzeň-jih</item>
+        <item>145,Územní pracoviště Plzeň-sever</item>
+        <item>150,Územní pracoviště v Rokycanech</item>
+        <item>155,Územní pracoviště v Sokolově</item>
+        <item>160,Územní pracoviště v Tachově</item>
+        <item>172,Územní pracoviště v České Lípě</item>
+        <item>178,Územní pracoviště v Děčíně</item>
+        <item>179,Územní pracoviště v Rumburku</item>
+        <item>182,Územní pracoviště v Chomutově</item>
+        <item>183,Územní pracoviště v Kadani</item>
+        <item>187,Územní pracoviště v Jablonci nad Nisou</item>
+        <item>192,Územní pracoviště v Liberci</item>
+        <item>196,Územní pracoviště v Litoměřicích</item>
+        <item>198,Územní pracoviště v Roudnici nad Labem</item>
+        <item>201,Územní pracoviště v Lounech</item>
+        <item>203,Územní pracoviště v Žatci</item>
+        <item>206,Územní pracoviště v Mostě</item>
+        <item>210,Územní pracoviště v Teplicích</item>
+        <item>214,Územní pracoviště v Ústí nad Labem</item>
+        <item>223,Územní pracoviště v Havlíčkově Brodě</item>
+        <item>228,Územní pracoviště v Hradci Králové</item>
+        <item>233,Územní pracoviště v Chrudimi</item>
+        <item>238,Územní pracoviště v Jičíně</item>
+        <item>243,Územní pracoviště v Náchodě</item>
+        <item>248,Územní pracoviště v Pardubicích</item>
+        <item>253,Územní pracoviště v Rychnově nad Kněžnou</item>
+        <item>258,Územní pracoviště v Semilech</item>
+        <item>260,Územní pracoviště v Turnově</item>
+        <item>263,Územní pracoviště ve Svitavách</item>
+        <item>268,Územní pracoviště v Trutnově</item>
+        <item>273,Územní pracoviště v Ústí nad Orlicí</item>
+        <item>274,Územní pracoviště ve Vysokém Mýtě</item>
+        <item>275,Územní pracoviště v Žamberku</item>
+        <item>283,Územní pracoviště v Blansku</item>
+        <item>284,Územní pracoviště v Boskovicích</item>
+        <item>288,Územní pracoviště Brno I</item>
+        <item>289,Územní pracoviště Brno II</item>
+        <item>290,Územní pracoviště Brno III</item>
+        <item>291,Územní pracoviště Brno IV</item>
+        <item>293,Územní pracoviště Brno-venkov</item>
+        <item>298,Územní pracoviště v Břeclavi</item>
+        <item>299,Územní pracoviště v Hustopečích</item>
+        <item>303,Územní pracoviště ve Zlíně</item>
+        <item>305,Územní pracoviště v Otrokovicích</item>
+        <item>309,Územní pracoviště v Hodoníně</item>
+        <item>310,Územní pracoviště v Kyjově</item>
+        <item>311,Územní pracoviště ve Veselí nad Moravou</item>
+        <item>314,Územní pracoviště v Jihlavě</item>
+        <item>320,Územní pracoviště v Kroměříži</item>
+        <item>325,Územní pracoviště v Prostějově</item>
+        <item>330,Územní pracoviště v Třebíči</item>
+        <item>336,Územní pracoviště v Uherském Hradišti</item>
+        <item>338,Územní pracoviště v Uherském Brodě</item>
+        <item>341,Územní pracoviště ve Vyškově</item>
+        <item>346,Územní pracoviště ve Znojmě</item>
+        <item>351,Územní pracoviště ve Žďáru nad Sázavou</item>
+        <item>353,Územní pracoviště ve Velkém Meziříčí</item>
+        <item>358,Územní pracoviště v Bruntále</item>
+        <item>359,Územní pracoviště v Krnově</item>
+        <item>362,Územní pracoviště ve Frýdku-Místku</item>
+        <item>364,Územní pracoviště v Třinci</item>
+        <item>367,Územní pracoviště v Karviné</item>
+        <item>370,Územní pracoviště v Havířově</item>
+        <item>374,Územní pracoviště v Novém Jičíně</item>
+        <item>376,Územní pracoviště v Kopřivnici</item>
+        <item>379,Územní pracoviště v Olomouci</item>
+        <item>381,Územní pracoviště ve Šternberku</item>
+        <item>384,Územní pracoviště v Opavě</item>
+        <item>388,Územní pracoviště Ostrava I</item>
+        <item>389,Územní pracoviště Ostrava II</item>
+        <item>390,Územní pracoviště Ostrava III</item>
+        <item>393,Územní pracoviště v Přerově</item>
+        <item>394,Územní pracoviště v Hranicích</item>
+        <item>398,Územní pracoviště v Šumperku</item>
+        <item>399,Územní pracoviště v Jeseníku</item>
+        <item>400,Územní pracoviště v Zábřehu</item>
+        <item>403,Územní pracoviště ve Vsetíně</item>
+        <item>404,Územní pracoviště v Rožnově pod Radhoštěm</item>
+        <item>405,Územní pracoviště ve Valašském Meziříčí</item>
+        <item>451,Finanční úřad pro hlavní město Prahu</item>
+        <item>452,Finanční úřad pro Středočeský kraj</item>
+        <item>453,Finanční úřad pro Jihočeský kraj</item>
+        <item>454,Finanční úřad pro Plzeňský kraj</item>
+        <item>455,Finanční úřad pro Karlovarský kraj</item>
+        <item>456,Finanční úřad pro Ústecký kraj</item>
+        <item>457,Finanční úřad pro Liberecký kraj</item>
+        <item>458,Finanční úřad pro Královéhradecký kraj</item>
+        <item>459,Finanční úřad pro Pardubický kraj</item>
+        <item>460,Finanční úřad pro Kraj Vysočina</item>
+        <item>461,Finanční úřad pro Jihomoravský kraj</item>
+        <item>462,Finanční úřad pro Olomoucký kraj</item>
+        <item>463,Finanční úřad pro Moravskoslezský kraj</item>
+        <item>464,Finanční úřad pro Zlínský kraj</item>
+    </string-array>
+</resources>
