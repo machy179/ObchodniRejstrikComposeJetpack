@@ -46,10 +46,8 @@ class RZPViewModel : ViewModel() {
         _nacitaniRZP.value = true
         viewModelScope.launch {
             try {
-                Log.i("aaaa", "ICO: " + ico)
                 val document = null
                 val documentString = getAresDataIcoRZP(ico)
-                Log.i("RopzarzovaniOR: documentString:",documentString.toString())
                 val jsonObject = JSONObject(documentString)
                 val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
                 if (kodValue=="") {

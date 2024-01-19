@@ -215,7 +215,7 @@ fun ObchodniRejstrikApp2(
 
                     hledejDleIcoButton = {
                         viewModel.loadDataIco(it)
-                        resViewModel.loadDataIcoRES(it)
+                        resViewModel.loadDataIcoRES(it, context)
                         rzpViewModel.loadDataIcoRZP(it, context)
                         orViewModel.loadDataIcoOR(it,context)
                         navController.navigate(ObchodniRejstrik.VypisIco.name)
@@ -262,7 +262,7 @@ fun ObchodniRejstrikApp2(
                         if (!it.equals(" ")) {
                             Log.i("clickedIt: ","222")
                             viewModel.loadDataIco(it)
-                            resViewModel.loadDataIcoRES(it)
+                            resViewModel.loadDataIcoRES(it, context)
                             rzpViewModel.loadDataIcoRZP(it, context)
                             orViewModel.loadDataIcoOR(it, context)
                             navController.navigate(ObchodniRejstrik.VypisIco.name)
@@ -278,7 +278,7 @@ fun ObchodniRejstrikApp2(
                     viewModel = orViewModel,
                     onClickedButtonIcoSubjekt = {  clickedIco -> //tato funkce je pro butto ve výpisu, kde je u jednotlivých subjektů ico, aby šlo prokliknout
                         viewModel.loadDataIco(clickedIco)
-                        resViewModel.loadDataIcoRES(clickedIco)
+                        resViewModel.loadDataIcoRES(clickedIco, context)
                         rzpViewModel.loadDataIcoRZP(clickedIco, context)
                         orViewModel.loadDataIcoOR(clickedIco, context)
                         navController.navigate(ObchodniRejstrik.VypisIco.name)

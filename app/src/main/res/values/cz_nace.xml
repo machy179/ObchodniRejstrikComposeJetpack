@@ -1,0 +1,1723 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cz_nace">
+        <item>00,Výroba, obchod a služby neuvedené v přílohách 1 až 3 živnostenského zákona</item>
+        <item>01,Rostlinná a živočišná výroba, myslivost a související činnosti</item>
+        <item>011,Pěstování plodin jiných než trvalých</item>
+        <item>0111,Pěstování obilovin (kromě rýže), luštěnin a olejnatých semen</item>
+        <item>01110,Pěstování obilovin (kromě rýže), luštěnin a olejnatých semen</item>
+        <item>0112,Pěstování rýže</item>
+        <item>01120,Pěstování rýže</item>
+        <item>0113,Pěstování zeleniny a melounů, kořenů a hlíz</item>
+        <item>01130,Pěstování zeleniny a melounů, kořenů a hlíz</item>
+        <item>0114,Pěstování cukrové třtiny</item>
+        <item>01140,Pěstování cukrové třtiny</item>
+        <item>0115,Pěstování tabáku</item>
+        <item>01150,Pěstování tabáku</item>
+        <item>0116,Pěstování přadných rostlin</item>
+        <item>01160,Pěstování přadných rostlin</item>
+        <item>0119,Pěstování ostatních plodin jiných než trvalých</item>
+        <item>01190,Pěstování ostatních plodin jiných než trvalých</item>
+        <item>012,Pěstování trvalých plodin</item>
+        <item>0121,Pěstování vinných hroznů</item>
+        <item>01210,Pěstování vinných hroznů</item>
+        <item>0122,Pěstování tropického a subtropického ovoce</item>
+        <item>01220,Pěstování tropického a subtropického ovoce</item>
+        <item>0123,Pěstování citrusových plodů</item>
+        <item>01230,Pěstování citrusových plodů</item>
+        <item>0124,Pěstování jádrového a peckového ovoce</item>
+        <item>01240,Pěstování jádrového a peckového ovoce</item>
+        <item>0125,Pěstování ostatního stromového a keřového ovoce a ořechů</item>
+        <item>01250,Pěstování ostatního stromového a keřového ovoce a ořechů</item>
+        <item>0126,Pěstování olejnatých plodů</item>
+        <item>01260,Pěstování olejnatých plodů</item>
+        <item>0127,Pěstování rostlin pro výrobu nápojů</item>
+        <item>01270,Pěstování rostlin pro výrobu nápojů</item>
+        <item>0128,Pěstování koření, aromatických, léčivých a farmaceutických rostlin</item>
+        <item>01280,Pěstování koření, aromatických, léčivých a farmaceutických rostlin</item>
+        <item>0129,Pěstování ostatních trvalých plodin</item>
+        <item>01290,Pěstování ostatních trvalých plodin</item>
+        <item>013,Množení rostlin</item>
+        <item>0130,Množení rostlin</item>
+        <item>01300,Množení rostlin</item>
+        <item>014,Živočišná výroba</item>
+        <item>0141,Chov mléčného skotu</item>
+        <item>01410,Chov mléčného skotu</item>
+        <item>0142,Chov jiného skotu</item>
+        <item>01420,Chov jiného skotu</item>
+        <item>0143,Chov koní a jiných koňovitých</item>
+        <item>01430,Chov koní a jiných koňovitých</item>
+        <item>0144,Chov velbloudů a velbloudovitých</item>
+        <item>01440,Chov velbloudů a velbloudovitých</item>
+        <item>0145,Chov ovcí a koz</item>
+        <item>01450,Chov ovcí a koz</item>
+        <item>0146,Chov prasat</item>
+        <item>01460,Chov prasat</item>
+        <item>0147,Chov drůbeže</item>
+        <item>01470,Chov drůbeže</item>
+        <item>0149,Chov ostatních zvířat</item>
+        <item>01491,Chov drobných hospodářských zvířat</item>
+        <item>01492,Chov kožešinových zvířat</item>
+        <item>01493,Chov zvířat pro zájmový chov</item>
+        <item>01499,Chov ostatních zvířat j. n.</item>
+        <item>015,Smíšené hospodářství</item>
+        <item>0150,Smíšené hospodářství</item>
+        <item>01500,Smíšené hospodářství</item>
+        <item>016,Podpůrné činnosti pro zemědělství a posklizňové činnosti</item>
+        <item>0161,Podpůrné činnosti pro rostlinnou výrobu</item>
+        <item>01610,Podpůrné činnosti pro rostlinnou výrobu</item>
+        <item>0162,Podpůrné činnosti pro živočišnou výrobu</item>
+        <item>01620,Podpůrné činnosti pro živočišnou výrobu</item>
+        <item>0163,Posklizňové činnosti</item>
+        <item>01630,Posklizňové činnosti</item>
+        <item>0164,Zpracování osiva pro účely množení</item>
+        <item>01640,Zpracování osiva pro účely množení</item>
+        <item>017,Lov a odchyt divokých zvířat a související činnosti</item>
+        <item>0170,Lov a odchyt divokých zvířat a související činnosti</item>
+        <item>01700,Lov a odchyt divokých zvířat a související činnosti</item>
+        <item>02,Lesnictví a těžba dřeva</item>
+        <item>021,Lesní hospodářství a jiné činnosti v oblasti lesnictví</item>
+        <item>0210,Lesní hospodářství a jiné činnosti v oblasti lesnictví</item>
+        <item>02100,Lesní hospodářství a jiné činnosti v oblasti lesnictví</item>
+        <item>022,Těžba dřeva</item>
+        <item>0220,Těžba dřeva</item>
+        <item>02200,Těžba dřeva</item>
+        <item>023,Sběr a získávání volně rostoucích plodů a materiálů, kromě dřeva</item>
+        <item>0230,Sběr a získávání volně rostoucích plodů a materiálů, kromě dřeva</item>
+        <item>02300,Sběr a získávání volně rostoucích plodů a materiálů, kromě dřeva</item>
+        <item>024,Podpůrné činnosti pro lesnictví</item>
+        <item>0240,Podpůrné činnosti pro lesnictví</item>
+        <item>02400,Podpůrné činnosti pro lesnictví</item>
+        <item>03,Rybolov a akvakultura</item>
+        <item>031,Rybolov</item>
+        <item>0311,Mořský rybolov</item>
+        <item>03110,Mořský rybolov</item>
+        <item>0312,Sladkovodní rybolov</item>
+        <item>03120,Sladkovodní rybolov</item>
+        <item>032,Akvakultura</item>
+        <item>0321,Mořská akvakultura</item>
+        <item>03210,Mořská akvakultura</item>
+        <item>0322,Sladkovodní akvakultura</item>
+        <item>03220,Sladkovodní akvakultura</item>
+        <item>05,Těžba a úprava černého a hnědého uhlí</item>
+        <item>051,Těžba a úprava černého uhlí</item>
+        <item>0510,Těžba a úprava černého uhlí</item>
+        <item>05101,Těžba černého uhlí</item>
+        <item>05102,Úprava černého uhlí</item>
+        <item>052,Těžba a úprava hnědého uhlí</item>
+        <item>0520,Těžba a úprava hnědého uhlí</item>
+        <item>05201,Těžba hnědého uhlí, kromě lignitu</item>
+        <item>05202,Úprava hnědého uhlí, kromě lignitu</item>
+        <item>05203,Těžba lignitu</item>
+        <item>05204,Úprava lignitu</item>
+        <item>06,Těžba ropy a zemního plynu</item>
+        <item>061,Těžba ropy</item>
+        <item>0610,Těžba ropy</item>
+        <item>06100,Těžba ropy</item>
+        <item>062,Těžba zemního plynu</item>
+        <item>0620,Těžba zemního plynu</item>
+        <item>06200,Těžba zemního plynu</item>
+        <item>07,Těžba a úprava rud</item>
+        <item>071,Těžba a úprava železných rud</item>
+        <item>0710,Těžba a úprava železných rud</item>
+        <item>07101,Těžba železných rud</item>
+        <item>07102,Úprava železných rud</item>
+        <item>072,Těžba a úprava neželezných rud</item>
+        <item>0721,Těžba a úprava uranových a thoriových rud</item>
+        <item>07211,Těžba uranových a thoriových rud</item>
+        <item>07212,Úprava uranových a thoriových rud</item>
+        <item>0729,Těžba a úprava ostatních neželezných rud</item>
+        <item>07291,Těžba ostatních neželezných rud</item>
+        <item>07292,Úprava ostatních neželezných rud</item>
+        <item>08,Ostatní těžba a dobývání</item>
+        <item>081,Dobývání kamene, písků a jílů</item>
+        <item>0811,Dobývání kamene pro výtvarné nebo stavební účely, vápence, sádrovce, křídy a břidlice</item>
+        <item>08110,Dobývání kamene pro výtvarné nebo stavební účely, vápence, sádrovce, křídy a břidlice</item>
+        <item>0812,"Provoz pískoven a štěrkopískoven těžba jílů a kaolinu"</item>
+        <item>08120,"Provoz pískoven a štěrkopískoven těžba jílů a kaolinu"</item>
+        <item>089,Těžba a dobývání j. n.</item>
+        <item>0891,Těžba chemických minerálů a minerálů pro výrobu hnojiv</item>
+        <item>08910,Těžba chemických minerálů a minerálů pro výrobu hnojiv</item>
+        <item>0892,Těžba rašeliny</item>
+        <item>08920,Těžba rašeliny</item>
+        <item>0893,Těžba soli</item>
+        <item>08930,Těžba soli</item>
+        <item>0899,Ostatní těžba a dobývání j. n.</item>
+        <item>08990,Ostatní těžba a dobývání j. n.</item>
+        <item>09,Podpůrné činnosti při těžbě</item>
+        <item>091,Podpůrné činnosti při těžbě ropy a zemního plynu</item>
+        <item>0910,Podpůrné činnosti při těžbě ropy a zemního plynu</item>
+        <item>09100,Podpůrné činnosti při těžbě ropy a zemního plynu</item>
+        <item>099,Podpůrné činnosti při ostatní těžbě a dobývání</item>
+        <item>0990,Podpůrné činnosti při ostatní těžbě a dobývání</item>
+        <item>09900,Podpůrné činnosti při ostatní těžbě a dobývání</item>
+        <item>10,Výroba potravinářských výrobků</item>
+        <item>101,Zpracování a konzervování masa a výroba masných výrobků</item>
+        <item>1011,Zpracování a konzervování masa, kromě drůbežího</item>
+        <item>10110,Zpracování a konzervování masa, kromě drůbežího</item>
+        <item>1012,Zpracování a konzervování drůbežího masa</item>
+        <item>10120,Zpracování a konzervování drůbežího masa</item>
+        <item>1013,Výroba masných výrobků a výrobků z drůbežího masa</item>
+        <item>10130,Výroba masných výrobků a výrobků z drůbežího masa</item>
+        <item>102,Zpracování a konzervování ryb, korýšů a měkkýšů</item>
+        <item>1020,Zpracování a konzervování ryb, korýšů a měkkýšů</item>
+        <item>10200,Zpracování a konzervování ryb, korýšů a měkkýšů</item>
+        <item>103,Zpracování a konzervování ovoce a zeleniny</item>
+        <item>1031,Zpracování a konzervování brambor</item>
+        <item>10310,Zpracování a konzervování brambor</item>
+        <item>1032,Výroba ovocných a zeleninových šťáv</item>
+        <item>10320,Výroba ovocných a zeleninových šťáv</item>
+        <item>1039,Ostatní zpracování a konzervování ovoce a zeleniny</item>
+        <item>10390,Ostatní zpracování a konzervování ovoce a zeleniny</item>
+        <item>104,Výroba rostlinných a živočišných olejů a tuků</item>
+        <item>1041,Výroba olejů a tuků</item>
+        <item>10410,Výroba olejů a tuků</item>
+        <item>1042,Výroba margarínu a podobných jedlých tuků</item>
+        <item>10420,Výroba margarínu a podobných jedlých tuků</item>
+        <item>105,Výroba mléčných výrobků</item>
+        <item>1051,Zpracování mléka, výroba mléčných výrobků a sýrů</item>
+        <item>10510,Zpracování mléka, výroba mléčných výrobků a sýrů</item>
+        <item>1052,Výroba zmrzliny</item>
+        <item>10520,Výroba zmrzliny</item>
+        <item>106,Výroba mlýnských a škrobárenských výrobků</item>
+        <item>1061,Výroba mlýnských výrobků</item>
+        <item>10610,Výroba mlýnských výrobků</item>
+        <item>1062,Výroba škrobárenských výrobků</item>
+        <item>10620,Výroba škrobárenských výrobků</item>
+        <item>107,Výroba pekařských, cukrářských a jiných moučných výrobků</item>
+        <item>1071,Výroba pekařských a cukrářských výrobků, kromě trvanlivých</item>
+        <item>10710,Výroba pekařských a cukrářských výrobků, kromě trvanlivých</item>
+        <item>1072,"Výroba sucharů a sušenek výroba trvanlivých cukrářských výrobků"</item>
+        <item>10720,"Výroba sucharů a sušenek výroba trvanlivých cukrářských výrobků"</item>
+        <item>1073,Výroba makaronů, nudlí, kuskusu a podobných moučných výrobků</item>
+        <item>10730,Výroba makaronů, nudlí, kuskusu a podobných moučných výrobků</item>
+        <item>108,Výroba ostatních potravinářských výrobků</item>
+        <item>1081,Výroba cukru</item>
+        <item>10810,Výroba cukru</item>
+        <item>1082,Výroba kakaa, čokolády a cukrovinek</item>
+        <item>10820,Výroba kakaa, čokolády a cukrovinek</item>
+        <item>1083,Zpracování čaje a kávy</item>
+        <item>10830,Zpracování čaje a kávy</item>
+        <item>1084,Výroba koření a aromatických výtažků</item>
+        <item>10840,Výroba koření a aromatických výtažků</item>
+        <item>1085,Výroba hotových pokrmů</item>
+        <item>10850,Výroba hotových pokrmů</item>
+        <item>1086,Výroba homogenizovaných potravinářských přípravků a dietních potravin</item>
+        <item>10860,Výroba homogenizovaných potravinářských přípravků a dietních potravin</item>
+        <item>1089,Výroba ostatních potravinářských výrobků j. n.</item>
+        <item>10890,Výroba ostatních potravinářských výrobků j. n.</item>
+        <item>109,Výroba průmyslových krmiv</item>
+        <item>1091,Výroba průmyslových krmiv pro hospodářská zvířata</item>
+        <item>10910,Výroba průmyslových krmiv pro hospodářská zvířata</item>
+        <item>1092,Výroba průmyslových krmiv pro zvířata v zájmovém chovu</item>
+        <item>10920,Výroba průmyslových krmiv pro zvířata v zájmovém chovu</item>
+        <item>11,Výroba nápojů</item>
+        <item>110,Výroba nápojů</item>
+        <item>1101,Destilace, rektifikace a míchání lihovin</item>
+        <item>11010,Destilace, rektifikace a míchání lihovin</item>
+        <item>1102,Výroba vína z vinných hroznů</item>
+        <item>11020,Výroba vína z vinných hroznů</item>
+        <item>1103,Výroba jablečného vína a jiných ovocných vín</item>
+        <item>11030,Výroba jablečného vína a jiných ovocných vín</item>
+        <item>1104,Výroba ostatních nedestilovaných kvašených nápojů</item>
+        <item>11040,Výroba ostatních nedestilovaných kvašených nápojů</item>
+        <item>1105,Výroba piva</item>
+        <item>11050,Výroba piva</item>
+        <item>1106,Výroba sladu</item>
+        <item>11060,Výroba sladu</item>
+        <item>1107,"Výroba nealkoholických nápojů stáčení minerálních a ostatních vod do lahví"</item>
+        <item>11070,"Výroba nealkoholických nápojů stáčení minerálních a ostatních vod do lahví"</item>
+        <item>12,Výroba tabákových výrobků</item>
+        <item>120,Výroba tabákových výrobků</item>
+        <item>1200,Výroba tabákových výrobků</item>
+        <item>12000,Výroba tabákových výrobků</item>
+        <item>13,Výroba textilií</item>
+        <item>131,Úprava a spřádání textilních vláken a příze</item>
+        <item>1310,Úprava a spřádání textilních vláken a příze</item>
+        <item>13100,Úprava a spřádání textilních vláken a příze</item>
+        <item>132,Tkaní textilií</item>
+        <item>1320,Tkaní textilií</item>
+        <item>13200,Tkaní textilií</item>
+        <item>133,Konečná úprava textilií</item>
+        <item>1330,Konečná úprava textilií</item>
+        <item>13300,Konečná úprava textilií</item>
+        <item>139,Výroba ostatních textilií</item>
+        <item>1391,Výroba pletených a háčkovaných materiálů</item>
+        <item>13910,Výroba pletených a háčkovaných materiálů</item>
+        <item>1392,Výroba konfekčních textilních výrobků, kromě oděvů</item>
+        <item>13920,Výroba konfekčních textilních výrobků, kromě oděvů</item>
+        <item>1393,Výroba koberců a kobercových předložek</item>
+        <item>13930,Výroba koberců a kobercových předložek</item>
+        <item>1394,Výroba lan, provazů a síťovaných výrobků</item>
+        <item>13940,Výroba lan, provazů a síťovaných výrobků</item>
+        <item>1395,Výroba netkaných textilií a výrobků z nich, kromě oděvů</item>
+        <item>13950,Výroba netkaných textilií a výrobků z nich, kromě oděvů</item>
+        <item>1396,Výroba ostatních technických a průmyslových textilií</item>
+        <item>13960,Výroba ostatních technických a průmyslových textilií</item>
+        <item>1399,Výroba ostatních textilií j. n.</item>
+        <item>13990,Výroba ostatních textilií j. n.</item>
+        <item>14,Výroba oděvů</item>
+        <item>141,Výroba oděvů, kromě kožešinových výrobků</item>
+        <item>1411,Výroba kožených oděvů</item>
+        <item>14110,Výroba kožených oděvů</item>
+        <item>1412,Výroba pracovních oděvů</item>
+        <item>14120,Výroba pracovních oděvů</item>
+        <item>1413,Výroba ostatních svrchních oděvů</item>
+        <item>14130,Výroba ostatních svrchních oděvů</item>
+        <item>1414,Výroba osobního prádla</item>
+        <item>14140,Výroba osobního prádla</item>
+        <item>1419,Výroba ostatních oděvů a oděvních doplňků</item>
+        <item>14190,Výroba ostatních oděvů a oděvních doplňků</item>
+        <item>142,Výroba kožešinových výrobků</item>
+        <item>1420,Výroba kožešinových výrobků</item>
+        <item>14200,Výroba kožešinových výrobků</item>
+        <item>143,Výroba pletených a háčkovaných oděvů</item>
+        <item>1431,Výroba pletených a háčkovaných punčochových výrobků</item>
+        <item>14310,Výroba pletených a háčkovaných punčochových výrobků</item>
+        <item>1439,Výroba ostatních pletených a háčkovaných oděvů</item>
+        <item>14390,Výroba ostatních pletených a háčkovaných oděvů</item>
+        <item>15,Výroba usní a souvisejících výrobků</item>
+        <item>151,"Činění a úprava usní (vyčiněných kůží) zpracování a barvení kožešin výroba brašnářských, sedlářských a podobných výrobků"</item>
+        <item>1511,"Činění a úprava usní (vyčiněných kůží) zpracování a barvení kožešin"</item>
+        <item>15110,"Činění a úprava usní (vyčiněných kůží) zpracování a barvení kožešin"</item>
+        <item>1512,Výroba brašnářských, sedlářských a podobných výrobků</item>
+        <item>15120,Výroba brašnářských, sedlářských a podobných výrobků</item>
+        <item>152,Výroba obuvi</item>
+        <item>1520,Výroba obuvi</item>
+        <item>15201,Výroba obuvi s usňovým svrškem</item>
+        <item>15209,Výroba obuvi z ostatních materiálů</item>
+        <item>16,Zpracování dřeva, výroba dřevěných, korkových, proutěných a slaměných výrobků, kromě nábytku</item>
+        <item>161,Výroba pilařská a impregnace dřeva</item>
+        <item>1610,Výroba pilařská a impregnace dřeva</item>
+        <item>16100,Výroba pilařská a impregnace dřeva</item>
+        <item>162,Výroba dřevěných, korkových, proutěných a slaměných výrobků, kromě nábytku</item>
+        <item>1621,Výroba dýh a desek na bázi dřeva</item>
+        <item>16210,Výroba dýh a desek na bázi dřeva</item>
+        <item>1622,Výroba sestavených parketových podlah</item>
+        <item>16220,Výroba sestavených parketových podlah</item>
+        <item>1623,Výroba ostatních výrobků stavebního truhlářství a tesařství</item>
+        <item>16230,Výroba ostatních výrobků stavebního truhlářství a tesařství</item>
+        <item>1624,Výroba dřevěných obalů</item>
+        <item>16240,Výroba dřevěných obalů</item>
+        <item>1629,Výroba ostatních dřevěných, korkových, proutěných a slaměných výrobků, kromě nábytku</item>
+        <item>16290,Výroba ostatních dřevěných, korkových, proutěných a slaměných výrobků, kromě nábytku</item>
+        <item>17,Výroba papíru a výrobků z papíru</item>
+        <item>171,Výroba buničiny, papíru a lepenky</item>
+        <item>1711,Výroba buničiny</item>
+        <item>17111,Výroba chemických buničin</item>
+        <item>17112,Výroba mechanických vláknin</item>
+        <item>17113,Výroba ostatních papírenských vláknin</item>
+        <item>1712,Výroba papíru a lepenky</item>
+        <item>17120,Výroba papíru a lepenky</item>
+        <item>172,Výroba výrobků z papíru a lepenky</item>
+        <item>1721,Výroba vlnitého papíru a lepenky, papírových a lepenkových obalů</item>
+        <item>17210,Výroba vlnitého papíru a lepenky, papírových a lepenkových obalů</item>
+        <item>1722,Výroba domácích potřeb, hygienických a toaletních výrobků z papíru</item>
+        <item>17220,Výroba domácích potřeb, hygienických a toaletních výrobků z papíru</item>
+        <item>1723,Výroba kancelářských potřeb z papíru</item>
+        <item>17230,Výroba kancelářských potřeb z papíru</item>
+        <item>1724,Výroba tapet</item>
+        <item>17240,Výroba tapet</item>
+        <item>1729,Výroba ostatních výrobků z papíru a lepenky</item>
+        <item>17290,Výroba ostatních výrobků z papíru a lepenky</item>
+        <item>18,Tisk a rozmnožování nahraných nosičů</item>
+        <item>181,Tisk a činnosti související s tiskem</item>
+        <item>1811,Tisk novin</item>
+        <item>18110,Tisk novin</item>
+        <item>1812,Tisk ostatní, kromě novin</item>
+        <item>18120,Tisk ostatní, kromě novin</item>
+        <item>1813,Příprava tisku a digitálních dat</item>
+        <item>18130,Příprava tisku a digitálních dat</item>
+        <item>1814,Vázání a související činnosti</item>
+        <item>18140,Vázání a související činnosti</item>
+        <item>182,Rozmnožování nahraných nosičů</item>
+        <item>1820,Rozmnožování nahraných nosičů</item>
+        <item>18200,Rozmnožování nahraných nosičů</item>
+        <item>19,Výroba koksu a rafinovaných ropných produktů</item>
+        <item>191,Výroba koksárenských produktů</item>
+        <item>1910,Výroba koksárenských produktů</item>
+        <item>19100,Výroba koksárenských produktů</item>
+        <item>192,Výroba rafinovaných ropných produktů</item>
+        <item>1920,Výroba rafinovaných ropných produktů</item>
+        <item>19200,Výroba rafinovaných ropných produktů</item>
+        <item>20,Výroba chemických látek a chemických přípravků</item>
+        <item>201,Výroba základních chemických látek, hnojiv a dusíkatých sloučenin, plastů a syntetického kaučuku v primárních formách</item>
+        <item>2011,Výroba technických plynů</item>
+        <item>20110,Výroba technických plynů</item>
+        <item>2012,Výroba barviv a pigmentů</item>
+        <item>20120,Výroba barviv a pigmentů</item>
+        <item>2013,Výroba jiných základních anorganických chemických látek</item>
+        <item>20130,Výroba jiných základních anorganických chemických látek</item>
+        <item>2014,Výroba jiných základních organických chemických látek</item>
+        <item>20141,Výroba bioetanolu (biolihu) pro pohon motorů a pro výrobu směsí a komponent paliv pro pohon motorů</item>
+        <item>20149,Výroba ostatních základních organických chemických látek</item>
+        <item>2015,Výroba hnojiv a dusíkatých sloučenin</item>
+        <item>20150,Výroba hnojiv a dusíkatých sloučenin</item>
+        <item>2016,Výroba plastů v primárních formách</item>
+        <item>20160,Výroba plastů v primárních formách</item>
+        <item>2017,Výroba syntetického kaučuku v primárních formách</item>
+        <item>20170,Výroba syntetického kaučuku v primárních formách</item>
+        <item>202,Výroba pesticidů a jiných agrochemických přípravků</item>
+        <item>2020,Výroba pesticidů a jiných agrochemických přípravků</item>
+        <item>20200,Výroba pesticidů a jiných agrochemických přípravků</item>
+        <item>203,Výroba nátěrových barev, laků a jiných nátěrových materiálů, tiskařských barev a tmelů</item>
+        <item>2030,Výroba nátěrových barev, laků a jiných nátěrových materiálů, tiskařských barev a tmelů</item>
+        <item>20300,Výroba nátěrových barev, laků a jiných nátěrových materiálů, tiskařských barev a tmelů</item>
+        <item>204,Výroba mýdel a detergentů, čisticích a lešticích prostředků, parfémů a toaletních přípravků</item>
+        <item>2041,Výroba mýdel a detergentů, čisticích a lešticích prostředků</item>
+        <item>20410,Výroba mýdel a detergentů, čisticích a lešticích prostředků</item>
+        <item>2042,Výroba parfémů a toaletních přípravků</item>
+        <item>20420,Výroba parfémů a toaletních přípravků</item>
+        <item>205,Výroba ostatních chemických výrobků</item>
+        <item>2051,Výroba výbušnin</item>
+        <item>20510,Výroba výbušnin</item>
+        <item>2052,Výroba klihů</item>
+        <item>20520,Výroba klihů</item>
+        <item>2053,Výroba vonných silic</item>
+        <item>20530,Výroba vonných silic</item>
+        <item>2059,Výroba ostatních chemických výrobků j. n.</item>
+        <item>20591,Výroba metylesterů a etylesterů mastných kyselin pro pohon motorů a pro výrobu směsí paliv pro pohon motorů</item>
+        <item>20599,Výroba jiných chemických výrobků j. n.</item>
+        <item>206,Výroba chemických vláken</item>
+        <item>2060,Výroba chemických vláken</item>
+        <item>20600,Výroba chemických vláken</item>
+        <item>21,Výroba základních farmaceutických výrobků a farmaceutických přípravků</item>
+        <item>211,Výroba základních farmaceutických výrobků</item>
+        <item>2110,Výroba základních farmaceutických výrobků</item>
+        <item>21100,Výroba základních farmaceutických výrobků</item>
+        <item>212,Výroba farmaceutických přípravků</item>
+        <item>2120,Výroba farmaceutických přípravků</item>
+        <item>21200,Výroba farmaceutických přípravků</item>
+        <item>22,Výroba pryžových a plastových výrobků</item>
+        <item>221,Výroba pryžových výrobků</item>
+        <item>2211,"Výroba pryžových plášťů a duší protektorování pneumatik"</item>
+        <item>22110,"Výroba pryžových plášťů a duší protektorování pneumatik"</item>
+        <item>2219,Výroba ostatních pryžových výrobků</item>
+        <item>22190,Výroba ostatních pryžových výrobků</item>
+        <item>222,Výroba plastových výrobků</item>
+        <item>2221,Výroba plastových desek, fólií, hadic, trubek a profilů</item>
+        <item>22210,Výroba plastových desek, fólií, hadic, trubek a profilů</item>
+        <item>2222,Výroba plastových obalů</item>
+        <item>22220,Výroba plastových obalů</item>
+        <item>2223,Výroba plastových výrobků pro stavebnictví</item>
+        <item>22230,Výroba plastových výrobků pro stavebnictví</item>
+        <item>2229,Výroba ostatních plastových výrobků</item>
+        <item>22290,Výroba ostatních plastových výrobků</item>
+        <item>23,Výroba ostatních nekovových minerálních výrobků</item>
+        <item>231,Výroba skla a skleněných výrobků</item>
+        <item>2311,Výroba plochého skla</item>
+        <item>23110,Výroba plochého skla</item>
+        <item>2312,Tvarování a zpracování plochého skla</item>
+        <item>23120,Tvarování a zpracování plochého skla</item>
+        <item>2313,Výroba dutého skla</item>
+        <item>23130,Výroba dutého skla</item>
+        <item>2314,Výroba skleněných vláken</item>
+        <item>23140,Výroba skleněných vláken</item>
+        <item>2319,Výroba a zpracování ostatního skla vč. technického</item>
+        <item>23190,Výroba a zpracování ostatního skla vč. technického</item>
+        <item>232,Výroba žáruvzdorných výrobků</item>
+        <item>2320,Výroba žáruvzdorných výrobků</item>
+        <item>23200,Výroba žáruvzdorných výrobků</item>
+        <item>233,Výroba stavebních výrobků z jílovitých materiálů</item>
+        <item>2331,Výroba keramických obkládaček a dlaždic</item>
+        <item>23310,Výroba keramických obkládaček a dlaždic</item>
+        <item>2332,Výroba pálených zdicích materiálů, tašek, dlaždic a podobných výrobků</item>
+        <item>23320,Výroba pálených zdicích materiálů, tašek, dlaždic a podobných výrobků</item>
+        <item>234,Výroba ostatních porcelánových a keramických výrobků</item>
+        <item>2341,Výroba keramických a porcelánových výrobků převážně pro domácnost a ozdobných předmětů</item>
+        <item>23410,Výroba keramických a porcelánových výrobků převážně pro domácnost a ozdobných předmětů</item>
+        <item>2342,Výroba keramických sanitárních výrobků</item>
+        <item>23420,Výroba keramických sanitárních výrobků</item>
+        <item>2343,Výroba keramických izolátorů a izolačního příslušenství</item>
+        <item>23430,Výroba keramických izolátorů a izolačního příslušenství</item>
+        <item>2344,Výroba ostatních technických keramických výrobků</item>
+        <item>23440,Výroba ostatních technických keramických výrobků</item>
+        <item>2349,Výroba ostatních keramických výrobků</item>
+        <item>23490,Výroba ostatních keramických výrobků</item>
+        <item>235,Výroba cementu, vápna a sádry</item>
+        <item>2351,Výroba cementu</item>
+        <item>23510,Výroba cementu</item>
+        <item>2352,Výroba vápna a sádry</item>
+        <item>23520,Výroba vápna a sádry</item>
+        <item>236,Výroba betonových, cementových a sádrových výrobků</item>
+        <item>2361,Výroba betonových výrobků pro stavební účely</item>
+        <item>23610,Výroba betonových výrobků pro stavební účely</item>
+        <item>2362,Výroba sádrových výrobků pro stavební účely</item>
+        <item>23620,Výroba sádrových výrobků pro stavební účely</item>
+        <item>2363,Výroba betonu připraveného k lití</item>
+        <item>23630,Výroba betonu připraveného k lití</item>
+        <item>2364,Výroba malt</item>
+        <item>23640,Výroba malt</item>
+        <item>2365,Výroba vláknitých cementů</item>
+        <item>23650,Výroba vláknitých cementů</item>
+        <item>2369,Výroba ostatních betonových, cementových a sádrových výrobků</item>
+        <item>23690,Výroba ostatních betonových, cementových a sádrových výrobků</item>
+        <item>237,Řezání, tvarování a konečná úprava kamenů</item>
+        <item>2370,Řezání, tvarování a konečná úprava kamenů</item>
+        <item>23700,Řezání, tvarování a konečná úprava kamenů</item>
+        <item>239,Výroba brusiv a ostatních nekovových minerálních výrobků j. n.</item>
+        <item>2391,Výroba brusiv</item>
+        <item>23910,Výroba brusiv</item>
+        <item>2399,Výroba ostatních nekovových minerálních výrobků j. n.</item>
+        <item>23990,Výroba ostatních nekovových minerálních výrobků j. n.</item>
+        <item>24,"Výroba základních kovů, hutní zpracování kovů slévárenství"</item>
+        <item>241,Výroba surového železa, oceli a feroslitin, plochých výrobků (kromě pásky za studena), tváření výrobků za tepla</item>
+        <item>2410,Výroba surového železa, oceli a feroslitin, plochých výrobků (kromě pásky za studena), tváření výrobků za tepla</item>
+        <item>24101,Výroba surového železa, oceli a feroslitin</item>
+        <item>24102,Výroba plochých výrobků (kromě pásky za studena)</item>
+        <item>24103,Tváření výrobků za tepla</item>
+        <item>242,Výroba ocelových trub, trubek, dutých profilů a souvisejících potrubních tvarovek</item>
+        <item>2420,Výroba ocelových trub, trubek, dutých profilů a souvisejících potrubních tvarovek</item>
+        <item>24200,Výroba ocelových trub, trubek, dutých profilů a souvisejících potrubních tvarovek</item>
+        <item>243,Výroba ostatních výrobků získaných jednostupňovým zpracováním oceli</item>
+        <item>2431,Tažení tyčí za studena</item>
+        <item>24310,Tažení tyčí za studena</item>
+        <item>2432,Válcování ocelových úzkých pásů za studena</item>
+        <item>24320,Válcování ocelových úzkých pásů za studena</item>
+        <item>2433,Tváření ocelových profilů za studena</item>
+        <item>24330,Tváření ocelových profilů za studena</item>
+        <item>2434,Tažení ocelového drátu za studena</item>
+        <item>24340,Tažení ocelového drátu za studena</item>
+        <item>244,Výroba a hutní zpracování drahých a neželezných kovů</item>
+        <item>2441,Výroba a hutní zpracování drahých kovů</item>
+        <item>24410,Výroba a hutní zpracování drahých kovů</item>
+        <item>2442,Výroba a hutní zpracování hliníku</item>
+        <item>24420,Výroba a hutní zpracování hliníku</item>
+        <item>2443,Výroba a hutní zpracování olova, zinku a cínu</item>
+        <item>24430,Výroba a hutní zpracování olova, zinku a cínu</item>
+        <item>2444,Výroba a hutní zpracování mědi</item>
+        <item>24440,Výroba a hutní zpracování mědi</item>
+        <item>2445,Výroba a hutní zpracování ostatních neželezných kovů</item>
+        <item>24450,Výroba a hutní zpracování ostatních neželezných kovů</item>
+        <item>2446,Zpracování jaderného paliva</item>
+        <item>24460,Zpracování jaderného paliva</item>
+        <item>245,Slévárenství</item>
+        <item>2451,Výroba odlitků z litiny</item>
+        <item>24511,Výroba odlitků z litiny s lupínkovým grafitem</item>
+        <item>24512,Výroba odlitků z litiny s kuličkovým grafitem</item>
+        <item>24519,Výroba ostatních odlitků z litiny</item>
+        <item>2452,Výroba odlitků z oceli</item>
+        <item>24521,Výroba odlitků z uhlíkatých ocelí</item>
+        <item>24522,Výroba odlitků z legovaných ocelí</item>
+        <item>2453,Výroba odlitků z lehkých neželezných kovů</item>
+        <item>24530,Výroba odlitků z lehkých neželezných kovů</item>
+        <item>2454,Výroba odlitků z ostatních neželezných kovů</item>
+        <item>24540,Výroba odlitků z ostatních neželezných kovů</item>
+        <item>25,Výroba kovových konstrukcí a kovodělných výrobků, kromě strojů a zařízení</item>
+        <item>251,Výroba konstrukčních kovových výrobků</item>
+        <item>2511,Výroba kovových konstrukcí a jejich dílů</item>
+        <item>25110,Výroba kovových konstrukcí a jejich dílů</item>
+        <item>2512,Výroba kovových dveří a oken</item>
+        <item>25120,Výroba kovových dveří a oken</item>
+        <item>252,Výroba radiátorů a kotlů k ústřednímu topení, kovových nádrží a zásobníků</item>
+        <item>2521,Výroba radiátorů a kotlů k ústřednímu topení</item>
+        <item>25210,Výroba radiátorů a kotlů k ústřednímu topení</item>
+        <item>2529,Výroba kovových nádrží a zásobníků</item>
+        <item>25290,Výroba kovových nádrží a zásobníků</item>
+        <item>253,Výroba parních kotlů, kromě kotlů pro ústřední topení</item>
+        <item>2530,Výroba parních kotlů, kromě kotlů pro ústřední topení</item>
+        <item>25300,Výroba parních kotlů, kromě kotlů pro ústřední topení</item>
+        <item>254,Výroba zbraní a střeliva</item>
+        <item>2540,Výroba zbraní a střeliva</item>
+        <item>25400,Výroba zbraní a střeliva</item>
+        <item>255,"Kování, lisování, ražení, válcování a protlačování kovů prášková metalurgie"</item>
+        <item>2550,"Kování, lisování, ražení, válcování a protlačování kovů prášková metalurgie"</item>
+        <item>25500,"Kování, lisování, ražení, válcování a protlačování kovů prášková metalurgie"</item>
+        <item>256,"Povrchová úprava a zušlechťování kovů obrábění"</item>
+        <item>2561,Povrchová úprava a zušlechťování kovů</item>
+        <item>25610,Povrchová úprava a zušlechťování kovů</item>
+        <item>2562,Obrábění</item>
+        <item>25620,Obrábění</item>
+        <item>257,Výroba nožířských výrobků, nástrojů a železářských výrobků</item>
+        <item>2571,Výroba nožířských výrobků</item>
+        <item>25710,Výroba nožířských výrobků</item>
+        <item>2572,Výroba zámků a kování</item>
+        <item>25720,Výroba zámků a kování</item>
+        <item>2573,Výroba nástrojů a nářadí</item>
+        <item>25730,Výroba nástrojů a nářadí</item>
+        <item>259,Výroba ostatních kovodělných výrobků</item>
+        <item>2591,Výroba ocelových sudů a podobných nádob</item>
+        <item>25910,Výroba ocelových sudů a podobných nádob</item>
+        <item>2592,Výroba drobných kovových obalů</item>
+        <item>25920,Výroba drobných kovových obalů</item>
+        <item>2593,Výroba drátěných výrobků, řetězů a pružin</item>
+        <item>25930,Výroba drátěných výrobků, řetězů a pružin</item>
+        <item>2594,Výroba spojovacích materiálů a spojovacích výrobků se závity</item>
+        <item>25940,Výroba spojovacích materiálů a spojovacích výrobků se závity</item>
+        <item>2599,Výroba ostatních kovodělných výrobků j. n.</item>
+        <item>25990,Výroba ostatních kovodělných výrobků j. n.</item>
+        <item>26,Výroba počítačů, elektronických a optických přístrojů a zařízení</item>
+        <item>261,Výroba elektronických součástek a desek</item>
+        <item>2611,Výroba elektronických součástek</item>
+        <item>26110,Výroba elektronických součástek</item>
+        <item>2612,Výroba osazených elektronických desek</item>
+        <item>26120,Výroba osazených elektronických desek</item>
+        <item>262,Výroba počítačů a periferních zařízení</item>
+        <item>2620,Výroba počítačů a periferních zařízení</item>
+        <item>26200,Výroba počítačů a periferních zařízení</item>
+        <item>263,Výroba komunikačních zařízení</item>
+        <item>2630,Výroba komunikačních zařízení</item>
+        <item>26300,Výroba komunikačních zařízení</item>
+        <item>264,Výroba spotřební elektroniky</item>
+        <item>2640,Výroba spotřební elektroniky</item>
+        <item>26400,Výroba spotřební elektroniky</item>
+        <item>265,"Výroba měřicích, zkušebních a navigačních přístrojů výroba časoměrných přístrojů"</item>
+        <item>2651,Výroba měřicích, zkušebních a navigačních přístrojů</item>
+        <item>26510,Výroba měřicích, zkušebních a navigačních přístrojů</item>
+        <item>2652,Výroba časoměrných přístrojů</item>
+        <item>26520,Výroba časoměrných přístrojů</item>
+        <item>266,Výroba ozařovacích, elektroléčebných a elektroterapeutických přístrojů</item>
+        <item>2660,Výroba ozařovacích, elektroléčebných a elektroterapeutických přístrojů</item>
+        <item>26600,Výroba ozařovacích, elektroléčebných a elektroterapeutických přístrojů</item>
+        <item>267,Výroba optických a fotografických přístrojů a zařízení</item>
+        <item>2670,Výroba optických a fotografických přístrojů a zařízení</item>
+        <item>26700,Výroba optických a fotografických přístrojů a zařízení</item>
+        <item>268,Výroba magnetických a optických médií</item>
+        <item>2680,Výroba magnetických a optických médií</item>
+        <item>26800,Výroba magnetických a optických médií</item>
+        <item>27,Výroba elektrických zařízení</item>
+        <item>271,Výroba elektrických motorů, generátorů, transformátorů a elektrických rozvodných a kontrolních zařízení</item>
+        <item>2711,Výroba elektrických motorů, generátorů a transformátorů</item>
+        <item>27110,Výroba elektrických motorů, generátorů a transformátorů</item>
+        <item>2712,Výroba elektrických rozvodných a kontrolních zařízení</item>
+        <item>27120,Výroba elektrických rozvodných a kontrolních zařízení</item>
+        <item>272,Výroba baterií a akumulátorů</item>
+        <item>2720,Výroba baterií a akumulátorů</item>
+        <item>27200,Výroba baterií a akumulátorů</item>
+        <item>273,Výroba optických a elektrických kabelů, elektrických vodičů a elektroinstalačních zařízení</item>
+        <item>2731,Výroba optických kabelů</item>
+        <item>27310,Výroba optických kabelů</item>
+        <item>2732,Výroba elektrických vodičů a kabelů j. n.</item>
+        <item>27320,Výroba elektrických vodičů a kabelů j. n.</item>
+        <item>2733,Výroba elektroinstalačních zařízení</item>
+        <item>27330,Výroba elektroinstalačních zařízení</item>
+        <item>274,Výroba elektrických osvětlovacích zařízení</item>
+        <item>2740,Výroba elektrických osvětlovacích zařízení</item>
+        <item>27400,Výroba elektrických osvětlovacích zařízení</item>
+        <item>275,Výroba spotřebičů převážně pro domácnost</item>
+        <item>2751,Výroba elektrických spotřebičů převážně pro domácnost</item>
+        <item>27510,Výroba elektrických spotřebičů převážně pro domácnost</item>
+        <item>2752,Výroba neelektrických spotřebičů převážně pro domácnost</item>
+        <item>27520,Výroba neelektrických spotřebičů převážně pro domácnost</item>
+        <item>279,Výroba ostatních elektrických zařízení</item>
+        <item>2790,Výroba ostatních elektrických zařízení</item>
+        <item>27900,Výroba ostatních elektrických zařízení</item>
+        <item>28,Výroba strojů a zařízení j. n.</item>
+        <item>281,Výroba strojů a zařízení pro všeobecné účely</item>
+        <item>2811,Výroba motorů a turbín, kromě motorů pro letadla, automobily a motocykly</item>
+        <item>28110,Výroba motorů a turbín, kromě motorů pro letadla, automobily a motocykly</item>
+        <item>2812,Výroba hydraulických a pneumatických zařízení</item>
+        <item>28120,Výroba hydraulických a pneumatických zařízení</item>
+        <item>2813,Výroba ostatních čerpadel a kompresorů</item>
+        <item>28130,Výroba ostatních čerpadel a kompresorů</item>
+        <item>2814,Výroba ostatních potrubních armatur</item>
+        <item>28140,Výroba ostatních potrubních armatur</item>
+        <item>2815,Výroba ložisek, ozubených kol, převodů a hnacích prvků</item>
+        <item>28150,Výroba ložisek, ozubených kol, převodů a hnacích prvků</item>
+        <item>282,Výroba ostatních strojů a zařízení pro všeobecné účely</item>
+        <item>2821,Výroba pecí a hořáků pro topeniště</item>
+        <item>28210,Výroba pecí a hořáků pro topeniště</item>
+        <item>2822,Výroba zdvihacích a manipulačních zařízení</item>
+        <item>28220,Výroba zdvihacích a manipulačních zařízení</item>
+        <item>2823,Výroba kancelářských strojů a zařízení, kromě počítačů a periferních zařízení</item>
+        <item>28230,Výroba kancelářských strojů a zařízení, kromě počítačů a periferních zařízení</item>
+        <item>2824,Výroba ručních mechanizovaných nástrojů</item>
+        <item>28240,Výroba ručních mechanizovaných nástrojů</item>
+        <item>2825,Výroba průmyslových chladicích a klimatizačních zařízení</item>
+        <item>28250,Výroba průmyslových chladicích a klimatizačních zařízení</item>
+        <item>2829,Výroba ostatních strojů a zařízení pro všeobecné účely j. n.</item>
+        <item>28290,Výroba ostatních strojů a zařízení pro všeobecné účely j. n.</item>
+        <item>283,Výroba zemědělských a lesnických strojů</item>
+        <item>2830,Výroba zemědělských a lesnických strojů</item>
+        <item>28300,Výroba zemědělských a lesnických strojů</item>
+        <item>284,Výroba kovoobráběcích a ostatních obráběcích strojů</item>
+        <item>2841,Výroba kovoobráběcích strojů</item>
+        <item>28410,Výroba kovoobráběcích strojů</item>
+        <item>2849,Výroba ostatních obráběcích strojů</item>
+        <item>28490,Výroba ostatních obráběcích strojů</item>
+        <item>289,Výroba ostatních strojů pro speciální účely</item>
+        <item>2891,Výroba strojů pro metalurgii</item>
+        <item>28910,Výroba strojů pro metalurgii</item>
+        <item>2892,Výroba strojů pro těžbu, dobývání a stavebnictví</item>
+        <item>28920,Výroba strojů pro těžbu, dobývání a stavebnictví</item>
+        <item>2893,Výroba strojů na výrobu potravin, nápojů a zpracování tabáku</item>
+        <item>28930,Výroba strojů na výrobu potravin, nápojů a zpracování tabáku</item>
+        <item>2894,Výroba strojů na výrobu textilu, oděvních výrobků a výrobků z usní</item>
+        <item>28940,Výroba strojů na výrobu textilu, oděvních výrobků a výrobků z usní</item>
+        <item>2895,Výroba strojů a přístrojů na výrobu papíru a lepenky</item>
+        <item>28950,Výroba strojů a přístrojů na výrobu papíru a lepenky</item>
+        <item>2896,Výroba strojů na výrobu plastů a pryže</item>
+        <item>28960,Výroba strojů na výrobu plastů a pryže</item>
+        <item>2899,Výroba ostatních strojů pro speciální účely j. n.</item>
+        <item>28990,Výroba ostatních strojů pro speciální účely j. n.</item>
+        <item>29,Výroba motorových vozidel (kromě motocyklů), přívěsů a návěsů</item>
+        <item>291,Výroba motorových vozidel a jejich motorů</item>
+        <item>2910,Výroba motorových vozidel a jejich motorů</item>
+        <item>29100,Výroba motorových vozidel a jejich motorů</item>
+        <item>292,"Výroba karoserií motorových vozidel výroba přívěsů a návěsů"</item>
+        <item>2920,"Výroba karoserií motorových vozidel výroba přívěsů a návěsů"</item>
+        <item>29200,"Výroba karoserií motorových vozidel výroba přívěsů a návěsů"</item>
+        <item>293,Výroba dílů a příslušenství pro motorová vozidla a jejich motory</item>
+        <item>2931,Výroba elektrických a elektronických zařízení pro motorová vozidla</item>
+        <item>29310,Výroba elektrických a elektronických zařízení pro motorová vozidla</item>
+        <item>2932,Výroba ostatních dílů a příslušenství pro motorová vozidla</item>
+        <item>29320,Výroba ostatních dílů a příslušenství pro motorová vozidla</item>
+        <item>30,Výroba ostatních dopravních prostředků a zařízení</item>
+        <item>301,Stavba lodí a člunů</item>
+        <item>3011,Stavba lodí a plavidel</item>
+        <item>30110,Stavba lodí a plavidel</item>
+        <item>3012,Stavba rekreačních a sportovních člunů</item>
+        <item>30120,Stavba rekreačních a sportovních člunů</item>
+        <item>302,Výroba železničních lokomotiv a vozového parku</item>
+        <item>3020,Výroba železničních lokomotiv a vozového parku</item>
+        <item>30200,Výroba železničních lokomotiv a vozového parku</item>
+        <item>303,Výroba letadel a jejich motorů, kosmických lodí a souvisejících zařízení</item>
+        <item>3030,Výroba letadel a jejich motorů, kosmických lodí a souvisejících zařízení</item>
+        <item>30300,Výroba letadel a jejich motorů, kosmických lodí a souvisejících zařízení</item>
+        <item>304,Výroba vojenských bojových vozidel</item>
+        <item>3040,Výroba vojenských bojových vozidel</item>
+        <item>30400,Výroba vojenských bojových vozidel</item>
+        <item>309,Výroba dopravních prostředků a zařízení j. n.</item>
+        <item>3091,Výroba motocyklů</item>
+        <item>30910,Výroba motocyklů</item>
+        <item>3092,Výroba jízdních kol a vozíků pro invalidy</item>
+        <item>30920,Výroba jízdních kol a vozíků pro invalidy</item>
+        <item>3099,Výroba ostatních dopravních prostředků a zařízení j. n.</item>
+        <item>30990,Výroba ostatních dopravních prostředků a zařízení j. n.</item>
+        <item>31,Výroba nábytku</item>
+        <item>310,Výroba nábytku</item>
+        <item>3101,Výroba kancelářského nábytku a zařízení obchodů</item>
+        <item>31010,Výroba kancelářského nábytku a zařízení obchodů</item>
+        <item>3102,Výroba kuchyňského nábytku</item>
+        <item>31020,Výroba kuchyňského nábytku</item>
+        <item>3103,Výroba matrací</item>
+        <item>31030,Výroba matrací</item>
+        <item>3109,Výroba ostatního nábytku</item>
+        <item>31090,Výroba ostatního nábytku</item>
+        <item>32,Ostatní zpracovatelský průmysl</item>
+        <item>321,Výroba klenotů, bižuterie a příbuzných výrobků</item>
+        <item>3211,Ražení mincí</item>
+        <item>32110,Ražení mincí</item>
+        <item>3212,Výroba klenotů a příbuzných výrobků</item>
+        <item>32120,Výroba klenotů a příbuzných výrobků</item>
+        <item>3213,Výroba bižuterie a příbuzných výrobků</item>
+        <item>32130,Výroba bižuterie a příbuzných výrobků</item>
+        <item>322,Výroba hudebních nástrojů</item>
+        <item>3220,Výroba hudebních nástrojů</item>
+        <item>32200,Výroba hudebních nástrojů</item>
+        <item>323,Výroba sportovních potřeb</item>
+        <item>3230,Výroba sportovních potřeb</item>
+        <item>32300,Výroba sportovních potřeb</item>
+        <item>324,Výroba her a hraček</item>
+        <item>3240,Výroba her a hraček</item>
+        <item>32400,Výroba her a hraček</item>
+        <item>325,Výroba lékařských a dentálních nástrojů a potřeb</item>
+        <item>3250,Výroba lékařských a dentálních nástrojů a potřeb</item>
+        <item>32500,Výroba lékařských a dentálních nástrojů a potřeb</item>
+        <item>329,Zpracovatelský průmysl j. n.</item>
+        <item>3291,Výroba košťat a kartáčnických výrobků</item>
+        <item>32910,Výroba košťat a kartáčnických výrobků</item>
+        <item>3299,Ostatní zpracovatelský průmysl j. n.</item>
+        <item>32990,Ostatní zpracovatelský průmysl j. n.</item>
+        <item>33,Opravy a instalace strojů a zařízení</item>
+        <item>331,Opravy kovodělných výrobků, strojů a zařízení</item>
+        <item>3311,Opravy kovodělných výrobků</item>
+        <item>33110,Opravy kovodělných výrobků</item>
+        <item>3312,Opravy strojů</item>
+        <item>33120,Opravy strojů</item>
+        <item>3313,Opravy elektronických a optických přístrojů a zařízení</item>
+        <item>33130,Opravy elektronických a optických přístrojů a zařízení</item>
+        <item>3314,Opravy elektrických zařízení</item>
+        <item>33140,Opravy elektrických zařízení</item>
+        <item>3315,Opravy a údržba lodí a člunů</item>
+        <item>33150,Opravy a údržba lodí a člunů</item>
+        <item>3316,Opravy a údržba letadel a kosmických lodí</item>
+        <item>33160,Opravy a údržba letadel a kosmických lodí</item>
+        <item>3317,Opravy a údržba ostatních dopravních prostředků a zařízení j. n.</item>
+        <item>33171,Opravy a údržba kolejových vozidel</item>
+        <item>33179,Opravy a údržba ostatních dopravních prostředků a zařízení j. n., kromě kolejových vozidel</item>
+        <item>3319,Opravy ostatních zařízení</item>
+        <item>33190,Opravy ostatních zařízení</item>
+        <item>332,Instalace průmyslových strojů a zařízení</item>
+        <item>3320,Instalace průmyslových strojů a zařízení</item>
+        <item>33200,Instalace průmyslových strojů a zařízení</item>
+        <item>35,Výroba a rozvod elektřiny, plynu, tepla a klimatizovaného vzduchu</item>
+        <item>351,Výroba, přenos a rozvod elektřiny</item>
+        <item>3511,Výroba elektřiny</item>
+        <item>35110,Výroba elektřiny</item>
+        <item>3512,Přenos elektřiny</item>
+        <item>35120,Přenos elektřiny</item>
+        <item>3513,Rozvod elektřiny</item>
+        <item>35130,Rozvod elektřiny</item>
+        <item>3514,Obchod s elektřinou</item>
+        <item>35140,Obchod s elektřinou</item>
+        <item>352,"Výroba plynu rozvod plynných paliv prostřednictvím sítí"</item>
+        <item>3521,Výroba plynu</item>
+        <item>35210,Výroba plynu</item>
+        <item>3522,Rozvod plynných paliv prostřednictvím sítí</item>
+        <item>35220,Rozvod plynných paliv prostřednictvím sítí</item>
+        <item>3523,Obchod s plynem prostřednictvím sítí</item>
+        <item>35230,Obchod s plynem prostřednictvím sítí</item>
+        <item>353,Výroba a rozvod tepla a klimatizovaného vzduchu, výroba ledu</item>
+        <item>3530,Výroba a rozvod tepla a klimatizovaného vzduchu, výroba ledu</item>
+        <item>35301,Výroba tepla</item>
+        <item>35302,Rozvod tepla</item>
+        <item>35303,Výroba klimatizovaného vzduchu</item>
+        <item>35304,Rozvod klimatizovaného vzduchu</item>
+        <item>35305,Výroba chladicí vody</item>
+        <item>35306,Rozvod chladicí vody</item>
+        <item>35307,Výroba ledu</item>
+        <item>36,Shromažďování, úprava a rozvod vody</item>
+        <item>360,Shromažďování, úprava a rozvod vody</item>
+        <item>3600,Shromažďování, úprava a rozvod vody</item>
+        <item>36000,Shromažďování, úprava a rozvod vody</item>
+        <item>37,Činnosti související s odpadními vodami</item>
+        <item>370,Činnosti související s odpadními vodami</item>
+        <item>3700,Činnosti související s odpadními vodami</item>
+        <item>37000,Činnosti související s odpadními vodami</item>
+        <item>38,Shromažďování, sběr a odstraňování odpadů, úprava odpadů k dalšímu využití</item>
+        <item>381,Shromažďování a sběr odpadů</item>
+        <item>3811,Shromažďování a sběr odpadů, kromě nebezpečných</item>
+        <item>38110,Shromažďování a sběr odpadů, kromě nebezpečných</item>
+        <item>3812,Shromažďování a sběr nebezpečných odpadů</item>
+        <item>38120,Shromažďování a sběr nebezpečných odpadů</item>
+        <item>382,Odstraňování odpadů</item>
+        <item>3821,Odstraňování odpadů, kromě nebezpečných</item>
+        <item>38210,Odstraňování odpadů, kromě nebezpečných</item>
+        <item>3822,Odstraňování nebezpečných odpadů</item>
+        <item>38220,Odstraňování nebezpečných odpadů</item>
+        <item>383,Úprava odpadů k dalšímu využití</item>
+        <item>3831,Demontáž vraků a vyřazených strojů a zařízení pro účely recyklace</item>
+        <item>38310,Demontáž vraků a vyřazených strojů a zařízení pro účely recyklace</item>
+        <item>3832,Úprava odpadů k dalšímu využití, kromě demontáže vraků, strojů a zařízení</item>
+        <item>38320,Úprava odpadů k dalšímu využití, kromě demontáže vraků, strojů a zařízení</item>
+        <item>39,Sanace a jiné činnosti související s odpady</item>
+        <item>390,Sanace a jiné činnosti související s odpady</item>
+        <item>3900,Sanace a jiné činnosti související s odpady</item>
+        <item>39000,Sanace a jiné činnosti související s odpady</item>
+        <item>41,Výstavba budov</item>
+        <item>411,Developerská činnost</item>
+        <item>4110,Developerská činnost</item>
+        <item>41100,Developerská činnost</item>
+        <item>412,Výstavba bytových a nebytových budov</item>
+        <item>4120,Výstavba bytových a nebytových budov</item>
+        <item>41201,Výstavba bytových budov</item>
+        <item>41202,Výstavba nebytových budov</item>
+        <item>42,Inženýrské stavitelství</item>
+        <item>421,Výstavba silnic a železnic</item>
+        <item>4211,Výstavba silnic a dálnic</item>
+        <item>42110,Výstavba silnic a dálnic</item>
+        <item>4212,Výstavba železnic a podzemních drah</item>
+        <item>42120,Výstavba železnic a podzemních drah</item>
+        <item>4213,Výstavba mostů a tunelů</item>
+        <item>42130,Výstavba mostů a tunelů</item>
+        <item>422,Výstavba inženýrských sítí</item>
+        <item>4221,Výstavba inženýrských sítí pro kapaliny a plyny</item>
+        <item>42211,Výstavba inženýrských sítí pro kapaliny</item>
+        <item>42212,Výstavba inženýrských sítí pro plyny</item>
+        <item>4222,Výstavba inženýrských sítí pro elektřinu a telekomunikace</item>
+        <item>42220,Výstavba inženýrských sítí pro elektřinu a telekomunikace</item>
+        <item>429,Výstavba ostatních staveb</item>
+        <item>4291,Výstavba vodních děl</item>
+        <item>42910,Výstavba vodních děl</item>
+        <item>4299,Výstavba ostatních staveb j. n.</item>
+        <item>42990,Výstavba ostatních staveb j. n.</item>
+        <item>43,Specializované stavební činnosti</item>
+        <item>431,Demolice a příprava staveniště</item>
+        <item>4311,Demolice</item>
+        <item>43110,Demolice</item>
+        <item>4312,Příprava staveniště</item>
+        <item>43120,Příprava staveniště</item>
+        <item>4313,Průzkumné vrtné práce</item>
+        <item>43130,Průzkumné vrtné práce</item>
+        <item>432,Elektroinstalační, instalatérské a ostatní stavebně instalační práce</item>
+        <item>4321,Elektrické instalace</item>
+        <item>43210,Elektrické instalace</item>
+        <item>4322,Instalace vody, odpadu, plynu, topení a klimatizace</item>
+        <item>43220,Instalace vody, odpadu, plynu, topení a klimatizace</item>
+        <item>4329,Ostatní stavební instalace</item>
+        <item>43290,Ostatní stavební instalace</item>
+        <item>433,Kompletační a dokončovací práce</item>
+        <item>4331,Omítkářské práce</item>
+        <item>43310,Omítkářské práce</item>
+        <item>4332,Truhlářské práce</item>
+        <item>43320,Truhlářské práce</item>
+        <item>4333,Obkládání stěn a pokládání podlahových krytin</item>
+        <item>43330,Obkládání stěn a pokládání podlahových krytin</item>
+        <item>4334,Sklenářské, malířské a natěračské práce</item>
+        <item>43341,Sklenářské práce</item>
+        <item>43342,Malířské a natěračské práce</item>
+        <item>4339,Ostatní kompletační a dokončovací práce</item>
+        <item>43390,Ostatní kompletační a dokončovací práce</item>
+        <item>439,Ostatní specializované stavební činnosti</item>
+        <item>4391,Pokrývačské práce</item>
+        <item>43910,Pokrývačské práce</item>
+        <item>4399,Ostatní specializované stavební činnosti j. n.</item>
+        <item>43991,Montáž a demontáž lešení a bednění</item>
+        <item>43999,Jiné specializované stavební činnosti j. n.</item>
+        <item>45,Velkoobchod, maloobchod a opravy motorových vozidel</item>
+        <item>451,Obchod s motorovými vozidly, kromě motocyklů</item>
+        <item>4511,Obchod s automobily a jinými lehkými motorovými vozidly</item>
+        <item>45110,Obchod s automobily a jinými lehkými motorovými vozidly</item>
+        <item>4519,Obchod s ostatními motorovými vozidly, kromě motocyklů</item>
+        <item>45190,Obchod s ostatními motorovými vozidly, kromě motocyklů</item>
+        <item>452,Opravy a údržba motorových vozidel, kromě motocyklů</item>
+        <item>4520,Opravy a údržba motorových vozidel, kromě motocyklů</item>
+        <item>45200,Opravy a údržba motorových vozidel, kromě motocyklů</item>
+        <item>453,Obchod s díly a příslušenstvím pro motorová vozidla, kromě motocyklů</item>
+        <item>4531,Velkoobchod s díly a příslušenstvím pro motorová vozidla, kromě motocyklů</item>
+        <item>45310,Velkoobchod s díly a příslušenstvím pro motorová vozidla, kromě motocyklů</item>
+        <item>4532,Maloobchod s díly a příslušenstvím pro motorová vozidla, kromě motocyklů</item>
+        <item>45320,Maloobchod s díly a příslušenstvím pro motorová vozidla, kromě motocyklů</item>
+        <item>454,Obchod, opravy a údržba motocyklů, jejich dílů a příslušenství</item>
+        <item>4540,Obchod, opravy a údržba motocyklů, jejich dílů a příslušenství</item>
+        <item>45400,Obchod, opravy a údržba motocyklů, jejich dílů a příslušenství</item>
+        <item>46,Velkoobchod, kromě motorových vozidel</item>
+        <item>461,Zprostředkování velkoobchodu a velkoobchod v zastoupení</item>
+        <item>4611,Zprostředkování velkoobchodu a velkoobchod v zastoupení se základními zemědělskými produkty, živými zvířaty, textilními surovinami a polotovary</item>
+        <item>46110,Zprostředkování velkoobchodu a velkoobchod v zastoupení se základními zemědělskými produkty, živými zvířaty, textilními surovinami a polotovary</item>
+        <item>4612,Zprostředkování velkoobchodu a velkoobchod v zastoupení s palivy, rudami, kovy a průmyslovými chemikáliemi</item>
+        <item>46120,Zprostředkování velkoobchodu a velkoobchod v zastoupení s palivy, rudami, kovy a průmyslovými chemikáliemi</item>
+        <item>4613,Zprostředkování velkoobchodu a velkoobchod v zastoupení se dřevem a stavebními materiály</item>
+        <item>46130,Zprostředkování velkoobchodu a velkoobchod v zastoupení se dřevem a stavebními materiály</item>
+        <item>4614,Zprostředkování velkoobchodu a velkoobchod v zastoupení se stroji, průmyslovým zařízením, loděmi a letadly</item>
+        <item>46140,Zprostředkování velkoobchodu a velkoobchod v zastoupení se stroji, průmyslovým zařízením, loděmi a letadly</item>
+        <item>4615,Zprostředkování velkoobchodu a velkoobchod v zastoupení s nábytkem, železářským zbožím a potřebami převážně pro domácnost</item>
+        <item>46150,Zprostředkování velkoobchodu a velkoobchod v zastoupení s nábytkem, železářským zbožím a potřebami převážně pro domácnost</item>
+        <item>4616,Zprostředkování velkoobchodu a velkoobchod v zastoupení s textilem, oděvy, kožešinami, obuví a koženými výrobky</item>
+        <item>46160,Zprostředkování velkoobchodu a velkoobchod v zastoupení s textilem, oděvy, kožešinami, obuví a koženými výrobky</item>
+        <item>4617,Zprostředkování velkoobchodu a velkoobchod v zastoupení s potravinami, nápoji, tabákem a tabákovými výrobky</item>
+        <item>46170,Zprostředkování velkoobchodu a velkoobchod v zastoupení s potravinami, nápoji, tabákem a tabákovými výrobky</item>
+        <item>4618,Zprostředkování specializovaného velkoobchodu a specializovaný velkoobchod v zastoupení s ostatními výrobky</item>
+        <item>46181,Zprostředkování velkoobchodu a velkoobchod v zastoupení s papírenskými výrobky</item>
+        <item>46189,Zprostředkování specializovaného velkoobchodu a velkoobchod v zastoupení s ostatními výrobky j. n.</item>
+        <item>4619,Zprostředkování nespecializovaného velkoobchodu a nespecializovaný velkoobchod v zastoupení</item>
+        <item>46190,Zprostředkování nespecializovaného velkoobchodu a nespecializovaný velkoobchod v zastoupení</item>
+        <item>462,Velkoobchod se základními zemědělskými produkty a živými zvířaty</item>
+        <item>4621,Velkoobchod s obilím, surovým tabákem, osivy a krmivy</item>
+        <item>46210,Velkoobchod s obilím, surovým tabákem, osivy a krmivy</item>
+        <item>4622,Velkoobchod s květinami a jinými rostlinami</item>
+        <item>46220,Velkoobchod s květinami a jinými rostlinami</item>
+        <item>4623,Velkoobchod s živými zvířaty</item>
+        <item>46230,Velkoobchod s živými zvířaty</item>
+        <item>4624,Velkoobchod se surovými kůžemi, kožešinami a usněmi</item>
+        <item>46240,Velkoobchod se surovými kůžemi, kožešinami a usněmi</item>
+        <item>463,Velkoobchod s potravinami, nápoji a tabákovými výrobky</item>
+        <item>4631,Velkoobchod s ovocem a zeleninou</item>
+        <item>46310,Velkoobchod s ovocem a zeleninou</item>
+        <item>4632,Velkoobchod s masem a masnými výrobky</item>
+        <item>46320,Velkoobchod s masem a masnými výrobky</item>
+        <item>4633,Velkoobchod s mléčnými výrobky, vejci, jedlými oleji a tuky</item>
+        <item>46330,Velkoobchod s mléčnými výrobky, vejci, jedlými oleji a tuky</item>
+        <item>4634,Velkoobchod s nápoji</item>
+        <item>46340,Velkoobchod s nápoji</item>
+        <item>4635,Velkoobchod s tabákovými výrobky</item>
+        <item>46350,Velkoobchod s tabákovými výrobky</item>
+        <item>4636,Velkoobchod s cukrem, čokoládou a cukrovinkami</item>
+        <item>46360,Velkoobchod s cukrem, čokoládou a cukrovinkami</item>
+        <item>4637,Velkoobchod s kávou, čajem, kakaem a kořením</item>
+        <item>46370,Velkoobchod s kávou, čajem, kakaem a kořením</item>
+        <item>4638,Specializovaný velkoobchod s jinými potravinami, včetně ryb, korýšů a měkkýšů</item>
+        <item>46380,Specializovaný velkoobchod s jinými potravinami, včetně ryb, korýšů a měkkýšů</item>
+        <item>4639,Nespecializovaný velkoobchod s potravinami, nápoji a tabákovými výrobky</item>
+        <item>46390,Nespecializovaný velkoobchod s potravinami, nápoji a tabákovými výrobky</item>
+        <item>464,Velkoobchod s výrobky převážně pro domácnost</item>
+        <item>4641,Velkoobchod s textilem</item>
+        <item>46410,Velkoobchod s textilem</item>
+        <item>4642,Velkoobchod s oděvy a obuví</item>
+        <item>46421,Velkoobchod s oděvy</item>
+        <item>46422,Velkoobchod s obuví</item>
+        <item>4643,Velkoobchod s elektrospotřebiči a elektronikou</item>
+        <item>46430,Velkoobchod s elektrospotřebiči a elektronikou</item>
+        <item>4644,Velkoobchod s porcelánovými, keramickými a skleněnými výrobky a čisticími prostředky</item>
+        <item>46441,Velkoobchod s porcelánovými, keramickými a skleněnými výrobky</item>
+        <item>46442,Velkoobchod s pracími a čisticími prostředky</item>
+        <item>4645,Velkoobchod s kosmetickými výrobky</item>
+        <item>46450,Velkoobchod s kosmetickými výrobky</item>
+        <item>4646,Velkoobchod s farmaceutickými výrobky</item>
+        <item>46460,Velkoobchod s farmaceutickými výrobky</item>
+        <item>4647,Velkoobchod s nábytkem, koberci a svítidly</item>
+        <item>46470,Velkoobchod s nábytkem, koberci a svítidly</item>
+        <item>4648,Velkoobchod s hodinami, hodinkami a klenoty</item>
+        <item>46480,Velkoobchod s hodinami, hodinkami a klenoty</item>
+        <item>4649,Velkoobchod s ostatními výrobky převážně pro domácnost</item>
+        <item>46490,Velkoobchod s ostatními výrobky převážně pro domácnost</item>
+        <item>465,Velkoobchod s počítačovým a komunikačním zařízením</item>
+        <item>4651,Velkoobchod s počítači, počítačovým periferním zařízením a softwarem</item>
+        <item>46510,Velkoobchod s počítači, počítačovým periferním zařízením a softwarem</item>
+        <item>4652,Velkoobchod s elektronickým a telekomunikačním zařízením a jeho díly</item>
+        <item>46520,Velkoobchod s elektronickým a telekomunikačním zařízením a jeho díly</item>
+        <item>466,Velkoobchod s ostatními stroji, strojním zařízením a příslušenstvím</item>
+        <item>4661,Velkoobchod se zemědělskými stroji, strojním zařízením a příslušenstvím</item>
+        <item>46610,Velkoobchod se zemědělskými stroji, strojním zařízením a příslušenstvím</item>
+        <item>4662,Velkoobchod s obráběcími stroji</item>
+        <item>46620,Velkoobchod s obráběcími stroji</item>
+        <item>4663,Velkoobchod s těžebními a stavebními stroji a zařízením</item>
+        <item>46630,Velkoobchod s těžebními a stavebními stroji a zařízením</item>
+        <item>4664,Velkoobchod se strojním zařízením pro textilní průmysl, šicími a pletacími stroji</item>
+        <item>46640,Velkoobchod se strojním zařízením pro textilní průmysl, šicími a pletacími stroji</item>
+        <item>4665,Velkoobchod s kancelářským nábytkem</item>
+        <item>46650,Velkoobchod s kancelářským nábytkem</item>
+        <item>4666,Velkoobchod s ostatními kancelářskými stroji a zařízením</item>
+        <item>46660,Velkoobchod s ostatními kancelářskými stroji a zařízením</item>
+        <item>4669,Velkoobchod s ostatními stroji a zařízením</item>
+        <item>46690,Velkoobchod s ostatními stroji a zařízením</item>
+        <item>467,Ostatní specializovaný velkoobchod</item>
+        <item>4671,Velkoobchod s pevnými, kapalnými a plynnými palivy a příbuznými výrobky</item>
+        <item>46711,Velkoobchod s pevnými palivy a příbuznými výrobky</item>
+        <item>46712,Velkoobchod s kapalnými palivy a příbuznými výrobky</item>
+        <item>46713,Velkoobchod s plynnými palivy a příbuznými výrobky</item>
+        <item>4672,Velkoobchod s rudami, kovy a hutními výrobky</item>
+        <item>46720,Velkoobchod s rudami, kovy a hutními výrobky</item>
+        <item>4673,Velkoobchod se dřevem, stavebními materiály a sanitárním vybavením</item>
+        <item>46730,Velkoobchod se dřevem, stavebními materiály a sanitárním vybavením</item>
+        <item>4674,Velkoobchod s železářským zbožím, instalatérskými a topenářskými potřebami</item>
+        <item>46740,Velkoobchod s železářským zbožím, instalatérskými a topenářskými potřebami</item>
+        <item>4675,Velkoobchod s chemickými výrobky</item>
+        <item>46750,Velkoobchod s chemickými výrobky</item>
+        <item>4676,Velkoobchod s ostatními meziprodukty</item>
+        <item>46761,Velkoobchod s papírenskými meziprodukty</item>
+        <item>46769,Velkoobchod s ostatními meziprodukty j. n.</item>
+        <item>4677,Velkoobchod s odpadem a šrotem</item>
+        <item>46770,Velkoobchod s odpadem a šrotem</item>
+        <item>469,Nespecializovaný velkoobchod</item>
+        <item>4690,Nespecializovaný velkoobchod</item>
+        <item>46900,Nespecializovaný velkoobchod</item>
+        <item>47,Maloobchod, kromě motorových vozidel</item>
+        <item>471,Maloobchod v nespecializovaných prodejnách</item>
+        <item>4711,Maloobchod s převahou potravin, nápojů a tabákových výrobků v nespecializovaných prodejnách</item>
+        <item>47110,Maloobchod s převahou potravin, nápojů a tabákových výrobků v nespecializovaných prodejnách</item>
+        <item>4719,Ostatní maloobchod v nespecializovaných prodejnách</item>
+        <item>47190,Ostatní maloobchod v nespecializovaných prodejnách</item>
+        <item>472,Maloobchod s potravinami, nápoji a tabákovými výrobky ve specializovaných prodejnách</item>
+        <item>4721,Maloobchod s ovocem a zeleninou</item>
+        <item>47210,Maloobchod s ovocem a zeleninou</item>
+        <item>4722,Maloobchod s masem a masnými výrobky</item>
+        <item>47220,Maloobchod s masem a masnými výrobky</item>
+        <item>4723,Maloobchod s rybami, korýši a měkkýši</item>
+        <item>47230,Maloobchod s rybami, korýši a měkkýši</item>
+        <item>4724,Maloobchod s chlebem, pečivem, cukrářskými výrobky a cukrovinkami</item>
+        <item>47240,Maloobchod s chlebem, pečivem, cukrářskými výrobky a cukrovinkami</item>
+        <item>4725,Maloobchod s nápoji</item>
+        <item>47250,Maloobchod s nápoji</item>
+        <item>4726,Maloobchod s tabákovými výrobky</item>
+        <item>47260,Maloobchod s tabákovými výrobky</item>
+        <item>4729,Ostatní maloobchod s potravinami ve specializovaných prodejnách</item>
+        <item>47290,Ostatní maloobchod s potravinami ve specializovaných prodejnách</item>
+        <item>473,Maloobchod s pohonnými hmotami ve specializovaných prodejnách</item>
+        <item>4730,Maloobchod s pohonnými hmotami ve specializovaných prodejnách</item>
+        <item>47300,Maloobchod s pohonnými hmotami ve specializovaných prodejnách</item>
+        <item>474,Maloobchod s počítačovým a komunikačním zařízením ve specializovaných prodejnách</item>
+        <item>4741,Maloobchod s počítači, počítačovým periferním zařízením a softwarem</item>
+        <item>47410,Maloobchod s počítači, počítačovým periferním zařízením a softwarem</item>
+        <item>4742,Maloobchod s telekomunikačním zařízením</item>
+        <item>47420,Maloobchod s telekomunikačním zařízením</item>
+        <item>4743,Maloobchod s audio- a videozařízením</item>
+        <item>47430,Maloobchod s audio- a videozařízením</item>
+        <item>475,Maloobchod s ostatními výrobky převážně pro domácnost ve specializovaných prodejnách</item>
+        <item>4751,Maloobchod s textilem</item>
+        <item>47510,Maloobchod s textilem</item>
+        <item>4752,Maloobchod s železářským zbožím, barvami, sklem a potřebami pro kutily</item>
+        <item>47520,Maloobchod s železářským zbožím, barvami, sklem a potřebami pro kutily</item>
+        <item>4753,Maloobchod s koberci, podlahovými krytinami a nástěnnými obklady</item>
+        <item>47530,Maloobchod s koberci, podlahovými krytinami a nástěnnými obklady</item>
+        <item>4754,Maloobchod s elektrospotřebiči a elektronikou</item>
+        <item>47540,Maloobchod s elektrospotřebiči a elektronikou</item>
+        <item>4759,Maloobchod s nábytkem, svítidly a ostatními výrobky převážně pro domácnost ve specializovaných prodejnách</item>
+        <item>47590,Maloobchod s nábytkem, svítidly a ostatními výrobky převážně pro domácnost ve specializovaných prodejnách</item>
+        <item>476,Maloobchod s výrobky pro kulturní rozhled a rekreaci ve specializovaných prodejnách</item>
+        <item>4761,Maloobchod s knihami</item>
+        <item>47610,Maloobchod s knihami</item>
+        <item>4762,Maloobchod s novinami, časopisy a papírnickým zbožím</item>
+        <item>47620,Maloobchod s novinami, časopisy a papírnickým zbožím</item>
+        <item>4763,Maloobchod s audio- a videozáznamy</item>
+        <item>47630,Maloobchod s audio- a videozáznamy</item>
+        <item>4764,Maloobchod se sportovním vybavením</item>
+        <item>47640,Maloobchod se sportovním vybavením</item>
+        <item>4765,Maloobchod s hrami a hračkami</item>
+        <item>47650,Maloobchod s hrami a hračkami</item>
+        <item>477,Maloobchod s ostatním zbožím ve specializovaných prodejnách</item>
+        <item>4771,Maloobchod s oděvy</item>
+        <item>47710,Maloobchod s oděvy</item>
+        <item>4772,Maloobchod s obuví a koženými výrobky</item>
+        <item>47720,Maloobchod s obuví a koženými výrobky</item>
+        <item>4773,Maloobchod s farmaceutickými přípravky</item>
+        <item>47730,Maloobchod s farmaceutickými přípravky</item>
+        <item>4774,Maloobchod se zdravotnickými a ortopedickými výrobky</item>
+        <item>47740,Maloobchod se zdravotnickými a ortopedickými výrobky</item>
+        <item>4775,Maloobchod s kosmetickými a toaletními výrobky</item>
+        <item>47750,Maloobchod s kosmetickými a toaletními výrobky</item>
+        <item>4776,Maloobchod s květinami, rostlinami, osivy, hnojivy, zvířaty pro zájmový chov a krmivy pro ně</item>
+        <item>47760,Maloobchod s květinami, rostlinami, osivy, hnojivy, zvířaty pro zájmový chov a krmivy pro ně</item>
+        <item>4777,Maloobchod s hodinami, hodinkami a klenoty</item>
+        <item>47770,Maloobchod s hodinami, hodinkami a klenoty</item>
+        <item>4778,Ostatní maloobchod s novým zbožím ve specializovaných prodejnách</item>
+        <item>47781,Maloobchod s fotografickým a optickým zařízením a potřebami</item>
+        <item>47782,Maloobchod s pevnými palivy</item>
+        <item>47783,Maloobchod s kapalnými palivy (kromě pohonných hmot)</item>
+        <item>47784,Maloobchod s plynnými palivy (kromě pohonných hmot)</item>
+        <item>47789,Ostatní maloobchod s novým zbožím ve specializovaných prodejnách j. n.</item>
+        <item>4779,Maloobchod s použitým zbožím v prodejnách</item>
+        <item>47790,Maloobchod s použitým zbožím v prodejnách</item>
+        <item>478,Maloobchod ve stáncích a na trzích</item>
+        <item>4781,Maloobchod s potravinami, nápoji a tabákovými výrobky ve stáncích a na trzích</item>
+        <item>47810,Maloobchod s potravinami, nápoji a tabákovými výrobky ve stáncích a na trzích</item>
+        <item>4782,Maloobchod s textilem, oděvy a obuví ve stáncích a na trzích</item>
+        <item>47820,Maloobchod s textilem, oděvy a obuví ve stáncích a na trzích</item>
+        <item>4789,Maloobchod s ostatním zbožím ve stáncích a na trzích</item>
+        <item>47890,Maloobchod s ostatním zbožím ve stáncích a na trzích</item>
+        <item>479,Maloobchod mimo prodejny, stánky a trhy</item>
+        <item>4791,Maloobchod prostřednictvím internetu nebo zásilkové služby</item>
+        <item>47911,Maloobchod prostřednictvím internetu</item>
+        <item>47912,Maloobchod prostřednictvím zásilkové služby (jiný než prostřednictvím internetu)</item>
+        <item>4799,Ostatní maloobchod mimo prodejny, stánky a trhy</item>
+        <item>47990,Ostatní maloobchod mimo prodejny, stánky a trhy</item>
+        <item>49,Pozemní a potrubní doprava</item>
+        <item>491,Železniční osobní doprava meziměstská</item>
+        <item>4910,Železniční osobní doprava meziměstská</item>
+        <item>49100,Železniční osobní doprava meziměstská</item>
+        <item>492,Železniční nákladní doprava</item>
+        <item>4920,Železniční nákladní doprava</item>
+        <item>49200,Železniční nákladní doprava</item>
+        <item>493,Ostatní pozemní osobní doprava</item>
+        <item>4931,Městská a příměstská pozemní osobní doprava</item>
+        <item>49310,Městská a příměstská pozemní osobní doprava</item>
+        <item>4932,Taxislužba a pronájem osobních vozů s řidičem</item>
+        <item>49320,Taxislužba a pronájem osobních vozů s řidičem</item>
+        <item>4939,Ostatní pozemní osobní doprava j. n.</item>
+        <item>49391,Meziměstská pravidelná pozemní osobní doprava</item>
+        <item>49392,Osobní doprava lanovkou nebo vlekem</item>
+        <item>49393,Nepravidelná pozemní osobní doprava</item>
+        <item>49399,Jiná pozemní osobní doprava j. n.</item>
+        <item>494,Silniční nákladní doprava a stěhovací služby</item>
+        <item>4941,Silniční nákladní doprava</item>
+        <item>49410,Silniční nákladní doprava</item>
+        <item>4942,Stěhovací služby</item>
+        <item>49420,Stěhovací služby</item>
+        <item>495,Potrubní doprava</item>
+        <item>4950,Potrubní doprava</item>
+        <item>49501,Potrubní doprava ropovodem</item>
+        <item>49502,Potrubní doprava plynovodem</item>
+        <item>49509,Potrubní doprava ostatní</item>
+        <item>50,Vodní doprava</item>
+        <item>501,Námořní a pobřežní osobní doprava</item>
+        <item>5010,Námořní a pobřežní osobní doprava</item>
+        <item>50100,Námořní a pobřežní osobní doprava</item>
+        <item>502,Námořní a pobřežní nákladní doprava</item>
+        <item>5020,Námořní a pobřežní nákladní doprava</item>
+        <item>50200,Námořní a pobřežní nákladní doprava</item>
+        <item>503,Vnitrozemská vodní osobní doprava</item>
+        <item>5030,Vnitrozemská vodní osobní doprava</item>
+        <item>50300,Vnitrozemská vodní osobní doprava</item>
+        <item>504,Vnitrozemská vodní nákladní doprava</item>
+        <item>5040,Vnitrozemská vodní nákladní doprava</item>
+        <item>50400,Vnitrozemská vodní nákladní doprava</item>
+        <item>51,Letecká doprava</item>
+        <item>511,Letecká osobní doprava</item>
+        <item>5110,Letecká osobní doprava</item>
+        <item>51101,Vnitrostátní pravidelná letecká osobní doprava</item>
+        <item>51102,Vnitrostátní nepravidelná letecká osobní doprava</item>
+        <item>51103,Mezinárodní pravidelná letecká osobní doprava</item>
+        <item>51104,Mezinárodní nepravidelná letecká osobní doprava</item>
+        <item>51109,Ostatní letecká osobní doprava</item>
+        <item>512,Letecká nákladní doprava a kosmická doprava</item>
+        <item>5121,Letecká nákladní doprava</item>
+        <item>51210,Letecká nákladní doprava</item>
+        <item>5122,Kosmická doprava</item>
+        <item>51220,Kosmická doprava</item>
+        <item>52,Skladování a vedlejší činnosti v dopravě</item>
+        <item>521,Skladování</item>
+        <item>5210,Skladování</item>
+        <item>52100,Skladování</item>
+        <item>522,Vedlejší činnosti v dopravě</item>
+        <item>5221,Činnosti související s pozemní dopravou</item>
+        <item>52210,Činnosti související s pozemní dopravou</item>
+        <item>5222,Činnosti související s vodní dopravou</item>
+        <item>52220,Činnosti související s vodní dopravou</item>
+        <item>5223,Činnosti související s leteckou dopravou</item>
+        <item>52230,Činnosti související s leteckou dopravou</item>
+        <item>5224,Manipulace s nákladem</item>
+        <item>52240,Manipulace s nákladem</item>
+        <item>5229,Ostatní vedlejší činnosti v dopravě</item>
+        <item>52290,Ostatní vedlejší činnosti v dopravě</item>
+        <item>53,Poštovní a kurýrní činnosti</item>
+        <item>531,Základní poštovní služby poskytované na základě poštovní licence</item>
+        <item>5310,Základní poštovní služby poskytované na základě poštovní licence</item>
+        <item>53100,Základní poštovní služby poskytované na základě poštovní licence</item>
+        <item>532,Ostatní poštovní a kurýrní činnosti</item>
+        <item>5320,Ostatní poštovní a kurýrní činnosti</item>
+        <item>53200,Ostatní poštovní a kurýrní činnosti</item>
+        <item>55,Ubytování</item>
+        <item>551,Ubytování v hotelích a podobných ubytovacích zařízeních</item>
+        <item>5510,Ubytování v hotelích a podobných ubytovacích zařízeních</item>
+        <item>55101,Hotely</item>
+        <item>55102,Motely, botely</item>
+        <item>55109,Ostatní podobná ubytovací zařízení</item>
+        <item>552,Rekreační a ostatní krátkodobé ubytování</item>
+        <item>5520,Rekreační a ostatní krátkodobé ubytování</item>
+        <item>55200,Rekreační a ostatní krátkodobé ubytování</item>
+        <item>553,Kempy a tábořiště</item>
+        <item>5530,Kempy a tábořiště</item>
+        <item>55300,Kempy a tábořiště</item>
+        <item>559,Ostatní ubytování</item>
+        <item>5590,Ostatní ubytování</item>
+        <item>55901,Ubytování v zařízených pronájmech</item>
+        <item>55902,Ubytování ve vysokoškolských kolejích, domovech mládeže</item>
+        <item>55909,Ostatní ubytování j. n.</item>
+        <item>56,Stravování a pohostinství</item>
+        <item>561,Stravování v restauracích, u stánků a v mobilních zařízeních</item>
+        <item>5610,Stravování v restauracích, u stánků a v mobilních zařízeních</item>
+        <item>56100,Stravování v restauracích, u stánků a v mobilních zařízeních</item>
+        <item>562,Poskytování cateringových a ostatních stravovacích služeb</item>
+        <item>5621,Poskytování cateringových služeb</item>
+        <item>56210,Poskytování cateringových služeb</item>
+        <item>5629,Poskytování ostatních stravovacích služeb</item>
+        <item>56291,Stravování v závodních kuchyních</item>
+        <item>56292,Stravování ve školních zařízeních, menzách</item>
+        <item>56299,Poskytování jiných stravovacích služeb j. n.</item>
+        <item>563,Pohostinství</item>
+        <item>5630,Pohostinství</item>
+        <item>56300,Pohostinství</item>
+        <item>58,Vydavatelské činnosti</item>
+        <item>581,Vydávání knih, periodických publikací a ostatní vydavatelské činnosti</item>
+        <item>5811,Vydávání knih</item>
+        <item>58110,Vydávání knih</item>
+        <item>5812,Vydávání adresářů a jiných seznamů</item>
+        <item>58120,Vydávání adresářů a jiných seznamů</item>
+        <item>5813,Vydávání novin</item>
+        <item>58130,Vydávání novin</item>
+        <item>5814,Vydávání časopisů a ostatních periodických publikací</item>
+        <item>58140,Vydávání časopisů a ostatních periodických publikací</item>
+        <item>5819,Ostatní vydavatelské činnosti</item>
+        <item>58190,Ostatní vydavatelské činnosti</item>
+        <item>582,Vydávání softwaru</item>
+        <item>5821,Vydávání počítačových her</item>
+        <item>58210,Vydávání počítačových her</item>
+        <item>5829,Ostatní vydávání softwaru</item>
+        <item>58290,Ostatní vydávání softwaru</item>
+        <item>59,Činnosti v oblasti filmů, videozáznamů a televizních programů, pořizování zvukových nahrávek a hudební vydavatelské činnosti</item>
+        <item>591,Činnosti v oblasti filmů, videozáznamů a televizních programů</item>
+        <item>5911,Produkce filmů, videozáznamů a televizních programů</item>
+        <item>59110,Produkce filmů, videozáznamů a televizních programů</item>
+        <item>5912,Postprodukce filmů, videozáznamů a televizních programů</item>
+        <item>59120,Postprodukce filmů, videozáznamů a televizních programů</item>
+        <item>5913,Distribuce filmů, videozáznamů a televizních programů</item>
+        <item>59130,Distribuce filmů, videozáznamů a televizních programů</item>
+        <item>5914,Promítání filmů</item>
+        <item>59140,Promítání filmů</item>
+        <item>592,Pořizování zvukových nahrávek a hudební vydavatelské činnosti</item>
+        <item>5920,Pořizování zvukových nahrávek a hudební vydavatelské činnosti</item>
+        <item>59200,Pořizování zvukových nahrávek a hudební vydavatelské činnosti</item>
+        <item>60,Tvorba programů a vysílání</item>
+        <item>601,Rozhlasové vysílání</item>
+        <item>6010,Rozhlasové vysílání</item>
+        <item>60100,Rozhlasové vysílání</item>
+        <item>602,Tvorba televizních programů a televizní vysílání</item>
+        <item>6020,Tvorba televizních programů a televizní vysílání</item>
+        <item>60200,Tvorba televizních programů a televizní vysílání</item>
+        <item>61,Telekomunikační činnosti</item>
+        <item>611,Činnosti související s pevnou telekomunikační sítí</item>
+        <item>6110,Činnosti související s pevnou telekomunikační sítí</item>
+        <item>61101,Poskytování hlasových služeb přes pevnou telekomunikační síť</item>
+        <item>61102,Pronájem pevné telekomunikační sítě</item>
+        <item>61103,Přenos dat přes pevnou telekomunikační síť</item>
+        <item>61104,Poskytování přístupu k internetu přes pevnou telekomunikační síť</item>
+        <item>61109,Ostatní činnosti související s pevnou telekomunikační sítí</item>
+        <item>612,Činnosti související s bezdrátovou telekomunikační sítí</item>
+        <item>6120,Činnosti související s bezdrátovou telekomunikační sítí</item>
+        <item>61201,Poskytování hlasových služeb přes bezdrátovou telekomunikační síť</item>
+        <item>61202,Pronájem bezdrátové telekomunikační sítě</item>
+        <item>61203,Přenos dat přes bezdrátovou telekomunikační síť</item>
+        <item>61204,Poskytování přístupu k internetu přes bezdrátovou telekomunikační síť</item>
+        <item>61209,Ostatní činnosti související s bezdrátovou telekomunikační sítí</item>
+        <item>613,Činnosti související se satelitní telekomunikační sítí</item>
+        <item>6130,Činnosti související se satelitní telekomunikační sítí</item>
+        <item>61300,Činnosti související se satelitní telekomunikační sítí</item>
+        <item>619,Ostatní telekomunikační činnosti</item>
+        <item>6190,Ostatní telekomunikační činnosti</item>
+        <item>61900,Ostatní telekomunikační činnosti</item>
+        <item>62,Činnosti v oblasti informačních technologií</item>
+        <item>620,Činnosti v oblasti informačních technologií</item>
+        <item>6201,Programování</item>
+        <item>62010,Programování</item>
+        <item>6202,Poradenství v oblasti informačních technologií</item>
+        <item>62020,Poradenství v oblasti informačních technologií</item>
+        <item>6203,Správa počítačového vybavení</item>
+        <item>62030,Správa počítačového vybavení</item>
+        <item>6209,Ostatní činnosti v oblasti informačních technologií</item>
+        <item>62090,Ostatní činnosti v oblasti informačních technologií</item>
+        <item>63,Informační činnosti</item>
+        <item>631,"Činnosti související se zpracováním dat a hostingem činnosti související s webovými portály"</item>
+        <item>6311,Činnosti související se zpracováním dat a hostingem</item>
+        <item>63110,Činnosti související se zpracováním dat a hostingem</item>
+        <item>6312,Činnosti související s webovými portály</item>
+        <item>63120,Činnosti související s webovými portály</item>
+        <item>639,Ostatní informační činnosti</item>
+        <item>6391,Činnosti zpravodajských tiskových kanceláří a agentur</item>
+        <item>63910,Činnosti zpravodajských tiskových kanceláří a agentur</item>
+        <item>6399,Ostatní informační činnosti j. n.</item>
+        <item>63990,Ostatní informační činnosti j. n.</item>
+        <item>64,Finanční zprostředkování, kromě pojišťovnictví a penzijního financování</item>
+        <item>641,Peněžní zprostředkování</item>
+        <item>6411,Centrální bankovnictví</item>
+        <item>64110,Centrální bankovnictví</item>
+        <item>6419,Ostatní peněžní zprostředkování</item>
+        <item>64190,Ostatní peněžní zprostředkování</item>
+        <item>642,Činnosti holdingových společností</item>
+        <item>6420,Činnosti holdingových společností</item>
+        <item>64200,Činnosti holdingových společností</item>
+        <item>643,Činnosti trustů, fondů a podobných finančních subjektů</item>
+        <item>6430,Činnosti trustů, fondů a podobných finančních subjektů</item>
+        <item>64300,Činnosti trustů, fondů a podobných finančních subjektů</item>
+        <item>649,Ostatní finanční zprostředkování</item>
+        <item>6491,Finanční leasing</item>
+        <item>64910,Finanční leasing</item>
+        <item>6492,Ostatní poskytování úvěrů</item>
+        <item>64921,Poskytování úvěrů společnostmi, které nepřijímají vklady</item>
+        <item>64922,Poskytování obchodních úvěrů</item>
+        <item>64923,Činnosti zastaváren</item>
+        <item>64929,Ostatní poskytování úvěrů j. n.</item>
+        <item>6499,Ostatní finanční zprostředkování j. n.</item>
+        <item>64991,Faktoringové činnosti</item>
+        <item>64992,Obchodování s cennými papíry na vlastní účet</item>
+        <item>64999,Jiné finanční zprostředkování j. n.</item>
+        <item>65,Pojištění, zajištění a penzijní financování, kromě povinného sociálního zabezpečení</item>
+        <item>651,Pojištění</item>
+        <item>6511,Životní pojištění</item>
+        <item>65110,Životní pojištění</item>
+        <item>6512,Neživotní pojištění</item>
+        <item>65120,Neživotní pojištění</item>
+        <item>652,Zajištění</item>
+        <item>6520,Zajištění</item>
+        <item>65200,Zajištění</item>
+        <item>653,Penzijní financování</item>
+        <item>6530,Penzijní financování</item>
+        <item>65300,Penzijní financování</item>
+        <item>66,Ostatní finanční činnosti</item>
+        <item>661,Pomocné činnosti související s finančním zprostředkováním, kromě pojišťovnictví a penzijního financování</item>
+        <item>6611,Řízení a správa finančních trhů</item>
+        <item>66110,Řízení a správa finančních trhů</item>
+        <item>6612,Obchodování s cennými papíry a komoditami na burzách</item>
+        <item>66120,Obchodování s cennými papíry a komoditami na burzách</item>
+        <item>6619,Ostatní pomocné činnosti související s finančním zprostředkováním</item>
+        <item>66190,Ostatní pomocné činnosti související s finančním zprostředkováním</item>
+        <item>662,Pomocné činnosti související s pojišťovnictvím a penzijním financováním</item>
+        <item>6621,Vyhodnocování rizik a škod</item>
+        <item>66210,Vyhodnocování rizik a škod</item>
+        <item>6622,Činnosti zástupců pojišťovny a makléřů</item>
+        <item>66220,Činnosti zástupců pojišťovny a makléřů</item>
+        <item>6629,Ostatní pomocné činnosti související s pojišťovnictvím a penzijním financováním</item>
+        <item>66290,Ostatní pomocné činnosti související s pojišťovnictvím a penzijním financováním</item>
+        <item>663,Správa fondů</item>
+        <item>6630,Správa fondů</item>
+        <item>66300,Správa fondů</item>
+        <item>68,Činnosti v oblasti nemovitostí</item>
+        <item>681,Nákup a následný prodej vlastních nemovitostí</item>
+        <item>6810,Nákup a následný prodej vlastních nemovitostí</item>
+        <item>68100,Nákup a následný prodej vlastních nemovitostí</item>
+        <item>682,Pronájem a správa vlastních nebo pronajatých nemovitostí</item>
+        <item>6820,Pronájem a správa vlastních nebo pronajatých nemovitostí</item>
+        <item>68201,Pronájem vlastních nebo pronajatých nemovitostí s bytovými prostory</item>
+        <item>68202,Pronájem vlastních nebo pronajatých nemovitostí s nebytovými prostory</item>
+        <item>68203,Správa vlastních nebo pronajatých nemovitostí s bytovými prostory</item>
+        <item>68204,Správa vlastních nebo pronajatých nemovitostí s nebytovými prostory</item>
+        <item>683,Činnosti v oblasti nemovitostí na základě smlouvy nebo dohody</item>
+        <item>6831,Zprostředkovatelské činnosti realitních agentur</item>
+        <item>68310,Zprostředkovatelské činnosti realitních agentur</item>
+        <item>6832,Správa nemovitostí na základě smlouvy nebo dohody</item>
+        <item>68320,Správa nemovitostí na základě smlouvy nebo dohody</item>
+        <item>69,Právní a účetnické činnosti</item>
+        <item>691,Právní činnosti</item>
+        <item>6910,Právní činnosti</item>
+        <item>69100,Právní činnosti</item>
+        <item>692,"Účetnické a auditorské činnosti daňové poradenství"</item>
+        <item>6920,"Účetnické a auditorské činnosti daňové poradenství"</item>
+        <item>69200,"Účetnické a auditorské činnosti daňové poradenství"</item>
+        <item>70,"Činnosti vedení podniků poradenství v oblasti řízení"</item>
+        <item>701,Činnosti vedení podniků</item>
+        <item>7010,Činnosti vedení podniků</item>
+        <item>70100,Činnosti vedení podniků</item>
+        <item>702,Poradenství v oblasti řízení</item>
+        <item>7021,Poradenství v oblasti vztahů s veřejností a komunikace</item>
+        <item>70210,Poradenství v oblasti vztahů s veřejností a komunikace</item>
+        <item>7022,Ostatní poradenství v oblasti podnikání a řízení</item>
+        <item>70220,Ostatní poradenství v oblasti podnikání a řízení</item>
+        <item>71,"Architektonické a inženýrské činnosti technické zkoušky a analýzy"</item>
+        <item>711,Architektonické a inženýrské činnosti a související technické poradenství</item>
+        <item>7111,Architektonické činnosti</item>
+        <item>71110,Architektonické činnosti</item>
+        <item>7112,Inženýrské činnosti a související technické poradenství</item>
+        <item>71121,Geologický průzkum</item>
+        <item>71122,Zeměměřické a kartografické činnosti</item>
+        <item>71123,Hydrometeorologické a meteorologické činnosti</item>
+        <item>71129,Ostatní inženýrské činnosti a související technické poradenství j. n.</item>
+        <item>712,Technické zkoušky a analýzy</item>
+        <item>7120,Technické zkoušky a analýzy</item>
+        <item>71201,Zkoušky a analýzy vyhrazených technických zařízení</item>
+        <item>71209,Ostatní technické zkoušky a analýzy</item>
+        <item>72,Výzkum a vývoj</item>
+        <item>721,Výzkum a vývoj v oblasti přírodních a technických věd</item>
+        <item>7211,Výzkum a vývoj v oblasti biotechnologie</item>
+        <item>72110,Výzkum a vývoj v oblasti biotechnologie</item>
+        <item>7219,Ostatní výzkum a vývoj v oblasti přírodních a technických věd</item>
+        <item>72191,Výzkum a vývoj v oblasti lékařských věd</item>
+        <item>72192,Výzkum a vývoj v oblasti technických věd</item>
+        <item>72199,Výzkum a vývoj v oblasti jiných přírodních věd</item>
+        <item>722,Výzkum a vývoj v oblasti společenských a humanitních věd</item>
+        <item>7220,Výzkum a vývoj v oblasti společenských a humanitních věd</item>
+        <item>72200,Výzkum a vývoj v oblasti společenských a humanitních věd</item>
+        <item>73,Reklama a průzkum trhu</item>
+        <item>731,Reklamní činnosti</item>
+        <item>7311,Činnosti reklamních agentur</item>
+        <item>73110,Činnosti reklamních agentur</item>
+        <item>7312,Zastupování médií při prodeji reklamního času a prostoru</item>
+        <item>73120,Zastupování médií při prodeji reklamního času a prostoru</item>
+        <item>732,Průzkum trhu a veřejného mínění</item>
+        <item>7320,Průzkum trhu a veřejného mínění</item>
+        <item>73200,Průzkum trhu a veřejného mínění</item>
+        <item>74,Ostatní profesní, vědecké a technické činnosti</item>
+        <item>741,Specializované návrhářské činnosti</item>
+        <item>7410,Specializované návrhářské činnosti</item>
+        <item>74100,Specializované návrhářské činnosti</item>
+        <item>742,Fotografické činnosti</item>
+        <item>7420,Fotografické činnosti</item>
+        <item>74200,Fotografické činnosti</item>
+        <item>743,Překladatelské a tlumočnické činnosti</item>
+        <item>7430,Překladatelské a tlumočnické činnosti</item>
+        <item>74300,Překladatelské a tlumočnické činnosti</item>
+        <item>749,Ostatní profesní, vědecké a technické činnosti j. n.</item>
+        <item>7490,Ostatní profesní, vědecké a technické činnosti j. n.</item>
+        <item>74901,Poradenství v oblasti bezpečnosti a ochrany zdraví při práci</item>
+        <item>74902,Poradenství v oblasti požární ochrany</item>
+        <item>74909,Jiné profesní, vědecké a technické činnosti j. n.</item>
+        <item>75,Veterinární činnosti</item>
+        <item>750,Veterinární činnosti</item>
+        <item>7500,Veterinární činnosti</item>
+        <item>75000,Veterinární činnosti</item>
+        <item>77,Činnosti v oblasti pronájmu a operativního leasingu</item>
+        <item>771,Pronájem a leasing motorových vozidel, kromě motocyklů</item>
+        <item>7711,Pronájem a leasing automobilů a jiných lehkých motorových vozidel, kromě motocyklů</item>
+        <item>77110,Pronájem a leasing automobilů a jiných lehkých motorových vozidel, kromě motocyklů</item>
+        <item>7712,Pronájem a leasing nákladních automobilů</item>
+        <item>77120,Pronájem a leasing nákladních automobilů</item>
+        <item>772,Pronájem a leasing výrobků pro osobní potřebu a převážně pro domácnost</item>
+        <item>7721,Pronájem a leasing rekreačních a sportovních potřeb</item>
+        <item>77210,Pronájem a leasing rekreačních a sportovních potřeb</item>
+        <item>7722,Pronájem videokazet a disků</item>
+        <item>77220,Pronájem videokazet a disků</item>
+        <item>7729,Pronájem a leasing ostatních výrobků pro osobní potřebu a převážně pro domácnost</item>
+        <item>77290,Pronájem a leasing ostatních výrobků pro osobní potřebu a převážně pro domácnost</item>
+        <item>773,Pronájem a leasing ostatních strojů, zařízení a výrobků</item>
+        <item>7731,Pronájem a leasing zemědělských strojů a zařízení</item>
+        <item>77310,Pronájem a leasing zemědělských strojů a zařízení</item>
+        <item>7732,Pronájem a leasing stavebních strojů a zařízení</item>
+        <item>77320,Pronájem a leasing stavebních strojů a zařízení</item>
+        <item>7733,Pronájem a leasing kancelářských strojů a zařízení, včetně počítačů</item>
+        <item>77330,Pronájem a leasing kancelářských strojů a zařízení, včetně počítačů</item>
+        <item>7734,Pronájem a leasing vodních dopravních prostředků</item>
+        <item>77340,Pronájem a leasing vodních dopravních prostředků</item>
+        <item>7735,Pronájem a leasing leteckých dopravních prostředků</item>
+        <item>77350,Pronájem a leasing leteckých dopravních prostředků</item>
+        <item>7739,Pronájem a leasing ostatních strojů, zařízení a výrobků j. n.</item>
+        <item>77390,Pronájem a leasing ostatních strojů, zařízení a výrobků j. n.</item>
+        <item>774,Leasing duševního vlastnictví a podobných produktů, kromě děl chráněných autorským právem</item>
+        <item>7740,Leasing duševního vlastnictví a podobných produktů, kromě děl chráněných autorským právem</item>
+        <item>77400,Leasing duševního vlastnictví a podobných produktů, kromě děl chráněných autorským právem</item>
+        <item>78,Činnosti související se zaměstnáním</item>
+        <item>781,Činnosti agentur zprostředkujících zaměstnání</item>
+        <item>7810,Činnosti agentur zprostředkujících zaměstnání</item>
+        <item>78100,Činnosti agentur zprostředkujících zaměstnání</item>
+        <item>782,Činnosti agentur zprostředkujících práci na přechodnou dobu</item>
+        <item>7820,Činnosti agentur zprostředkujících práci na přechodnou dobu</item>
+        <item>78200,Činnosti agentur zprostředkujících práci na přechodnou dobu</item>
+        <item>783,Ostatní poskytování lidských zdrojů</item>
+        <item>7830,Ostatní poskytování lidských zdrojů</item>
+        <item>78300,Ostatní poskytování lidských zdrojů</item>
+        <item>79,Činnosti cestovních agentur, kanceláří a jiné rezervační a související činnosti</item>
+        <item>791,Činnosti cestovních agentur a cestovních kanceláří</item>
+        <item>7911,Činnosti cestovních agentur</item>
+        <item>79110,Činnosti cestovních agentur</item>
+        <item>7912,Činnosti cestovních kanceláří</item>
+        <item>79120,Činnosti cestovních kanceláří</item>
+        <item>799,Ostatní rezervační a související činnosti</item>
+        <item>7990,Ostatní rezervační a související činnosti</item>
+        <item>79901,Průvodcovské činnosti</item>
+        <item>79909,Ostatní rezervační a související činnosti j. n.</item>
+        <item>80,Bezpečnostní a pátrací činnosti</item>
+        <item>801,Činnosti soukromých bezpečnostních agentur</item>
+        <item>8010,Činnosti soukromých bezpečnostních agentur</item>
+        <item>80100,Činnosti soukromých bezpečnostních agentur</item>
+        <item>802,Činnosti související s provozem bezpečnostních systémů</item>
+        <item>8020,Činnosti související s provozem bezpečnostních systémů</item>
+        <item>80200,Činnosti související s provozem bezpečnostních systémů</item>
+        <item>803,Pátrací činnosti</item>
+        <item>8030,Pátrací činnosti</item>
+        <item>80300,Pátrací činnosti</item>
+        <item>81,Činnosti související se stavbami a úpravou krajiny</item>
+        <item>811,Kombinované pomocné činnosti</item>
+        <item>8110,Kombinované pomocné činnosti</item>
+        <item>81100,Kombinované pomocné činnosti</item>
+        <item>812,Úklidové činnosti</item>
+        <item>8121,Všeobecný úklid budov</item>
+        <item>81210,Všeobecný úklid budov</item>
+        <item>8122,Specializované čištění a úklid budov a průmyslových zařízení</item>
+        <item>81220,Specializované čištění a úklid budov a průmyslových zařízení</item>
+        <item>8129,Ostatní úklidové činnosti</item>
+        <item>81290,Ostatní úklidové činnosti</item>
+        <item>813,Činnosti související s úpravou krajiny</item>
+        <item>8130,Činnosti související s úpravou krajiny</item>
+        <item>81300,Činnosti související s úpravou krajiny</item>
+        <item>82,Administrativní, kancelářské a jiné podpůrné činnosti pro podnikání</item>
+        <item>821,Administrativní a kancelářské činnosti</item>
+        <item>8211,Univerzální administrativní činnosti</item>
+        <item>82110,Univerzální administrativní činnosti</item>
+        <item>8219,Kopírování, příprava dokumentů a ostatní specializované kancelářské podpůrné činnosti</item>
+        <item>82190,Kopírování, příprava dokumentů a ostatní specializované kancelářské podpůrné činnosti</item>
+        <item>822,Činnosti zprostředkovatelských středisek po telefonu</item>
+        <item>8220,Činnosti zprostředkovatelských středisek po telefonu</item>
+        <item>82200,Činnosti zprostředkovatelských středisek po telefonu</item>
+        <item>823,Pořádání konferencí a hospodářských výstav</item>
+        <item>8230,Pořádání konferencí a hospodářských výstav</item>
+        <item>82300,Pořádání konferencí a hospodářských výstav</item>
+        <item>829,Podpůrné činnosti pro podnikání j. n.</item>
+        <item>8291,Inkasní činnosti, ověřování solventnosti zákazníka</item>
+        <item>82910,Inkasní činnosti, ověřování solventnosti zákazníka</item>
+        <item>8292,Balicí činnosti</item>
+        <item>82920,Balicí činnosti</item>
+        <item>8299,Ostatní podpůrné činnosti pro podnikání j. n.</item>
+        <item>82990,Ostatní podpůrné činnosti pro podnikání j. n.</item>
+        <item>84,"Veřejná správa a obrana povinné sociální zabezpečení"</item>
+        <item>841,Veřejná správa a hospodářská a sociální politika</item>
+        <item>8411,Všeobecné činnosti veřejné správy</item>
+        <item>84110,Všeobecné činnosti veřejné správy</item>
+        <item>8412,Regulace činností souvisejících s poskytováním zdravotní péče, vzděláváním, kulturou a sociální péčí, kromě sociálního zabezpečení</item>
+        <item>84120,Regulace činností souvisejících s poskytováním zdravotní péče, vzděláváním, kulturou a sociální péčí, kromě sociálního zabezpečení</item>
+        <item>8413,Regulace a podpora podnikatelského prostředí</item>
+        <item>84130,Regulace a podpora podnikatelského prostředí</item>
+        <item>842,Činnosti pro společnost jako celek</item>
+        <item>8421,Činnosti v oblasti zahraničních věcí</item>
+        <item>84211,Pomoc cizím zemím při katastrofách nebo v nouzových situacích přímo nebo prostřednictvím mezinárodních organizací</item>
+        <item>84212,Rozvíjení vzájemného přátelství a porozumění mezi národy</item>
+        <item>84219,Ostatní činnosti v oblasti zahraničních věcí</item>
+        <item>8422,Činnosti v oblasti obrany</item>
+        <item>84220,Činnosti v oblasti obrany</item>
+        <item>8423,Činnosti v oblasti spravedlnosti a soudnictví</item>
+        <item>84230,Činnosti v oblasti spravedlnosti a soudnictví</item>
+        <item>8424,Činnosti v oblasti veřejného pořádku a bezpečnosti</item>
+        <item>84240,Činnosti v oblasti veřejného pořádku a bezpečnosti</item>
+        <item>8425,Činnosti v oblasti protipožární ochrany</item>
+        <item>84250,Činnosti v oblasti protipožární ochrany</item>
+        <item>843,Činnosti v oblasti povinného sociálního zabezpečení</item>
+        <item>8430,Činnosti v oblasti povinného sociálního zabezpečení</item>
+        <item>84300,Činnosti v oblasti povinného sociálního zabezpečení</item>
+        <item>85,Vzdělávání</item>
+        <item>851,Předškolní vzdělávání</item>
+        <item>8510,Předškolní vzdělávání</item>
+        <item>85100,Předškolní vzdělávání</item>
+        <item>852,Primární vzdělávání</item>
+        <item>8520,Primární vzdělávání</item>
+        <item>85200,Primární vzdělávání</item>
+        <item>853,Sekundární vzdělávání</item>
+        <item>8531,Sekundární všeobecné vzdělávání</item>
+        <item>85311,Základní vzdělávání na druhém stupni základních škol</item>
+        <item>85312,Střední všeobecné vzdělávání</item>
+        <item>8532,Sekundární odborné vzdělávání</item>
+        <item>85321,Střední odborné vzdělávání na učilištích</item>
+        <item>85322,Střední odborné vzdělávání na středních odborných školách</item>
+        <item>854,Postsekundární vzdělávání</item>
+        <item>8541,Postsekundární nikoli terciární vzdělávání</item>
+        <item>85410,Postsekundární nikoli terciární vzdělávání</item>
+        <item>8542,Terciární vzdělávání</item>
+        <item>85420,Terciární vzdělávání</item>
+        <item>855,Ostatní vzdělávání</item>
+        <item>8551,Sportovní a rekreační vzdělávání</item>
+        <item>85510,Sportovní a rekreační vzdělávání</item>
+        <item>8552,Umělecké vzdělávání</item>
+        <item>85520,Umělecké vzdělávání</item>
+        <item>8553,Činnosti autoškol a jiných škol řízení</item>
+        <item>85531,Činnosti autoškol</item>
+        <item>85532,Činnosti leteckých škol</item>
+        <item>85539,Činnosti ostatních škol řízení</item>
+        <item>8559,Ostatní vzdělávání j. n.</item>
+        <item>85591,Vzdělávání v jazykových školách</item>
+        <item>85592,Environmentální vzdělávání</item>
+        <item>85593,Inovační vzdělávání</item>
+        <item>85599,Jiné vzdělávání j. n.</item>
+        <item>856,Podpůrné činnosti ve vzdělávání</item>
+        <item>8560,Podpůrné činnosti ve vzdělávání</item>
+        <item>85600,Podpůrné činnosti ve vzdělávání</item>
+        <item>86,Zdravotní péče</item>
+        <item>861,Ústavní zdravotní péče</item>
+        <item>8610,Ústavní zdravotní péče</item>
+        <item>86100,Ústavní zdravotní péče</item>
+        <item>862,Ambulantní a zubní zdravotní péče</item>
+        <item>8621,Všeobecná ambulantní zdravotní péče</item>
+        <item>86210,Všeobecná ambulantní zdravotní péče</item>
+        <item>8622,Specializovaná ambulantní zdravotní péče</item>
+        <item>86220,Specializovaná ambulantní zdravotní péče</item>
+        <item>8623,Zubní péče</item>
+        <item>86230,Zubní péče</item>
+        <item>869,Ostatní činnosti související se zdravotní péčí</item>
+        <item>8690,Ostatní činnosti související se zdravotní péčí</item>
+        <item>86901,Činnosti související s ochranou veřejného zdraví</item>
+        <item>86909,Ostatní činnosti související se zdravotní péčí j. n.</item>
+        <item>87,Pobytové služby sociální péče</item>
+        <item>871,Sociální péče ve zdravotnických zařízeních ústavní péče</item>
+        <item>8710,Sociální péče ve zdravotnických zařízeních ústavní péče</item>
+        <item>87100,Sociální péče ve zdravotnických zařízeních ústavní péče</item>
+        <item>872,Sociální péče v zařízeních pro osoby s chronickým duševním onemocněním a osoby závislé na návykových látkách</item>
+        <item>8720,Sociální péče v zařízeních pro osoby s chronickým duševním onemocněním a osoby závislé na návykových látkách</item>
+        <item>87201,Sociální péče v zařízeních pro osoby s chronickým duševním onemocněním</item>
+        <item>87202,Sociální péče v zařízeních pro osoby závislé na návykových látkách</item>
+        <item>873,Sociální péče v domovech pro seniory a osoby se zdravotním postižením</item>
+        <item>8730,Sociální péče v domovech pro seniory a osoby se zdravotním postižením</item>
+        <item>87301,Sociální péče v domovech pro seniory</item>
+        <item>87302,Sociální péče v domovech pro osoby se zdravotním postižením</item>
+        <item>879,Ostatní pobytové služby sociální péče</item>
+        <item>8790,Ostatní pobytové služby sociální péče</item>
+        <item>87900,Ostatní pobytové služby sociální péče</item>
+        <item>88,Ambulantní nebo terénní sociální služby</item>
+        <item>881,Ambulantní nebo terénní sociální služby pro seniory a osoby se zdravotním postižením</item>
+        <item>8810,Ambulantní nebo terénní sociální služby pro seniory a osoby se zdravotním postižením</item>
+        <item>88101,Ambulantní nebo terénní sociální služby pro seniory</item>
+        <item>88102,Ambulantní nebo terénní sociální služby pro osoby se zdravotním postižením</item>
+        <item>889,Ostatní ambulantní nebo terénní sociální služby</item>
+        <item>8891,Sociální služby poskytované dětem</item>
+        <item>88910,Sociální služby poskytované dětem</item>
+        <item>8899,Ostatní ambulantní nebo terénní sociální služby j. n.</item>
+        <item>88991,Sociální služby pro uprchlíky, oběti katastrof</item>
+        <item>88992,Sociální prevence</item>
+        <item>88993,Sociální rehabilitace</item>
+        <item>88999,Jiné ambulantní nebo terénní sociální služby j. n.</item>
+        <item>90,Tvůrčí, umělecké a zábavní činnosti</item>
+        <item>900,Tvůrčí, umělecké a zábavní činnosti</item>
+        <item>9001,Scénická umění</item>
+        <item>90010,Scénická umění</item>
+        <item>9002,Podpůrné činnosti pro scénická umění</item>
+        <item>90020,Podpůrné činnosti pro scénická umění</item>
+        <item>9003,Umělecká tvorba</item>
+        <item>90030,Umělecká tvorba</item>
+        <item>9004,Provozování kulturních zařízení</item>
+        <item>90040,Provozování kulturních zařízení</item>
+        <item>91,Činnosti knihoven, archivů, muzeí a jiných kulturních zařízení</item>
+        <item>910,Činnosti knihoven, archivů, muzeí a jiných kulturních zařízení</item>
+        <item>9101,Činnosti knihoven a archivů</item>
+        <item>91010,Činnosti knihoven a archivů</item>
+        <item>9102,Činnosti muzeí</item>
+        <item>91020,Činnosti muzeí</item>
+        <item>9103,Provozování kulturních památek, historických staveb a obdobných turistických zajímavostí</item>
+        <item>91030,Provozování kulturních památek, historických staveb a obdobných turistických zajímavostí</item>
+        <item>9104,Činnosti botanických a zoologických zahrad, přírodních rezervací a národních parků</item>
+        <item>91041,Činnosti botanických a zoologických zahrad</item>
+        <item>91042,Činnosti přírodních rezervací a národních parků</item>
+        <item>92,Činnosti heren, kasin a sázkových kanceláří</item>
+        <item>920,Činnosti heren, kasin a sázkových kanceláří</item>
+        <item>9200,Činnosti heren, kasin a sázkových kanceláří</item>
+        <item>92000,Činnosti heren, kasin a sázkových kanceláří</item>
+        <item>93,Sportovní, zábavní a rekreační činnosti</item>
+        <item>931,Sportovní činnosti</item>
+        <item>9311,Provozování sportovních zařízení</item>
+        <item>93110,Provozování sportovních zařízení</item>
+        <item>9312,Činnosti sportovních klubů</item>
+        <item>93120,Činnosti sportovních klubů</item>
+        <item>9313,Činnosti fitcenter</item>
+        <item>93130,Činnosti fitcenter</item>
+        <item>9319,Ostatní sportovní činnosti</item>
+        <item>93190,Ostatní sportovní činnosti</item>
+        <item>932,Ostatní zábavní a rekreační činnosti</item>
+        <item>9321,Činnosti lunaparků a zábavních parků</item>
+        <item>93210,Činnosti lunaparků a zábavních parků</item>
+        <item>9329,Ostatní zábavní a rekreační činnosti j. n.</item>
+        <item>93290,Ostatní zábavní a rekreační činnosti j. n.</item>
+        <item>94,Činnosti organizací sdružujících osoby za účelem prosazování společných zájmů</item>
+        <item>941,Činnosti podnikatelských, zaměstnavatelských a profesních organizací</item>
+        <item>9411,Činnosti podnikatelských a zaměstnavatelských organizací</item>
+        <item>94110,Činnosti podnikatelských a zaměstnavatelských organizací</item>
+        <item>9412,Činnosti profesních organizací</item>
+        <item>94120,Činnosti profesních organizací</item>
+        <item>942,Činnosti odborových svazů</item>
+        <item>9420,Činnosti odborových svazů</item>
+        <item>94200,Činnosti odborových svazů</item>
+        <item>949,Činnosti ostatních organizací sdružujících osoby za účelem prosazování společných zájmů</item>
+        <item>9491,Činnosti náboženských organizací</item>
+        <item>94910,Činnosti náboženských organizací</item>
+        <item>9492,Činnosti politických stran a organizací</item>
+        <item>94920,Činnosti politických stran a organizací</item>
+        <item>9499,Činnosti ostatních organizací sdružujících osoby za účelem prosazování společných zájmů j. n.</item>
+        <item>94991,Činnosti organizací dětí a mládeže</item>
+        <item>94992,Činnosti organizací na podporu kulturní činnosti</item>
+        <item>94993,Činnosti organizací na podporu rekreační a zájmové činnosti</item>
+        <item>94994,Činnosti spotřebitelských organizací</item>
+        <item>94995,Činnosti environmentálních a ekologických hnutí</item>
+        <item>94996,Činnosti organizací na ochranu a zlepšení postavení etnických, menšinových a jiných speciálních skupin</item>
+        <item>94997,Činnosti občanských iniciativ, protestních hnutí</item>
+        <item>94999,Činnosti ostatních organizací j. n.</item>
+        <item>95,Opravy počítačů a výrobků pro osobní potřebu a převážně pro domácnost</item>
+        <item>951,Opravy počítačů a komunikačních zařízení</item>
+        <item>9511,Opravy počítačů a periferních zařízení</item>
+        <item>95110,Opravy počítačů a periferních zařízení</item>
+        <item>9512,Opravy komunikačních zařízení</item>
+        <item>95120,Opravy komunikačních zařízení</item>
+        <item>952,Opravy výrobků pro osobní potřebu a převážně pro domácnost</item>
+        <item>9521,Opravy spotřební elektroniky</item>
+        <item>95210,Opravy spotřební elektroniky</item>
+        <item>9522,Opravy přístrojů a zařízení převážně pro domácnost, dům a zahradu</item>
+        <item>95220,Opravy přístrojů a zařízení převážně pro domácnost, dům a zahradu</item>
+        <item>9523,Opravy obuvi a kožených výrobků</item>
+        <item>95230,Opravy obuvi a kožených výrobků</item>
+        <item>9524,Opravy nábytku a bytového zařízení</item>
+        <item>95240,Opravy nábytku a bytového zařízení</item>
+        <item>9525,Opravy hodin, hodinek a klenotnických výrobků</item>
+        <item>95250,Opravy hodin, hodinek a klenotnických výrobků</item>
+        <item>9529,Opravy ostatních výrobků pro osobní potřebu a převážně pro domácnost</item>
+        <item>95290,Opravy ostatních výrobků pro osobní potřebu a převážně pro domácnost</item>
+        <item>96,Poskytování ostatních osobních služeb</item>
+        <item>960,Poskytování ostatních osobních služeb</item>
+        <item>9601,Praní a chemické čištění textilních a kožešinových výrobků</item>
+        <item>96010,Praní a chemické čištění textilních a kožešinových výrobků</item>
+        <item>9602,Kadeřnické, kosmetické a podobné činnosti</item>
+        <item>96020,Kadeřnické, kosmetické a podobné činnosti</item>
+        <item>9603,Pohřební a související činnosti</item>
+        <item>96030,Pohřební a související činnosti</item>
+        <item>9604,Činnosti pro osobní a fyzickou pohodu</item>
+        <item>96040,Činnosti pro osobní a fyzickou pohodu</item>
+        <item>9609,Poskytování ostatních osobních služeb j. n.</item>
+        <item>96090,Poskytování ostatních osobních služeb j. n.</item>
+        <item>97,Činnosti domácností jako zaměstnavatelů domácího personálu</item>
+        <item>970,Činnosti domácností jako zaměstnavatelů domácího personálu</item>
+        <item>9700,Činnosti domácností jako zaměstnavatelů domácího personálu</item>
+        <item>97000,Činnosti domácností jako zaměstnavatelů domácího personálu</item>
+        <item>98,Činnosti domácností produkujících blíže neurčené výrobky a služby pro vlastní potřebu</item>
+        <item>981,Činnosti domácností produkujících blíže neurčené výrobky pro vlastní potřebu</item>
+        <item>9810,Činnosti domácností produkujících blíže neurčené výrobky pro vlastní potřebu</item>
+        <item>98100,Činnosti domácností produkujících blíže neurčené výrobky pro vlastní potřebu</item>
+        <item>982,Činnosti domácností poskytujících blíže neurčené služby pro vlastní potřebu</item>
+        <item>9820,Činnosti domácností poskytujících blíže neurčené služby pro vlastní potřebu</item>
+        <item>98200,Činnosti domácností poskytujících blíže neurčené služby pro vlastní potřebu</item>
+        <item>99,Činnosti exteritoriálních organizací a orgánů</item>
+        <item>990,Činnosti exteritoriálních organizací a orgánů</item>
+        <item>9900,Činnosti exteritoriálních organizací a orgánů</item>
+        <item>99000,Činnosti exteritoriálních organizací a orgánů</item>
+        <item>A,Zemědělství, lesnictví, rybářství</item>
+        <item>B,Těžba a dobývání</item>
+        <item>C,Zpracovatelský průmysl</item>
+        <item>D,Výroba a rozvod elektřiny, plynu, tepla a klimatizovaného vzduchu</item>
+        <item>E,"Zásobování vodou činnosti související s odpadními vodami, odpady a sanacemi"</item>
+        <item>F,Stavebnictví</item>
+        <item>G,"Velkoobchod a maloobchod opravy a údržba motorových vozidel"</item>
+        <item>H,Doprava a skladování</item>
+        <item>I,Ubytování, stravování a pohostinství</item>
+        <item>J,Informační a komunikační činnosti</item>
+        <item>K,Peněžnictví a pojišťovnictví</item>
+        <item>L,Činnosti v oblasti nemovitostí</item>
+        <item>M,Profesní, vědecké a technické činnosti</item>
+        <item>N,Administrativní a podpůrné činnosti</item>
+        <item>O,"Veřejná správa a obrana povinné sociální zabezpečení"</item>
+        <item>P,Vzdělávání</item>
+        <item>Q,Zdravotní a sociální péče</item>
+        <item>R,Kulturní, zábavní a rekreační činnosti</item>
+        <item>S,Ostatní činnosti</item>
+        <item>T,"Činnosti domácností jako zaměstnavatelů činnosti domácností produkujících blíže neurčené výrobky a služby pro vlastní potřebu"</item>
+        <item>U,Činnosti exteritoriálních organizací a orgánů</item>
+    </string-array>
+</resources>

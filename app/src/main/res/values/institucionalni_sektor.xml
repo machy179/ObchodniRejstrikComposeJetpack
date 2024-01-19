@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="institucionalni_sektor">
+        <item>0,Nezjištěno</item>
+        <item>11001,Veřejné podniky nefinanční</item>
+        <item>11002,Národní soukromé nefinanční podniky</item>
+        <item>11003,Nefinanční podniky pod zahraniční kontrolou</item>
+        <item>12100,Centrální banka (veřejná)</item>
+        <item>12201,Instituce přijímající vklady kromě centrální banky, veřejné</item>
+        <item>12202,Instituce přijímající vklady kromě centrální banky, národní soukromé</item>
+        <item>12203,Instituce přijímající vklady kromě centrální banky, pod zahraniční kontrolou</item>
+        <item>12301,Fondy peněžního trhu, veřejné</item>
+        <item>12302,Fondy peněžního trhu, národní soukromé</item>
+        <item>12303,Fondy peněžního trhu, pod zahraniční kontrolou</item>
+        <item>12401,Investiční fondy jiné než fondy peněžního trhu, veřejné</item>
+        <item>12402,Investiční fondy jiné než fondy peněžního trhu, národní soukromé</item>
+        <item>12403,Investiční fondy jiné než fondy peněžního trhu, pod zahraniční kontrolou</item>
+        <item>12501,Ostatní finanční zprostředkovatelé kromě pojišťovacích společností a penzijních fondů, veřejní</item>
+        <item>12502,Ostatní finanční zprostředkovatelé kromě pojišťovacích společností a penzijních fondů, národní soukromí</item>
+        <item>12503,Ostatní finanční zprostředkovatelé kromě pojišťovacích společností a penzijních fondů, pod zahraniční kontrolou</item>
+        <item>12601,Pomocné finanční instituce, veřejné</item>
+        <item>12602,Pomocné finanční instituce, národní soukromé</item>
+        <item>12603,Pomocné finanční instituce, pod zahraniční kontrolou</item>
+        <item>12701,Kaptivní finanční instituce a půjčovatelé peněz, veřejné</item>
+        <item>12702,Kaptivní finanční instituce a půjčovatelé peněz, národní soukromé</item>
+        <item>12703,Kaptivní finanční instituce a půjčovatelé peněz, pod zahraniční kontrolou</item>
+        <item>12801,Pojišťovací společnosti, veřejné</item>
+        <item>12802,Pojišťovací společnosti, národní soukromé</item>
+        <item>12803,Pojišťovací společnosti, pod zahraniční kontrolou</item>
+        <item>12901,Penzijní fondy, veřejné</item>
+        <item>12902,Penzijní fondy, národní soukromé</item>
+        <item>12903,Penzijní fondy, pod zahraniční kontrolou</item>
+        <item>13110,Ústřední vládní instituce (kromě fondů sociálního zabezpečení)</item>
+        <item>13120,Národní vládní instituce (kromě fondů sociálního zabezpečení)</item>
+        <item>13130,Místní vládní instituce (kromě fondů sociálního zabezpečení)</item>
+        <item>13140,Fondy sociálního zabezpečení</item>
+        <item>14100,Zaměstnavatelé</item>
+        <item>14200,Osoby samostatně výdělečně činné</item>
+        <item>14300,Zaměstnanci</item>
+        <item>14410,Příjemci důchodů z vlastnictví</item>
+        <item>14420,Příjemci penzí</item>
+        <item>14430,Příjemci ostatních transferů</item>
+        <item>15002,Neziskové instituce sloužící domácnostem, národní soukromé</item>
+        <item>15003,Neziskové instituce sloužící domácnostem, pod zahraniční kontrolou</item>
+        <item>21110,Členské státy eurozóny</item>
+        <item>21120,Členské státy mimo eurozónu</item>
+        <item>21210,Evropská centrální banka (ECB)</item>
+        <item>21220,Evropské orgány a instituce, kromě ECB</item>
+        <item>22000,Ostatní země a mezinárodní organizace - nerezidenti EU</item>
+    </string-array>
+</resources>
