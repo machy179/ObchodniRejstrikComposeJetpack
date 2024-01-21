@@ -369,6 +369,12 @@ class RozparzovaniDatDotazOR {
             return companyData
         }
 
+        private fun upravIco(input: String): String {
+            val nulyKZacatku = 8 - input.length
+            val upravenyString = "0".repeat(nulyKZacatku) + input
+            return upravenyString
+        }
+
         private fun upravFinancniCastku(input: String): String {
             // Odstranění všeho za ";"
             val cleanedString = input.substringBefore(";")
@@ -452,8 +458,10 @@ class RozparzovaniDatDotazOR {
         }
 
         private fun vlozFirmu(it: JSONObject): Firma {
+            var ico = it?.optJSONObject("pravnickaOsoba")?.optString("ico", "") ?: ""
+            if(!ico.equals("")) ico = upravIco(ico)
             return Firma(
-                it?.optJSONObject("pravnickaOsoba")?.optString("ico", "") ?: "",
+                ico,
                 it?.optJSONObject("pravnickaOsoba")?.optString("obchodniJmeno", "") ?: "",
                 it?.optJSONObject("pravnickaOsoba")?.optJSONObject("adresa")?.optString("textovaAdresa", " ") ?: "",
                 it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: "",
@@ -463,13 +471,15 @@ class RozparzovaniDatDotazOR {
         }
 
         private fun vlozFirmuSpolecnik(it: JSONObject): Firma {
+            var ico =it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optString("ico", "") ?: ""
+            if(!ico.equals("")) ico = upravIco(ico)
             var splaceno = it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ") ?: ""
             splaceno = upravSplaceni(splaceno, it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("typObnos") ?: "")
             var podil = it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")?.optString("hodnota", " ") ?: ""
             podil = upravSplaceni(podil, it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")?.optString("typObnos", " ") ?: "")
 
             return Firma(
-                it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optString("ico", "") ?: "",
+                ico,
                 it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optString("obchodniJmeno", "") ?: "",
                 it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optJSONObject("adresa")?.optString("textovaAdresa", " ") ?: "",
                 upravFinancniCastku(it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: ""),

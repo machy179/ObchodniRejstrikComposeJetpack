@@ -74,38 +74,8 @@ class RozparzovaniDatDotazRES {
             return companyDataRES
         }
 
-         fun vratErrorHlasku(document: Document): String {
-            val errorHlaska = document.select("D|ET").first()?.text() ?: " "
-            return errorHlaska
-        }
-
-        fun vratAdresu(document: Elements): String {
-            var address = document.select("D|NU").first()?.text() ?: ""
-            document.select("D|CD").first()?.text()?.let {
-                if(address=="") {
-                    address =address +it
-                } else address =address +" "+it
-            }
-            document.select("D|NCO").first()?.text()?.let {
-                address =address +", "+it
-            }
-            document.select("D|N").first()?.text()?.let {
-                address =address +", "+it
-            }
-            document.select("D|PSC").first()?.text()?.let {
-                address =address +", "+it
-            }
-            document.select("D|NS").first()?.text()?.let {
-                address =address +", "+it
-            }
 
 
-/*            address =address +" "+ (document.select("D|CD").first()?.text() ?: "")//
-            address =address +", "+ (document.select("D|NCO").first()?.text() ?: " ")
-            address =address +", "+ (document.select("D|N").first()?.text() ?: " ")
-            address =address +", "+ (document.select("D|NS").first()?.text() ?: " ")*/
-            return address
-        }
     }
 }
 
