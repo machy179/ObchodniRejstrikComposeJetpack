@@ -100,11 +100,11 @@ class ObchodniRejstrikViewModel  : ViewModel() {
         }
     }
 
-    fun loadDataNazev(nazev: String) {
+    fun loadDataNazev(nazev: String, nazevMesto: String) {
         _nacitani.value = true
         viewModelScope.launch {
             try {
-                val documentStringJson = getAresDataNazev(nazev)
+                val documentStringJson = getAresDataNazev(nazev, nazevMesto)
                 val jsonContent =
                     documentStringJson?.replace(Regex(".*?<body>(.*?)</body>.*", RegexOption.DOT_MATCHES_ALL), "$1")
                 Log.i("JSON odpověď: ",jsonContent.toString())
@@ -141,9 +141,13 @@ class ObchodniRejstrikViewModel  : ViewModel() {
         }
     }
 
-    private suspend fun getAresDataNazev(nazev: String): String? {
+    private suspend fun getAresDataNazev(nazev: String,nazevMesto: String): String? {
         val url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat"
-        Log.d("Pokus JSON :", "111")
+        val requestBody = if (nazevMesto.isEmpty()) { """{"start": 0, "pocet": 1000, "razeni": ["obchodniJmeno"], "obchodniJmeno": "$nazev"}"""
+        } else {
+            """{"start": 0, "pocet": 1000, "razeni": ["obchodniJmeno"], "obchodniJmeno": "$nazev", "sidlo": { "textovaAdresa": "$nazevMesto"}}"""
+        }
+        Log.d("nazevMesto :", nazevMesto)
         return try {
             Log.d("Pokus JSON :", "222")
             withContext(Dispatchers.IO) {
@@ -152,7 +156,7 @@ class ObchodniRejstrikViewModel  : ViewModel() {
                     .userAgent("Mozilla")
                     .header("content-type", "application/json")
                     .header("accept", "application/json")
-                    .requestBody("""{"start": 0, "pocet": 1000, "razeni": ["obchodniJmeno"], "obchodniJmeno": "$nazev"}""")
+                    .requestBody(requestBody)
                     .ignoreContentType(true)
                     .ignoreHttpErrors(true)
                     .post()

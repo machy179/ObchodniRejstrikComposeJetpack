@@ -221,7 +221,7 @@ fun ObchodniRejstrikApp2(
                         navController.navigate(ObchodniRejstrik.VypisIco.name)
                     },
                     hledejDleNazvuButton = {
-                        viewModel.loadDataNazev(it) //it dostane z UvodniObrazovka hledejDleNazvuButton - bude to to, co je napsané ve vyhldedávacím poli
+                        viewModel.loadDataNazev(it.first, it.second) //it dostane z UvodniObrazovka hledejDleNazvuButton - bude to to, co je napsané ve vyhldedávacím poli
                         navController.navigate(ObchodniRejstrik.VypisFiremSeznam.name)
                     }
                 )
