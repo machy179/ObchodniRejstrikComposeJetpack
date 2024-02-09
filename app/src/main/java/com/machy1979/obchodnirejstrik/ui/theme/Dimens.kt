@@ -11,6 +11,7 @@ val OdsazeniMensi = 2.dp
 val VelikostZakulaceniRohu = 14.dp
 val VelikostZakulaceniRohuButton = 14.dp
 val VelikostZakulaceniRohuButtonTextField = 14.dp
+val VelikostZakulaceniRohuButtonTextFieldVnitrni = 9.dp
 val VelikostElevation = 10.dp
 
 val VelikostPaddingHlavnihoOkna = 4.dp
@@ -20,6 +21,7 @@ val VelikostPaddingCardNepovinneHodnoty = 5.dp
 val VelikostPaddingCardHorizontal = 8.dp
 val VelikostPaddingCardVertical = 5.dp
 val VelikostBorderStrokeCard = 4.dp
+val PaddingVnitrniCard = 10.dp
 
 //hlavni udaje
 val VelikostPaddingMezeryMeziHlavnimiZaznamy = 10.dp

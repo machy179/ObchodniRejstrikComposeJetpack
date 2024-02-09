@@ -41,94 +41,89 @@ fun UvodniObrazovka(
 // Fetching current app configuration
 
         val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-
-        val paddingModifier = if (isLandscape) {
+        var expanded by remember { mutableStateOf (false) }
+        val paddingModifierHlavniCard = if (isLandscape) {
             Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 10.dp)
         } else {
             Modifier.padding(start = 20.dp, end = 20.dp, top = 100.dp, bottom = 10.dp)
+        }
+        val paddingModifierSpodniCard = if (expanded) {
+            Modifier
+                .fillMaxWidth()
+                .padding(PaddingVnitrniCard)
+                .clickable {
+                    expanded = !expanded
+                }
+        } else {
+            Modifier
+                .padding(0.dp)
+                .clickable {
+                    expanded = !expanded
+                }
         }
         Card(
             elevation = VelikostElevation,
             // modifier = Modifier
             //    .padding(horizontal = 20.dp, vertical = 70.dp),
-            modifier = paddingModifier,
+            modifier = paddingModifierHlavniCard,
             shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextField ),
 
         ) {
-            OutlinedTextField(
-                value = dotaz.value,
-                onValueChange = {
-                    dotaz.value = it                            },
-                label = { Text("ICO nebo název subjektu") },
-                modifier = Modifier
-                    .padding(PaddingVButtonu)
-                    .fillMaxWidth(),
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource(id = com.machy1979.obchodnirejstrik.R.drawable.search_icon),
-                        contentDescription = "Search"
-                    )
-                },
-
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = Color.Black,
-                    disabledTextColor = Color.Transparent,
-                    backgroundColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
-                )
-            )
-        }
-
-
-
-            var expanded by remember { mutableStateOf (false) }
-
-        Column(
-            modifier = Modifier.align(Alignment.Start) // Zarovnává kartu doleva
-        ) {
-            Card(
-                elevation = VelikostElevation,
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, top = 0.dp, bottom = 20.dp)
-                    .then(if (expanded) Modifier.fillMaxWidth() else Modifier)
-                    .padding(PaddingVButtonu)
-                    .clickable {
-                        expanded = !expanded
-                    },
-                shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextField ),
-            ) {
-                Column(
+            Column (
+            ){
+                Card(
+                    elevation = VelikostElevation,
+                    modifier = Modifier
+                        .then(if (expanded) Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 0.dp)
+                            .then(if (expanded) Modifier.fillMaxWidth() else Modifier)
+                            .padding(PaddingVButtonu)
+                        else Modifier),
+                    shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextFieldVnitrni),
                 ) {
-                    if (!expanded) {
-                        Icon(
-                            painter = painterResource(id = com.machy1979.obchodnirejstrik.R.drawable.expandabled_icon),
-                            contentDescription = "Expand",
-                            modifier = Modifier
-                                .clickable { expanded = !expanded }
-                                .padding(end = 8.dp) // Umožňuje umístit ikonu odstupcem od textového pole
-                        )
-/*                        Text(modifier = Modifier
-                            .padding(VelikostPaddingCardNepovinneHodnoty),
-                            text = "  +  ",
-                            color = Color.Gray // Sets text color to gray
-                        )*/
-                    }
+                    OutlinedTextField(
+                        value = dotaz.value,
+                        onValueChange = {
+                            dotaz.value = it                            },
+                        label = { Text("ICO nebo název subjektu") },
+                        modifier = Modifier
+                            .padding(PaddingVButtonu)
+                            .fillMaxWidth(),
+                        trailingIcon = {
+                            Icon(
+                                painter = if(expanded) {
+                                    painterResource(id = com.machy1979.obchodnirejstrik.R.drawable.collapsed_icon)
+                                } else {
+                                    painterResource(id = com.machy1979.obchodnirejstrik.R.drawable.expandabled_icon)
 
-                    if (expanded) {
-                        Icon(
-                            painter = painterResource(id = com.machy1979.obchodnirejstrik.R.drawable.collapsed_icon),
-                            contentDescription = "Collaps",
-                            modifier = Modifier
-                                .clickable { expanded = !expanded }
-                                .padding(end = 8.dp) // Umožňuje umístit ikonu odstupcem od textového pole
+                                },
+                                contentDescription = "Search",
+                                modifier = Modifier
+                                    .clickable { expanded = !expanded }
+                            )
+                        },
+
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = Color.Black,
+                            disabledTextColor = Color.Transparent,
+                            backgroundColor = Color.White,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent
                         )
+                    )
+                }
+
+                Card(
+                    elevation = VelikostElevation,
+                    modifier = paddingModifierSpodniCard,
+                    shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextFieldVnitrni),
+                ) {
+                    if (expanded) {
                         OutlinedTextField(
                             value = dotazMesto.value,
                             onValueChange = {
                                 dotazMesto.value = it
-                                            },
+                            },
                             label = { Text("Sídlo subjektu - nepovinné") },
                             modifier = Modifier
                                 .padding(PaddingVButtonu)
@@ -143,9 +138,17 @@ fun UvodniObrazovka(
                             )
                         )
                     }
+
                 }
             }
+
+
         }
+
+
+
+
+
 
         CustomButton("Načíst dle ICO", false, true,
             onClick = {
