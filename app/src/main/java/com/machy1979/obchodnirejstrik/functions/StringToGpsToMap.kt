@@ -18,6 +18,7 @@ class StringToGpsToMap {
                 println("GPS-mapa .....3")
                 val gps =getGPSCoordinatesFromAddress(address)
                 println("GPS-mapa .....4")
+                println("GPS-mapa .....4="+gps.toString())
                 openMapsAppWithGPSLocation(gps, address)
                 println("GPS-mapa .....5")
             }
@@ -39,19 +40,10 @@ class StringToGpsToMap {
         }
 
         fun getGPSCoordinatesFromAddress(address: String): LatLng {
-            this.context = context
-            println("GPS .....0"+ address)
-            println("GPS .....1")
-            val geocoder = Geocoder(RozparzovaniDatDotazOR.context)
-            println("GPS .....2")
+            val geocoder = Geocoder(context)
             val addresses = geocoder.getFromLocationName(address, 1)
-            println("GPS .....3")
             val latitude = addresses?.get(0)?.latitude
-            println("GPS .....4")
-            println("GPS .....4"+latitude.toString())
             val longitude = addresses?.get(0)?.longitude
-            println("GPS .....5")
-            println("GPS .....5"+longitude.toString())
 
             return LatLng(latitude!!, longitude!!)
         }
