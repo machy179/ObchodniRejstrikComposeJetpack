@@ -1,10 +1,15 @@
 package com.machy1979.obchodnirejstrik.screens
 
 import android.content.res.Configuration
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.clickable
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -34,7 +39,8 @@ fun UvodniObrazovka(
     Column (
         modifier = modifier
             .padding(VelikostPaddingHlavnihoOkna)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ){
@@ -43,7 +49,7 @@ fun UvodniObrazovka(
         val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
         var expanded by remember { mutableStateOf (false) }
         val paddingModifierHlavniCard = if (isLandscape) {
-            Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 10.dp)
+            Modifier.padding(start = 20.dp, end = 20.dp, top = 2.dp, bottom = 10.dp)
         } else {
             Modifier.padding(start = 20.dp, end = 20.dp, top = 100.dp, bottom = 10.dp)
         }
@@ -70,6 +76,13 @@ fun UvodniObrazovka(
 
         ) {
             Column (
+                modifier = Modifier
+                    .animateContentSize( //efekt pro rozbalení
+                        animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioLowBouncy,
+                            stiffness = Spring.StiffnessLow
+                        )
+                    )
             ){
                 Card(
                     elevation = VelikostElevation,
