@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,8 +33,8 @@ fun UvodniObrazovka(
     hledejDleNazvuButton: (Pair<String, String>) -> Unit = {},
     modifier: Modifier = Modifier
 ){
-    val dotaz = remember { mutableStateOf(TextFieldValue()) }
-    val dotazMesto = remember { mutableStateOf(TextFieldValue()) }
+    var dotaz by rememberSaveable { mutableStateOf("") }
+    var dotazMesto by rememberSaveable { mutableStateOf("") }
 
 
     Column (
@@ -47,7 +48,7 @@ fun UvodniObrazovka(
 // Fetching current app configuration
 
         val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-        var expanded by remember { mutableStateOf (false) }
+        var expanded by rememberSaveable { mutableStateOf (false) }
         val paddingModifierHlavniCard = if (isLandscape) {
             Modifier.padding(start = 20.dp, end = 20.dp, top = 2.dp, bottom = 10.dp)
         } else {
@@ -87,16 +88,20 @@ fun UvodniObrazovka(
                 Card(
                     elevation = VelikostElevation,
                     modifier = Modifier
-                        .then(if (expanded) Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 0.dp)
+                        .then(if (expanded) Modifier
+                            .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 0.dp)
                             .then(if (expanded) Modifier.fillMaxWidth() else Modifier)
                             .padding(PaddingVButtonu)
                         else Modifier),
                     shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextFieldVnitrni),
                 ) {
                     OutlinedTextField(
-                        value = dotaz.value,
+               //         value = dotaz.value,
+                        value = dotaz,
                         onValueChange = {
-                            dotaz.value = it                            },
+                //            dotaz.value = it                            },
+                            dotaz = it                            },
+
                         label = { Text("ICO nebo název subjektu") },
                         modifier = Modifier
                             .padding(PaddingVButtonu)
@@ -133,9 +138,9 @@ fun UvodniObrazovka(
                 ) {
                     if (expanded) {
                         OutlinedTextField(
-                            value = dotazMesto.value,
+                            value = dotazMesto,
                             onValueChange = {
-                                dotazMesto.value = it
+                                dotazMesto = it
                             },
                             label = { Text("Sídlo subjektu - nepovinné") },
                             modifier = Modifier
@@ -165,22 +170,25 @@ fun UvodniObrazovka(
 
         CustomButton("Načíst dle ICO", false, true,
             onClick = {
-                hledejDleIcoButton(dotaz.value.text)
+            //    hledejDleIcoButton(dotaz.value.text)
+                hledejDleIcoButton(dotaz)
             }
         )
 
         CustomButton("Načíst dle názvu", false,true,
             onClick = {
                 viewModel.vynulujCompanysData()
-                hledejDleNazvuButton(Pair(dotaz.value.text, dotazMesto.value.text))
+           //     hledejDleNazvuButton(Pair(dotaz.value.text, dotazMesto.value.text))
+                hledejDleNazvuButton(Pair(dotaz, dotazMesto))
             }
         )
 
     }
 }
 
+/*
 @Preview
 @Composable
 fun SelectOptionPreview() {
     UvodniObrazovka(ObchodniRejstrikViewModel())
-}
+}*/

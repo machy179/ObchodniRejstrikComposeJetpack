@@ -11,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -310,7 +311,7 @@ fun ObchodniRejstrikApp2(
             }
 
         }
-        if (showDialog.value) { //nakonec nepoužito, nechám to tady zatím, pokud v budoucnu budu chtí
+        if (showDialog.value) { //nakonec nepoužito, nechám to tady zatím, pokud v budoucnu budu chtít použít
             AlertDialogWrapperOpravneni(
                 onClickPovolit = {
                 showDialog.value = false

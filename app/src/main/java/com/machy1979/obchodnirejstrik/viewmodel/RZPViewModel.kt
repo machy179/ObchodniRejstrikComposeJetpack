@@ -6,12 +6,14 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazOR
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRZP
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
+import com.machy1979.obchodnirejstrik.model.CompanyDataRES
 import com.machy1979.obchodnirejstrik.model.CompanyDataRZP
 import com.machy1979.obchodnirejstrik.model.SharedState
 import kotlinx.coroutines.Dispatchers
@@ -29,20 +31,40 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
 
-class RZPViewModel : ViewModel() {
-
+class RZPViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
     //pro výpis RZP - rejstřík živnostenského podnikání
-    private val _companyDataFromRZP = MutableStateFlow(CompanyDataRZP())
+
+/*    private val _companyDataFromRZP = MutableStateFlow(CompanyDataRZP())
+    val companyDataFromRZP: StateFlow<CompanyDataRZP> = _companyDataFromRZP*/
+
+    private val _companyDataFromRZP = MutableStateFlow(savedStateHandle.get<CompanyDataRZP>(COMPANY_DATA_FROM_RZP_KEY) ?: CompanyDataRZP())
     val companyDataFromRZP: StateFlow<CompanyDataRZP> = _companyDataFromRZP
+
+    companion object {
+        private const val COMPANY_DATA_FROM_RZP_KEY = "company_data_key"
+        private const val BUTTON_CLICKED_RZP_KEY = "button_clicked_rzp_key"
+    }
+
+    fun updateCompanyDataFromRZP() { //v případě killnutí activity savedSatateHandle uloží níže uvedený objekt, aby se po znovuzobrazení aktivity tento načetl
+        savedStateHandle.set(COMPANY_DATA_FROM_RZP_KEY, _companyDataFromRZP.value)
+    }
+
+    /*    private val _buttonClickedRZP = MutableStateFlow<Boolean>(false)
+    val buttonClickedRZP: StateFlow<Boolean> =_buttonClickedRZP*/
+    private val _buttonClickedRZP = MutableStateFlow(savedStateHandle.get<Boolean>(BUTTON_CLICKED_RZP_KEY) ?: false)
+    val buttonClickedRZP: StateFlow<Boolean> = _buttonClickedRZP
+    fun updateButtonClickedRZP() {
+        savedStateHandle.set(BUTTON_CLICKED_RZP_KEY, _buttonClickedRZP.value)
+    }
+
     private var _nacitaniRZP = MutableStateFlow(false)
     val nacitaniRZP: StateFlow<Boolean> = _nacitaniRZP
     private val _errorMessageRZP = MutableStateFlow<String>("")
     val errorMessageRZP: StateFlow<String> = _errorMessageRZP
-    private val _buttonClickedRZP = MutableStateFlow<Boolean>(false)
-    val buttonClickedRZP: StateFlow<Boolean> =_buttonClickedRZP
 
     fun loadDataIcoRZP(ico: String, context: Context) {
         _buttonClickedRZP.value = false
+        updateButtonClickedRZP()
         _nacitaniRZP.value = true
         viewModelScope.launch {
             try {
@@ -56,11 +78,11 @@ class RZPViewModel : ViewModel() {
                         val zaznamyArray = jsonObject.getJSONArray("zaznamy")
                         if (zaznamyArray.length() > 0) {
                             val firstZaznamObject = zaznamyArray.getJSONObject(0)
-                            Log.i("RopzarzovaniOR: ","333")
                             _companyDataFromRZP.value = RozparzovaniDatDotazRZP.vratCompanyData(firstZaznamObject, context)
-                            Log.i("RopzarzovaniOR: ","444")
                             _errorMessageRZP.value = " "
                             _buttonClickedRZP.value = true
+                            updateCompanyDataFromRZP()
+                            updateButtonClickedRZP()
                         } else {
                             _errorMessageRZP.value = "Žádný záznam k subjektu vARESu"
                             Log.i("RopzarzovaniOR: ","555")

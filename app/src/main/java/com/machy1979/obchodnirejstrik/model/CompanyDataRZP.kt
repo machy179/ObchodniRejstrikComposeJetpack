@@ -1,5 +1,7 @@
 package com.machy1979.obchodnirejstrik.model
 
+import java.io.Serializable
+
 data class CompanyDataRZP (
     var name: String = "",
     var ico: String = "",
@@ -13,4 +15,4 @@ data class CompanyDataRZP (
     var osoby: MutableList<Osoba> = mutableListOf<Osoba>(),
     var zivnosti: MutableList<Zivnosti> = mutableListOf<Zivnosti>(),
 
-    )
+    ) : Serializable

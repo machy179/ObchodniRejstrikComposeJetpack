@@ -1,5 +1,7 @@
 package com.machy1979.obchodnirejstrik.model
 
+import java.io.Serializable
+
 data class CompanyDataRES (
     var name: String = "",
     var ico: String = "",
@@ -19,4 +21,4 @@ data class CompanyDataRES (
     //NACE - list polí - na prvním místě číslo nace a na druhém je název nace
     var nace: MutableList<Nace> = mutableListOf<Nace>(),
 
-    )
+    ) : Serializable

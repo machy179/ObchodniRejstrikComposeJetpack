@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRES
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRZP
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
+import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.CompanyDataRES
 import com.machy1979.obchodnirejstrik.model.SharedState
 import kotlinx.coroutines.Dispatchers
@@ -25,20 +27,42 @@ import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 import java.net.URL
 
-class RESViewModel : ViewModel() {
+class RESViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
     //pro výpis RES - rejstřík ekonomických subjektů
-    private val _companyDataFromRES = MutableStateFlow(CompanyDataRES()) //tady nastavit na CompanyDataRES - tuhle třídu vytvořit
-    val companyDataFromRES: StateFlow<CompanyDataRES> = _companyDataFromRES //to samé tady
+/*    private val _companyDataFromRES = MutableStateFlow(CompanyDataRES())
+    val companyDataFromRES: StateFlow<CompanyDataRES> = _companyDataFromRES */
+
+    private val _companyDataFromRES = MutableStateFlow(savedStateHandle.get<CompanyDataRES>(COMPANY_DATA_FROM_RES_KEY) ?: CompanyDataRES())
+    val companyDataFromRES: StateFlow<CompanyDataRES> = _companyDataFromRES
+
+    companion object {
+        private const val COMPANY_DATA_FROM_RES_KEY = "company_data_key"
+        private const val BUTTON_CLICKED_RES_KEY = "button_clicked_res_key"
+    }
+
+    fun updateCompanyDataFroRES() { //v případě killnutí activity savedSatateHandle uloží níže uvedený objekt, aby se po znovuzobrazení aktivity tento načetl
+        savedStateHandle.set(COMPANY_DATA_FROM_RES_KEY, _companyDataFromRES.value)
+    }
+
+/*    private val _buttonClickedRES = MutableStateFlow<Boolean>(false)
+    val buttonClickedRES: StateFlow<Boolean> =_buttonClickedRES*/
+    private val _buttonClickedRES = MutableStateFlow(savedStateHandle.get<Boolean>(RESViewModel.BUTTON_CLICKED_RES_KEY) ?: false)
+    val buttonClickedRES: StateFlow<Boolean> = _buttonClickedRES
+    fun updateButtonClickedRES() {
+        savedStateHandle.set(RESViewModel.BUTTON_CLICKED_RES_KEY, _buttonClickedRES.value)
+    }
+
+
     private var _nacitaniRES = MutableStateFlow(false)
     val nacitaniRES: StateFlow<Boolean> = _nacitaniRES
     private val _errorMessageRES = MutableStateFlow<String>("")
     val errorMessageRES: StateFlow<String> = _errorMessageRES
-    private val _buttonClickedRES = MutableStateFlow<Boolean>(false)
-    val buttonClickedRES: StateFlow<Boolean> =_buttonClickedRES
+
 
     fun loadDataIcoRES(ico: String, context: Context) {
         _buttonClickedRES.value = false
+        updateButtonClickedRES()
         _nacitaniRES.value = true
         viewModelScope.launch {
             try {
@@ -56,6 +80,8 @@ class RESViewModel : ViewModel() {
                             _companyDataFromRES.value = RozparzovaniDatDotazRES.vratCompanyData(firstZaznamObject, context)
                             _errorMessageRES.value = " "
                             _buttonClickedRES.value = true
+                            updateCompanyDataFroRES()
+                            updateButtonClickedRES()
                         } else {
                             _errorMessageRES.value = "Žádný záznam k subjektu vARESu"
                             Log.i("RopzarzovaniOR: ","555")

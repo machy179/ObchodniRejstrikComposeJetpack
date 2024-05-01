@@ -1,5 +1,7 @@
 package com.machy1979.obchodnirejstrik.model
 
+import java.io.Serializable
+
 data class Osoba(
     var titulyPredJmenem: String = "",
     var jmeno: String = "",
@@ -19,4 +21,4 @@ data class Osoba(
     //pro vedoucí organizační složky
     var organizacniSlozka: String = ""
 
-)
+) : Serializable

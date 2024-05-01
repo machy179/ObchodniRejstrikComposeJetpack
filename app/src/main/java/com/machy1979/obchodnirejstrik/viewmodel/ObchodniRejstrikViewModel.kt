@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.kittinunf.fuel.Fuel
@@ -17,6 +18,7 @@ import com.machy1979.obchodnirejstrik.model.CompanyData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONException
@@ -29,20 +31,51 @@ import java.net.URLEncoder
 import javax.net.ssl.HttpsURLConnection
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.io.IOException
 
 
 
-class ObchodniRejstrikViewModel  : ViewModel() {
+class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle)   : ViewModel() {
 
-    private val _companyData = MutableStateFlow(CompanyData())
+/*    private val _companyData = MutableStateFlow(CompanyData())
+    val companyData: StateFlow<CompanyData> = _companyData*/
+
+    //aby po restartu aktivity přežila CompanyData, je nutné do MV dát výše uvedený (private val savedStateHandle: SavedStateHandle), poté udělat níže uvedené změny, funkc companyUpdate spustit na vhodném místě, v tomto případě po načtení dat z Aresu a hlavně firmu CompanyData Seriablizovat
+    private val _companyData = MutableStateFlow(savedStateHandle.get<CompanyData>(COMPANY_DATA_KEY) ?: CompanyData())
     val companyData: StateFlow<CompanyData> = _companyData
 
-    private var _companysData = mutableStateListOf<CompanyData>()
+    companion object {
+        private const val COMPANY_DATA_KEY = "company_data_key"
+        private const val COMPANYS_DATA_KEY = "companys_data_keyy"
+    }
+
+    // Metoda pro aktualizaci dat o firmě
+    fun updateCompanyData() { //v případě killnutí activity savedSatateHandle uloží níže uvedený objekt, aby se po znovuzobrazení aktivity tento načetl
+        savedStateHandle.set(COMPANY_DATA_KEY, _companyData.value)
+    }
+    //konec změny aby po restartu....
+
+/*    private val _companysData = mutableStateListOf<CompanyData>()
+    val companysData: SnapshotStateList<CompanyData> = _companysData*/
+
+    //aby po restartu aktivity přežila níže CompanysData - protože nelze do savedStateHandle vkládat SnapshotStateList, musí se to převést na ArrayList, ten vložit jde:
+    private val _companysData: SnapshotStateList<CompanyData> = savedStateHandle.get<ArrayList<CompanyData>>(COMPANYS_DATA_KEY)?.let {
+        mutableStateListOf(*it.toTypedArray())
+    } ?: mutableStateListOf<CompanyData>()
+
     val companysData: SnapshotStateList<CompanyData> = _companysData
 
-    private var _nacitani = MutableStateFlow(false)
-    val nacitani: StateFlow<Boolean> = _nacitani
+    fun updateCompanysData() { //v případě killnutí activity savedSatateHandle uloží níže uvedený objekt, aby se po znovuzobrazení aktivity tento načetl
+        val companyDataList = _companysData.toList()
+        val arrayList = ArrayList(companyDataList)
+        savedStateHandle.set(COMPANYS_DATA_KEY, arrayList)
+
+    }
+
+    //konec změny aby po restartu....
+
+    private val _nacitani = MutableStateFlow(false)
+ //   val nacitani: StateFlow<Boolean> = _nacitani
+    val nacitani = _nacitani.asStateFlow()
 
     private val _errorMessage = MutableStateFlow<String>("")
     val errorMessage: StateFlow<String> = _errorMessage
@@ -51,6 +84,7 @@ class ObchodniRejstrikViewModel  : ViewModel() {
 
     fun vynulujCompanysData() {
         _companysData.clear()
+        updateCompanysData()
     }
 
     fun loadDataIco(ico: String) {
@@ -64,6 +98,7 @@ class ObchodniRejstrikViewModel  : ViewModel() {
                 if (kodValue=="") {
                     if (documentString != null) {
                         _companyData.value = RozparzovaniDatDotazDleIco.vratCompanyData(jsonObject)
+                        updateCompanyData()
                         _errorMessage.value = ""
                     } else {
                         _errorMessage.value = "Nepodařilo se načíst data z ARESu"
@@ -73,6 +108,7 @@ class ObchodniRejstrikViewModel  : ViewModel() {
                 }
             } catch (e: Exception) {
                 _errorMessage.value = "Nepodařilo se načíst data z ARESu"
+                Log.e("ChybaUlozeniMV",e.toString())
             }
             _nacitani.value = false
         }
@@ -122,6 +158,7 @@ class ObchodniRejstrikViewModel  : ViewModel() {
                                 val ekonomickySubjekt = ekonomickeSubjektyArray.getJSONObject(i)
                                 companysData.add(RozparzovaniDatProCompanysDataNovy.vratCompanyData(ekonomickySubjekt))
                             }
+                            updateCompanysData()
                         }
 
                     } else {
@@ -149,9 +186,7 @@ class ObchodniRejstrikViewModel  : ViewModel() {
         }
         Log.d("nazevMesto :", nazevMesto)
         return try {
-            Log.d("Pokus JSON :", "222")
             withContext(Dispatchers.IO) {
-                Log.d("Pokus JSON :", "333")
                 Jsoup.connect(url)
                     .userAgent("Mozilla")
                     .header("content-type", "application/json")

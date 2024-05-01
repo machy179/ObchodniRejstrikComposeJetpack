@@ -36,6 +36,8 @@ fun  VypisIcoObrazovka(
     modifier: Modifier = Modifier
 ) {
 
+
+   // val companyData by viewModel.companyData.collectAsState()
     val companyData by viewModel.companyData.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
@@ -58,7 +60,9 @@ fun  VypisIcoObrazovka(
 
 
     Column(
-        modifier = modifier.padding(VelikostPaddingHlavnihoOkna).fillMaxWidth(),
+        modifier = modifier
+            .padding(VelikostPaddingHlavnihoOkna)
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
 

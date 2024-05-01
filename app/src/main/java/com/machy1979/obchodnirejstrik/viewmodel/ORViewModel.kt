@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.core.content.FileProvider
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
@@ -31,23 +32,42 @@ import java.io.*
 import java.net.URL
 
 
-class ORViewModel : ViewModel() {
+class ORViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
     //pro výpis OR - obchodní rejstřík
-    private val _companyDataFromOR = MutableStateFlow(CompanyData())
+/*    private val _companyDataFromOR = MutableStateFlow(CompanyData())
+    val companyDataFromOR: StateFlow<CompanyData> = _companyDataFromOR*/
+
+    private val _companyDataFromOR = MutableStateFlow(savedStateHandle.get<CompanyData>(COMPANY_DATA_FROM_OR_KEY) ?: CompanyData())
     val companyDataFromOR: StateFlow<CompanyData> = _companyDataFromOR
+
+    companion object {
+        private const val COMPANY_DATA_FROM_OR_KEY = "company_data_key"
+        private const val BUTTON_CLICKED_OR_KEY = "button_clicked_or_key"
+
+    }
+
+    fun updateCompanyDataFromOR() { //v případě killnutí activity savedSatateHandle uloží níže uvedený objekt, aby se po znovuzobrazení aktivity tento načetl
+            savedStateHandle.set(COMPANY_DATA_FROM_OR_KEY, _companyDataFromOR.value)
+    }
+
+/*    private val _buttonClickedOR = MutableStateFlow<Boolean>(false)
+    val buttonClickedOR: StateFlow<Boolean> =_buttonClickedOR*/
+    private val _buttonClickedOR = MutableStateFlow(savedStateHandle.get<Boolean>(ORViewModel.BUTTON_CLICKED_OR_KEY) ?: false)
+    val buttonClickedOR: StateFlow<Boolean> = _buttonClickedOR
+    fun updateButtonClickedOR() {
+        savedStateHandle.set(ORViewModel.BUTTON_CLICKED_OR_KEY, _buttonClickedOR.value)
+    }
+
+
+
     private var _nacitaniOR = MutableStateFlow(false)
     val nacitaniOR: StateFlow<Boolean> = _nacitaniOR
     private val _errorMessageOR = MutableStateFlow<String>("")
     val errorMessageOR: StateFlow<String> = _errorMessageOR
-    private val _buttonClickedOR = MutableStateFlow<Boolean>(false)
-    val buttonClickedOR: StateFlow<Boolean> =_buttonClickedOR
-
-
-
-
 
     fun loadDataIcoOR(ico: String, context: Context) {
         _buttonClickedOR.value = false
+        updateButtonClickedOR()
         _nacitaniOR.value = true
         viewModelScope.launch {
             try {
@@ -68,6 +88,8 @@ class ORViewModel : ViewModel() {
                             Log.i("RopzarzovaniOR: ","444")
                             _errorMessageOR.value = " "
                             _buttonClickedOR.value = true
+                            updateCompanyDataFromOR()
+                            updateButtonClickedOR()
                         } else {
                             _errorMessageOR.value = "Žádný záznam k subjektu vARESu"
                             Log.i("RopzarzovaniOR: ","555")
