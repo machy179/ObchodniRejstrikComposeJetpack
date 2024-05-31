@@ -1005,6 +1005,48 @@ fun MyComposableFunctionPreview() {
     ObycPolozkaNadpisHodnota("aaaa", "bbbb", false, true)
 }
 
+@Composable
+fun MyCard(name: String, ico: String, address: String) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        backgroundColor = Color.White,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .wrapContentHeight()
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "Name: $name",
+                fontSize = 20.sp,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "ICO: $ico",
+                fontSize = 16.sp,
+                color = Color.Gray
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Address: $address",
+                fontSize = 16.sp,
+                color = Color.Gray
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun DefaultPreview() {
+        MyCard(name = "John Doe", ico = "12345678", address = "123 Main St")
+
+}
+
 
 
 

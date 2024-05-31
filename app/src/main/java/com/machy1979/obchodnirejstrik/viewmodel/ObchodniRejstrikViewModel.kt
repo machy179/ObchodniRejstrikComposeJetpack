@@ -1,40 +1,40 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
-import android.os.AsyncTask
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.extensions.jsonBody
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.machy1979.obchodnirejstrik.functions.*
 import com.machy1979.obchodnirejstrik.model.CompanyData
+import com.machy1979.obchodnirejstrik.model.Query
+import com.machy1979.obchodnirejstrik.repository.ORRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import java.io.OutputStreamWriter
-import java.net.URL
-import java.net.URLEncoder
-import javax.net.ssl.HttpsURLConnection
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
 
-
-class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle)   : ViewModel() {
+@HiltViewModel
+class ObchodniRejstrikViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val repository: ORRepository
+) : ViewModel() {
+//class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle)   : ViewModel() {
 
 /*    private val _companyData = MutableStateFlow(CompanyData())
     val companyData: StateFlow<CompanyData> = _companyData*/
@@ -80,6 +80,42 @@ class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle) 
     private val _errorMessage = MutableStateFlow<String>("")
     val errorMessage: StateFlow<String> = _errorMessage
 
+    //načtení historie
+    private val _queryList = MutableStateFlow<List<Query>>(emptyList()) //pro room je třeba tady dát Fow a ne jen mutalbeStateListOf
+    val queryList = _queryList.asStateFlow()
+    private val _nactenoQueryList = MutableStateFlow(false)
+    //   val nacitani: StateFlow<Boolean> = _nacitani
+    val nactenoQueryList = _nactenoQueryList.asStateFlow()
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getAllNotes().distinctUntilChanged()
+                .collect { listOfNotes ->
+                    if (listOfNotes.isNullOrEmpty()) {
+                        Log.d("Empty", ": Empty list")
+                    }else {
+                        val distinctNotes = listOfNotes.distinctBy { it.ico } // aby se vymazaly duplicity
+                        _queryList.value = distinctNotes
+                        _nactenoQueryList.value = true
+                    }
+
+                }
+
+        }
+        // noteList.addAll(NotesDataSource().loadNotes())
+    }
+
+    fun deleteAllHistory() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllNotes()
+
+
+
+        }
+        _queryList.value = emptyList()
+        _nactenoQueryList.value = false
+        // noteList.addAll(NotesDataSource().loadNotes())
+    }
 
 
     fun vynulujCompanysData() {
@@ -89,9 +125,11 @@ class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle) 
 
     fun loadDataIco(ico: String) {
         _nacitani.value = true
+        saveQueryToFirebse(ico)
         viewModelScope.launch {
             try {
                 Log.i("aaaabbb", "ICO: " + ico)
+
                 val documentString = getAresDataIco(ico)
                 val jsonObject = JSONObject(documentString)
                 val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
@@ -99,7 +137,9 @@ class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle) 
                     if (documentString != null) {
                         _companyData.value = RozparzovaniDatDotazDleIco.vratCompanyData(jsonObject)
                         updateCompanyData()
+                        repository.addQuery(Query(ico = companyData.value.ico, name = companyData.value.name, address = companyData.value.address)) //uložení do databáze
                         _errorMessage.value = ""
+                        saveSearchCompany()
                     } else {
                         _errorMessage.value = "Nepodařilo se načíst data z ARESu"
                     }
@@ -112,6 +152,24 @@ class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle) 
             }
             _nacitani.value = false
         }
+    }
+
+    private fun saveSearchCompany() {
+        var searchCompanyToSave = mutableMapOf<String, Any>()
+        searchCompanyToSave["address"] = companyData.value.address
+        searchCompanyToSave["ico"] = companyData.value.ico
+        searchCompanyToSave["name"] = companyData.value.name
+        searchCompanyToSave["date"] = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        FirebaseFirestore.getInstance().collection("search_company")
+            .add(searchCompanyToSave)
+    }
+
+    private fun saveQueryToFirebse(dotaz: String) {
+        var queryToSave = mutableMapOf<String, Any>()
+        queryToSave["query"] = dotaz
+        queryToSave["date"] = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        FirebaseFirestore.getInstance().collection("queries")
+            .add(queryToSave)
     }
 
     private suspend fun getAresDataIco(ico: String): String? {
@@ -138,8 +196,10 @@ class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle) 
 
     fun loadDataNazev(nazev: String, nazevMesto: String) {
         _nacitani.value = true
+        saveQueryToFirebse(nazev + ""+nazevMesto)
         viewModelScope.launch {
             try {
+
                 val documentStringJson = getAresDataNazev(nazev, nazevMesto)
                 val jsonContent =
                     documentStringJson?.replace(Regex(".*?<body>(.*?)</body>.*", RegexOption.DOT_MATCHES_ALL), "$1")
@@ -159,6 +219,8 @@ class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle) 
                                 companysData.add(RozparzovaniDatProCompanysDataNovy.vratCompanyData(ekonomickySubjekt))
                             }
                             updateCompanysData()
+
+
                         }
 
                     } else {

@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt' // Hilt
+    id 'com.google.dagger.hilt.android'//hilt - pozor, u Hilt je někdy nekompaktibilní verze Kotlinu a Hiltu, našel jsem, že Kotlin 1.9. je kompaktibilní s Hilt 2.48
+    id 'com.google.gms.google-services' // Přidat tento plugin pro Firebase
 }
 
 android {
@@ -11,8 +14,8 @@ android {
         applicationId "com.machy1979.obchodnirejstrik"
         minSdk 26
         targetSdk 34
-        versionCode 13
-        versionName "2.2.3"
+        versionCode 15
+        versionName "3.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -28,17 +31,27 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8 //sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8 //targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    // Enable JVM toolchain for 1.8
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17)) //languageVersion.set(JavaLanguageVersion.of(8))
+        }
+    }
+
+
+
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.0'
+        kotlinCompilerExtensionVersion '1.5.13'
     }
     packagingOptions {
         resources {
@@ -49,12 +62,13 @@ android {
 
 dependencies {
 
+
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
     implementation 'androidx.activity:activity-compose:1.8.2'
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation 'androidx.compose.material:material:1.6.0'
+    implementation "androidx.compose.material:material:$compose_ui_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -78,4 +92,30 @@ dependencies {
 
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
 
+    implementation("com.google.dagger:hilt-android:2.48") //hilt  //hilt - pozor, u Hilt je někdy nekompaktibilní verze Kotlinu a Hiltu, našel jsem, že Kotlin 1.9. je kompaktibilní s Hilt 2.48
+
+    kapt("com.google.dagger:hilt-android-compiler:2.48") //hilt
+    kapt "androidx.hilt:hilt-compiler:1.2.0"
+    implementation "androidx.hilt:hilt-navigation-compose:1.2.0"
+
+
+    implementation("androidx.room:room-runtime:2.6.1") //room
+    annotationProcessor("androidx.room:room-compiler:2.6.1") //room
+    // To use Kotlin annotation processing tool (kapt) MUST HAVE!
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+
+    //firebase/firestore
+    implementation platform('com.google.firebase:firebase-bom:33.1.0')
+    //firebase auth and firestore
+  //  implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-analytics'
+
+
+}
+
+// Enable kapt options for correct error types
+kapt {
+    correctErrorTypes = true //Hilt
 }

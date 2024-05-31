@@ -9,6 +9,7 @@ val Purple700 = Color(0xFF2196F3)
 val Teal200 = Color(0xFF3185CA)
 val PozadiTextu = Color(0xFFF8F8F8)
 val ColorBorderStroke = Color(0xFFFFFF)
+val ColorOfText = Color(0xFFFFFFFF)
 
 
 val ProgressIndicatorColor = Color(0xFF2196F3)

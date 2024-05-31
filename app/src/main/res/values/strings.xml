@@ -6,11 +6,13 @@
     <string name="vypis_or">Výpis z OR</string>
     <string name="vypis_RZP">Výpis z RŽP</string>
     <string name="vypis_RES">Výpis z RES</string>
+    <string name="history_queries">Historie vyhledávání</string>
 
     <string name="back_button">Back</string>
     <string name="share_button">Share</string>
     <string name="saveToPdf_button">Save</string>
     <string name="expandable_button">Expandable button</string>
     <string name="home_button">Home</string>
+    <string name="delete_history_button">Delete history</string>
 
 </resources>

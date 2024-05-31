@@ -1,5 +1,7 @@
 package com.machy1979.obchodnirejstrik
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.Icon
 
@@ -38,6 +40,8 @@ import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+
 
 /**
  * enum values that represent the screens in the app
@@ -54,7 +58,8 @@ enum class ObchodniRejstrik (@StringRes val title: Int) {
     VypisIco(title = R.string.vypis_ico),
     VypisOR(title = R.string.vypis_or),
     VypisRZP(title = R.string.vypis_RZP),
-    VypisRES(title = R.string.vypis_RES)
+    VypisRES(title = R.string.vypis_RES),
+    HistorieVyhledavani(title = R.string.history_queries)
 
 
 }
@@ -71,6 +76,8 @@ fun ObchodniRejstrikAppBar(
     share: () -> Unit,
     saveToPdf: () -> Unit,
     navigateHome: () -> Unit,
+    canDeleteButton: Boolean = false,
+    deleteAllHistory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var appBarOffset by remember { mutableStateOf(0f) }
@@ -119,15 +126,27 @@ fun ObchodniRejstrikAppBar(
                             )
                         }
                     }
-                    IconButton(onClick = navigateHome) {
-                    Icon(
-                        imageVector = Icons.Filled.Home,
-                        contentDescription = stringResource(R.string.home_button),
-                        tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
-                    )
-                }
+
+                    if (canDeleteButton) {
+                        IconButton(onClick = deleteAllHistory) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = stringResource(R.string.delete_history_button),
+                                tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = navigateHome) {
+                            Icon(
+                                imageVector = Icons.Filled.Home,
+                                contentDescription = stringResource(R.string.home_button),
+                                tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
+                            )
+                        }
+                    }
                 }
             }
+
             }
 
     )
@@ -138,7 +157,7 @@ fun ObchodniRejstrikAppBar(
 @Composable
 fun ObchodniRejstrikApp2(
     modifier: Modifier = Modifier,
-    viewModel: ObchodniRejstrikViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    viewModel: ObchodniRejstrikViewModel = hiltViewModel(),
     resViewModel: RESViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     rzpViewModel: RZPViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     orViewModel: ORViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
@@ -157,6 +176,10 @@ fun ObchodniRejstrikApp2(
 
     val showDialog = remember { mutableStateOf(false) }
     val saveToPdfClickedState by SharedState.saveToPdfClicked.collectAsState()
+
+    var showToastHistoryDeleted = remember { mutableStateOf(false) }
+
+
 
     Scaffold(
         topBar = {
@@ -191,7 +214,13 @@ fun ObchodniRejstrikApp2(
                     }
 
                     },
-                navigateHome  = { navController.navigate(ObchodniRejstrik.UvodniObrazovka.name) }
+                navigateHome  = { navController.navigate(ObchodniRejstrik.UvodniObrazovka.name) },
+                canDeleteButton =
+                    navController.currentBackStackEntry?.destination?.route == ObchodniRejstrik.HistorieVyhledavani.name,
+                deleteAllHistory = {
+                    viewModel.deleteAllHistory()
+                    showToastHistoryDeleted.value = true
+                }
 
 
 
@@ -224,6 +253,9 @@ fun ObchodniRejstrikApp2(
                     hledejDleNazvuButton = {
                         viewModel.loadDataNazev(it.first, it.second) //it dostane z UvodniObrazovka hledejDleNazvuButton - bude to to, co je napsané ve vyhldedávacím poli
                         navController.navigate(ObchodniRejstrik.VypisFiremSeznam.name)
+                    },
+                    zobrazHistoriiVyhledavani = { //it dostane z UvodniObrazovka hledejDleNazvuButton - bude to to, co je napsané ve vyhldedávacím poli
+                        navController.navigate(ObchodniRejstrik.HistorieVyhledavani.name)
                     }
                 )
             }
@@ -309,6 +341,20 @@ fun ObchodniRejstrikApp2(
                     }
                 )
             }
+            composable(route = ObchodniRejstrik.HistorieVyhledavani.name) {
+                val context = LocalContext.current
+                canShare = false //tady dát true, až vyřeším share a uložit do pdf
+                HistorieVyhledavaniObrazovka(
+                    viewModel = viewModel,
+                    hledejDleIcoButton = {
+                        viewModel.loadDataIco(it)
+                        resViewModel.loadDataIcoRES(it, context)
+                        rzpViewModel.loadDataIcoRZP(it, context)
+                        orViewModel.loadDataIcoOR(it,context)
+                        navController.navigate(ObchodniRejstrik.VypisIco.name)
+                    }
+                )
+            }
 
         }
         if (showDialog.value) { //nakonec nepoužito, nechám to tady zatím, pokud v budoucnu budu chtít použít
@@ -319,6 +365,12 @@ fun ObchodniRejstrikApp2(
                 onClickNe = { showDialog.value = false },
                 onDismissFunction = { showDialog.value = false }
             )
+        }
+
+        if (showToastHistoryDeleted.value) { //nakonec nepoužito, nechám to tady zatím, pokud v budoucnu budu chtít použít
+            toastHistoryDeleted(context)
+            showToastHistoryDeleted.value = false
+
         }
     }
 }
@@ -332,6 +384,11 @@ private fun cancelOrderAndNavigateToStart(
 ) {
  //   viewModel.resetOrder()
     navController.popBackStack(ObchodniRejstrik.UvodniObrazovka.name, inclusive = false)
+}
+
+fun toastHistoryDeleted(context: Context) {
+    Toast.makeText(context, "Historie vymazána", Toast.LENGTH_LONG)
+        .show()
 }
 
 

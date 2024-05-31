@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "874017768157",
+    "project_id": "obchodnirejstrik-cdc49",
+    "storage_bucket": "obchodnirejstrik-cdc49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874017768157:android:7f4075997471757cae1134",
+        "android_client_info": {
+          "package_name": "com.machy1979.obchodnirejstrik"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7Ga979Ut39MCgR4R6dcIQd7EZUbCo6fk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
