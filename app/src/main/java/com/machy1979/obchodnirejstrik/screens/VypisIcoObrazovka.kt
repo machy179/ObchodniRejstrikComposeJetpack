@@ -1,10 +1,13 @@
 package com.machy1979.obchodnirejstrik.screens
 
 
+import android.app.Activity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.Card
 
@@ -13,8 +16,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.unit.dp
+import com.machy1979.obchodnirejstrik.components.ORNativeAdLayout
 
 import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
@@ -56,13 +61,15 @@ fun  VypisIcoObrazovka(
     val errorMessageRES by resViewModel.errorMessageRES.collectAsState()
     val buttonClickedRES by resViewModel.buttonClickedRES.collectAsState()
 
-
-
+    val adsDisabled = viewModel.adsDisabled.collectAsState()
+    val context = LocalContext.current
+    val activity = context as? Activity
 
     Column(
         modifier = modifier
             .padding(VelikostPaddingHlavnihoOkna)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
 
@@ -118,6 +125,10 @@ fun  VypisIcoObrazovka(
             } else {
                 VypisErrorHlasku(errorMessage)
         }
+            if (!adsDisabled.value) {
+                ORNativeAdLayout { isLoaded ->
+                }
+            }
     }
     }
 }

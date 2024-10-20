@@ -14,5 +14,6 @@
     <string name="expandable_button">Expandable button</string>
     <string name="home_button">Home</string>
     <string name="delete_history_button">Delete history</string>
+    <string name="history_of_search_button">History of search</string>
 
 </resources>

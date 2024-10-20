@@ -1005,7 +1005,7 @@ fun MyComposableFunctionPreview() {
     ObycPolozkaNadpisHodnota("aaaa", "bbbb", false, true)
 }
 
-@Composable
+/*@Composable
 fun MyCard(name: String, ico: String, address: String) {
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -1045,7 +1045,7 @@ fun MyCard(name: String, ico: String, address: String) {
 fun DefaultPreview() {
         MyCard(name = "John Doe", ico = "12345678", address = "123 Main St")
 
-}
+}*/
 
 
 

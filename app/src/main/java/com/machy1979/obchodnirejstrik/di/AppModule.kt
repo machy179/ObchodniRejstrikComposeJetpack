@@ -1,6 +1,7 @@
 package com.machy1979.obchodnirejstrik.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.google.firebase.firestore.FirebaseFirestore
 import com.machy1979.obchodnirejstrik.data.ORDatabase
@@ -30,6 +31,12 @@ object AppModule {
         "or_db")
         .fallbackToDestructiveMigration()
         .build()
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("billings_prefs", Context.MODE_PRIVATE)
+    }
 
 
 }

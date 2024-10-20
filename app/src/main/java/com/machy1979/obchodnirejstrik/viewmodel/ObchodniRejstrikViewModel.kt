@@ -1,5 +1,6 @@
 package com.machy1979.obchodnirejstrik.viewmodel
 
+import android.app.Activity
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -32,7 +33,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ObchodniRejstrikViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val repository: ORRepository
+    private val repository: ORRepository,
+    private val billingManager: BillingManagerOR
 ) : ViewModel() {
 //class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle)   : ViewModel() {
 
@@ -42,6 +44,8 @@ class ObchodniRejstrikViewModel @Inject constructor(
     //aby po restartu aktivity přežila CompanyData, je nutné do MV dát výše uvedený (private val savedStateHandle: SavedStateHandle), poté udělat níže uvedené změny, funkc companyUpdate spustit na vhodném místě, v tomto případě po načtení dat z Aresu a hlavně firmu CompanyData Seriablizovat
     private val _companyData = MutableStateFlow(savedStateHandle.get<CompanyData>(COMPANY_DATA_KEY) ?: CompanyData())
     val companyData: StateFlow<CompanyData> = _companyData
+
+    val adsDisabled: StateFlow<Boolean> = billingManager.adsDisabled
 
     companion object {
         private const val COMPANY_DATA_KEY = "company_data_key"
@@ -265,6 +269,15 @@ class ObchodniRejstrikViewModel @Inject constructor(
         } catch (e: Exception) {
             null
         }
+    }
+
+    fun startPurchase(activity: Activity) {
+        billingManager.startPurchase(activity)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        billingManager.endConnection()
     }
 
 }

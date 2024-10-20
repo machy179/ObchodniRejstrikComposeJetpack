@@ -7,10 +7,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.machy1979.obchodnirejstrik.components.ORNativeAdWrapped
 import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
 
@@ -21,7 +23,8 @@ import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
 fun VypisRESObrazovka (
     viewModel: RESViewModel,
     onCancelButtonClicked: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    adsDisabled: State<Boolean>
 ) {
 
     val companyDataFromRES by viewModel.companyDataFromRES.collectAsState()
@@ -96,6 +99,13 @@ fun VypisRESObrazovka (
 
         item {
             SeznamDvoupolozekNace(nazevSeznamuDvoupolozek = "Klasifikace ekonomických činností CZ-NACE", seznamDvoupolozek = companyDataFromRES.nace)
+        }
+
+        if (!adsDisabled.value) {
+            item {
+                ORNativeAdWrapped()
+            }
+
         }
 
     }

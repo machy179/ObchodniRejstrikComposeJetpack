@@ -7,22 +7,26 @@ import androidx.compose.material.Icon
 
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Start
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign.Companion.Start
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -78,6 +82,8 @@ fun ObchodniRejstrikAppBar(
     navigateHome: () -> Unit,
     canDeleteButton: Boolean = false,
     deleteAllHistory: () -> Unit,
+    canHistoryOfSearch: Boolean = false,
+    historyOfSearch: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var appBarOffset by remember { mutableStateOf(0f) }
@@ -145,6 +151,29 @@ fun ObchodniRejstrikAppBar(
                         }
                     }
                 }
+            } else if (canHistoryOfSearch) {
+                Row(
+                    modifier = Modifier
+                        .padding(end = 12.dp, top=0.dp)
+                        .clickable { historyOfSearch.invoke() },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Historie",
+                        color = colorResource(id = R.color.pozadi_prvku_top_app_bar),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        ),
+                        modifier = Modifier.padding(end=4.dp)
+                    )
+                    Icon(
+                        imageVector = Icons.Filled.History,
+                        contentDescription = stringResource(R.string.history_of_search_button),
+                        tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
+                    )
+                }
+
             }
 
             }
@@ -178,8 +207,8 @@ fun ObchodniRejstrikApp2(
     val saveToPdfClickedState by SharedState.saveToPdfClicked.collectAsState()
 
     var showToastHistoryDeleted = remember { mutableStateOf(false) }
-
-
+    val nactenoQueryList by viewModel.nactenoQueryList.collectAsState()
+    val adsDisabled = viewModel.adsDisabled.collectAsState()
 
     Scaffold(
         topBar = {
@@ -220,6 +249,10 @@ fun ObchodniRejstrikApp2(
                 deleteAllHistory = {
                     viewModel.deleteAllHistory()
                     showToastHistoryDeleted.value = true
+                },
+                canHistoryOfSearch = nactenoQueryList,
+                historyOfSearch = {
+                    navController.navigate(ObchodniRejstrik.HistorieVyhledavani.name)
                 }
 
 
@@ -253,9 +286,6 @@ fun ObchodniRejstrikApp2(
                     hledejDleNazvuButton = {
                         viewModel.loadDataNazev(it.first, it.second) //it dostane z UvodniObrazovka hledejDleNazvuButton - bude to to, co je napsané ve vyhldedávacím poli
                         navController.navigate(ObchodniRejstrik.VypisFiremSeznam.name)
-                    },
-                    zobrazHistoriiVyhledavani = { //it dostane z UvodniObrazovka hledejDleNazvuButton - bude to to, co je napsané ve vyhldedávacím poli
-                        navController.navigate(ObchodniRejstrik.HistorieVyhledavani.name)
                     }
                 )
             }
@@ -318,7 +348,8 @@ fun ObchodniRejstrikApp2(
                                                 },
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
-                    }
+                    },
+                    adsDisabled = adsDisabled
                 )
             }
             composable(route = ObchodniRejstrik.VypisRZP.name) {
@@ -328,7 +359,8 @@ fun ObchodniRejstrikApp2(
                     viewModel = rzpViewModel,
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
-                    }
+                    },
+                    adsDisabled = adsDisabled
                 )
             }
             composable(route = ObchodniRejstrik.VypisRES.name) {
@@ -338,7 +370,8 @@ fun ObchodniRejstrikApp2(
                     viewModel = resViewModel,
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
-                    }
+                    },
+                    adsDisabled = adsDisabled
                 )
             }
             composable(route = ObchodniRejstrik.HistorieVyhledavani.name) {

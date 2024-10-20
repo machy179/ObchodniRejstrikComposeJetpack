@@ -7,10 +7,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.machy1979.obchodnirejstrik.components.ORNativeAdWrapped
 
 import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
@@ -18,10 +20,11 @@ import com.machy1979.obchodnirejstrik.ui.theme.*
 import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
 
 @Composable
-fun VypisRZPObrazovka (
+fun VypisRZPObrazovka(
     viewModel: RZPViewModel,
     onCancelButtonClicked: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    adsDisabled: State<Boolean>,
 ) {
 
     val companyDataFromRZP by viewModel.companyDataFromRZP.collectAsState()
@@ -38,7 +41,10 @@ fun VypisRZPObrazovka (
                 border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
                 elevation = VelikostElevation,
                 modifier = Modifier
-                    .padding(horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical)
+                    .padding(
+                        horizontal = VelikostPaddingCardHorizontal,
+                        vertical = VelikostPaddingCardVertical
+                    )
                     .fillMaxWidth(),
 
                 ) {
@@ -50,13 +56,29 @@ fun VypisRZPObrazovka (
                     ) {
 
                         ObycPolozkaJenNadpisUprostred("Základní údaje subjektu", false)
-                        ObycPolozkaNadpisHodnota("Název firmy:",companyDataFromRZP.name, true)
-                        ObycPolozkaNadpisHodnota("Ico:",companyDataFromRZP.ico, true)
-                        ObycPolozkaNadpisHodnota("Adresa:",companyDataFromRZP.address, true, true)
-                        ObycPolozkaNadpisHodnota("Právní forma:",companyDataFromRZP.pravniForma, true)
-                        ObycPolozkaNadpisHodnota("Typ subjektu:",companyDataFromRZP.typSubjektu, true)
-                        ObycPolozkaNadpisHodnota("Evidující úřad:",companyDataFromRZP.evidujiciUrad, true)
-                        ObycPolozkaNadpisHodnota("Vznik první živnosti:",companyDataFromRZP.vznikPrvniZivnosti, true)
+                        ObycPolozkaNadpisHodnota("Název firmy:", companyDataFromRZP.name, true)
+                        ObycPolozkaNadpisHodnota("Ico:", companyDataFromRZP.ico, true)
+                        ObycPolozkaNadpisHodnota("Adresa:", companyDataFromRZP.address, true, true)
+                        ObycPolozkaNadpisHodnota(
+                            "Právní forma:",
+                            companyDataFromRZP.pravniForma,
+                            true
+                        )
+                        ObycPolozkaNadpisHodnota(
+                            "Typ subjektu:",
+                            companyDataFromRZP.typSubjektu,
+                            true
+                        )
+                        ObycPolozkaNadpisHodnota(
+                            "Evidující úřad:",
+                            companyDataFromRZP.evidujiciUrad,
+                            true
+                        )
+                        ObycPolozkaNadpisHodnota(
+                            "Vznik první živnosti:",
+                            companyDataFromRZP.vznikPrvniZivnosti,
+                            true
+                        )
 
 
                     }
@@ -67,10 +89,22 @@ fun VypisRZPObrazovka (
         }
 
         item {
-            if(companyDataFromRZP.osoby.size != 0) SeznamOsob(nazevSeznamuOsob = "Osoby:", seznamOsob = companyDataFromRZP.osoby)
+            if (companyDataFromRZP.osoby.size != 0) SeznamOsob(
+                nazevSeznamuOsob = "Osoby:",
+                seznamOsob = companyDataFromRZP.osoby
+            )
         }
         item {
-            SeznamPolozekZivnosti(nazevSeznamuPolozek = "Živnosti:", seznamZivnosti = companyDataFromRZP.zivnosti)
+            SeznamPolozekZivnosti(
+                nazevSeznamuPolozek = "Živnosti:",
+                seznamZivnosti = companyDataFromRZP.zivnosti
+            )
+        }
+        if (!adsDisabled.value) {
+            item {
+                ORNativeAdWrapped()
+            }
+
         }
     }
 }
