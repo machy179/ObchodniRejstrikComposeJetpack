@@ -8,14 +8,14 @@ plugins {
 
 android {
     namespace 'com.machy1979.obchodnirejstrik'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.machy1979.obchodnirejstrik"
         minSdk 26
         targetSdk 35
-        versionCode 25
-        versionName "4.5"
+        versionCode 26
+        versionName "4.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -63,13 +63,13 @@ android {
 dependencies {
 
 
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.6'
+    implementation 'androidx.core:core-ktx:1.15.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.7'
     implementation 'androidx.activity:activity-compose:1.9.3'
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation "androidx.compose.material:material:$compose_ui_version"
-    implementation 'androidx.compose.ui:ui-viewbinding:1.7.4'
+    implementation 'androidx.compose.ui:ui-viewbinding:1.7.5'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
@@ -77,8 +77,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
     implementation("org.jsoup:jsoup:1.11.3")
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6' //aby šlo volat modelView()
-    implementation "androidx.navigation:navigation-compose:2.8.3"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7' //aby šlo volat modelView()
+    implementation "androidx.navigation:navigation-compose:2.8.4"
     implementation 'com.itextpdf:itextpdf:5.5.13.4'
 
     implementation "androidx.compose.material:material-icons-core:$compose_ui_version"
@@ -107,17 +107,17 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
 
     //firebase/firestore
-    implementation platform('com.google.firebase:firebase-bom:33.5.1')
+    implementation platform('com.google.firebase:firebase-bom:33.6.0')
   //  implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-analytics'
 
 
     implementation("com.android.billingclient:billing-ktx:7.1.1")
-    implementation("com.google.android.gms:play-services-ads:23.4.0")
+    implementation("com.google.android.gms:play-services-ads:23.5.0")
     implementation("io.coil-kt:coil-compose:2.1.0") //pro načítání Vector Drawable.
 
-    implementation 'com.google.android.ump:user-messaging-platform:3.0.0'
+    implementation 'com.google.android.ump:user-messaging-platform:3.1.0'
 
 
 }

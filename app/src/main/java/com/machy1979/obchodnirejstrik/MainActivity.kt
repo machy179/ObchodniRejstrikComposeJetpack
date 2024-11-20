@@ -15,14 +15,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         deleteTCStringIfOutdated(applicationContext)
-     //   GDPRManager.makeGDPRContent(this)
-        GDPRManager.makeGDPRMessage(this)
+
         setContent {
             ObchodniRejstrikTheme {
                 // A surface container using the 'background' color from the theme
                 ObchodniRejstrikApp2()
             }
         }
+
+        //je třeba to mít zde, když to bylo nahoře, tak rychlé telefony s Android 13 a výš to házelo chybu uživatelům
+        GDPRManager.makeGDPRMessage(this)
     }
 
 
