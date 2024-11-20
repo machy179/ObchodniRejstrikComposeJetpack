@@ -1,4 +1,5 @@
 package com.machy1979.obchodnirejstrik
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -45,6 +46,8 @@ import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
 import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.machy1979.obchodnirejstrik.functions.GDPRManager
 
 
 /**
@@ -187,10 +190,11 @@ fun ObchodniRejstrikAppBar(
 fun ObchodniRejstrikApp2(
     modifier: Modifier = Modifier,
     viewModel: ObchodniRejstrikViewModel = hiltViewModel(),
-    resViewModel: RESViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    rzpViewModel: RZPViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    orViewModel: ORViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    navController: NavHostController = rememberNavController()
+    resViewModel: RESViewModel = viewModel(),
+    rzpViewModel: RZPViewModel = viewModel(),
+    orViewModel: ORViewModel = viewModel(),
+    navController: NavHostController = rememberNavController(),
+    activity: Activity
 
 
 ) {
@@ -209,6 +213,9 @@ fun ObchodniRejstrikApp2(
     var showToastHistoryDeleted = remember { mutableStateOf(false) }
     val nactenoQueryList by viewModel.nactenoQueryList.collectAsState()
     val adsDisabled = viewModel.adsDisabled.collectAsState()
+
+    //je třeba to mít zde, když to bylo v MainActivity, tak rychlé telefony s Android 13 a výš to házelo chybu uživatelům
+    ShowGDPRMessage(activity)
 
     Scaffold(
         topBar = {
@@ -422,6 +429,13 @@ private fun cancelOrderAndNavigateToStart(
 fun toastHistoryDeleted(context: Context) {
     Toast.makeText(context, "Historie vymazána", Toast.LENGTH_LONG)
         .show()
+}
+
+@Composable
+fun ShowGDPRMessage(activity: Activity) {
+    LaunchedEffect(Unit) {
+        GDPRManager.makeGDPRMessage(activity)
+    }
 }
 
 
