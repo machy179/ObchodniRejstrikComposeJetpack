@@ -1,6 +1,8 @@
-package com.machy1979.obchodnirejstrik.screens
+package com.machy1979.obchodnirejstrik.screens.history
 
+import android.content.Context
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,13 +10,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,10 +30,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
 import com.machy1979.obchodnirejstrik.model.Query
-import com.machy1979.obchodnirejstrik.screens.components.ObycPolozkaHodnota
+import com.machy1979.obchodnirejstrik.navigation.ObchodniRejstrikScreens
+import com.machy1979.obchodnirejstrik.components.ObycPolozkaHodnota
+import com.machy1979.obchodnirejstrik.screens.extractor.ORViewModel
+import com.machy1979.obchodnirejstrik.screens.extractres.RESViewModel
+import com.machy1979.obchodnirejstrik.screens.extractrzp.RZPViewModel
 import com.machy1979.obchodnirejstrik.ui.theme.ColorBorderStroke
 import com.machy1979.obchodnirejstrik.ui.theme.PaddingVnitrniCard
 import com.machy1979.obchodnirejstrik.ui.theme.VelikostBorderStrokeCard
@@ -36,23 +50,51 @@ import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardHorizontal
 import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardVertical
 import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingHlavnihoOkna
 import com.machy1979.obchodnirejstrik.ui.theme.VelikostZakulaceniRohu
-import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
+import com.machy1979.obchodnirejstrik.screens.home.ObchodniRejstrikViewModel
+import com.machy1979.obchodnirejstrik.ui.theme.PaddingTopAplikace
 
 @Composable
 fun HistorieVyhledavaniObrazovka(
     viewModel: ObchodniRejstrikViewModel = hiltViewModel(),
-    hledejDleIcoButton: (String) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    resViewModel: RESViewModel,
+    rzpViewModel: RZPViewModel,
+    orViewModel: ORViewModel
 ){
+    val context = LocalContext.current //tohle používat místo this
       //history list:
     val queryList = viewModel.queryList.collectAsState().value
     val nactenoQueryList by viewModel.nactenoQueryList.collectAsState()
 
 
+    val currentScreen = ObchodniRejstrik.valueOf(ObchodniRejstrik.HistorieVyhledavani.name)
+    Scaffold(
+        topBar = {
+            ObchodniRejstrikAppBar(
+                navController = navController,
+                currentScreen = currentScreen,
+                canNavigateBack = true,
+                canDeleteButton = queryList.size > 0, //pokud bude queryList větší než 0, což znamená, že v historii jsou položky, tak je to true a je možné zobrazit delete button
+                share = { },
+                saveToPdf = { },
+                deleteAllHistory = { viewModel.deleteAllHistory()
+                    toastHistoryDeleted(context)},
+                modifier = Modifier
+                    .padding(top = PaddingTopAplikace)
+                    .fillMaxWidth(),
+            )
+
+        },
+    ) { paddingValues ->
+
     Column (
         modifier = modifier
             .padding(VelikostPaddingHlavnihoOkna)
-            .fillMaxWidth()
+            .fillMaxWidth().padding(
+                top = paddingValues.calculateTopPadding(),
+                bottom = paddingValues.calculateBottomPadding()
+            ).padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -88,7 +130,13 @@ fun HistorieVyhledavaniObrazovka(
 
                 ListOfHistory(queryList,
                     goToIcoButton = {
-                        hledejDleIcoButton(it)
+
+                            viewModel.loadDataIco(it)
+                            resViewModel.loadDataIcoRES(it, context)
+                            rzpViewModel.loadDataIcoRZP(it, context)
+                            orViewModel.loadDataIcoOR(it,context)
+                            navController.navigate(ObchodniRejstrikScreens.VypisIcoObrazovka.name)
+
                     })
 
 
@@ -97,6 +145,7 @@ fun HistorieVyhledavaniObrazovka(
 
 
 
+    }
     }
 }
 
@@ -154,4 +203,9 @@ fun ListOfHistory(queryList: List<Query>,
         }
 
 
+}
+
+fun toastHistoryDeleted(context: Context) {
+    Toast.makeText(context, "Historie vymazána", Toast.LENGTH_LONG)
+        .show()
 }

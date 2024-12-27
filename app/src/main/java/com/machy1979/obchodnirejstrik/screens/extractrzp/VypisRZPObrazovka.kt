@@ -1,4 +1,4 @@
-package com.machy1979.obchodnirejstrik.screens
+package com.machy1979.obchodnirejstrik.screens.extractrzp
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -12,12 +12,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import com.machy1979.obchodnirejstrik.components.ORNativeAdWrapped
+import com.machy1979.obchodnirejstrik.components.ObycPolozkaJenNadpisUprostred
+import com.machy1979.obchodnirejstrik.components.ObycPolozkaNadpisHodnota
+import com.machy1979.obchodnirejstrik.components.SeznamOsob
+import com.machy1979.obchodnirejstrik.components.SeznamPolozekZivnosti
 
-import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
-
-import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
 
 @Composable
 fun VypisRZPObrazovka(
@@ -25,6 +27,7 @@ fun VypisRZPObrazovka(
     onCancelButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier,
     adsDisabled: State<Boolean>,
+    navController: NavHostController,
 ) {
 
     val companyDataFromRZP by viewModel.companyDataFromRZP.collectAsState()

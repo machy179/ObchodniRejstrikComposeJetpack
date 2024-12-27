@@ -1,4 +1,4 @@
-package com.machy1979.obchodnirejstrik.viewmodel
+package com.machy1979.obchodnirejstrik.screens.extractres
 
 import android.content.Context
 import android.content.Intent
@@ -9,9 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRES
-import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRZP
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
-import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.CompanyDataRES
 import com.machy1979.obchodnirejstrik.model.SharedState
 import kotlinx.coroutines.Dispatchers
@@ -22,10 +20,6 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.parser.Parser
-import java.net.URL
 
 class RESViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
@@ -33,7 +27,9 @@ class RESViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel()
 /*    private val _companyDataFromRES = MutableStateFlow(CompanyDataRES())
     val companyDataFromRES: StateFlow<CompanyDataRES> = _companyDataFromRES */
 
-    private val _companyDataFromRES = MutableStateFlow(savedStateHandle.get<CompanyDataRES>(COMPANY_DATA_FROM_RES_KEY) ?: CompanyDataRES())
+    private val _companyDataFromRES = MutableStateFlow(savedStateHandle.get<CompanyDataRES>(
+        COMPANY_DATA_FROM_RES_KEY
+    ) ?: CompanyDataRES())
     val companyDataFromRES: StateFlow<CompanyDataRES> = _companyDataFromRES
 
     companion object {
@@ -47,10 +43,12 @@ class RESViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel()
 
 /*    private val _buttonClickedRES = MutableStateFlow<Boolean>(false)
     val buttonClickedRES: StateFlow<Boolean> =_buttonClickedRES*/
-    private val _buttonClickedRES = MutableStateFlow(savedStateHandle.get<Boolean>(RESViewModel.BUTTON_CLICKED_RES_KEY) ?: false)
+    private val _buttonClickedRES = MutableStateFlow(savedStateHandle.get<Boolean>(
+    BUTTON_CLICKED_RES_KEY
+) ?: false)
     val buttonClickedRES: StateFlow<Boolean> = _buttonClickedRES
     fun updateButtonClickedRES() {
-        savedStateHandle.set(RESViewModel.BUTTON_CLICKED_RES_KEY, _buttonClickedRES.value)
+        savedStateHandle.set(BUTTON_CLICKED_RES_KEY, _buttonClickedRES.value)
     }
 
 

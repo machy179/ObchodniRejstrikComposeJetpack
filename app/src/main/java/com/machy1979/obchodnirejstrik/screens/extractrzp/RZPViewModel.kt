@@ -1,4 +1,4 @@
-package com.machy1979.obchodnirejstrik.viewmodel
+package com.machy1979.obchodnirejstrik.screens.extractrzp
 
 import android.content.ClipData
 import android.content.Context
@@ -10,10 +10,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
-import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazOR
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRZP
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
-import com.machy1979.obchodnirejstrik.model.CompanyDataRES
 import com.machy1979.obchodnirejstrik.model.CompanyDataRZP
 import com.machy1979.obchodnirejstrik.model.SharedState
 import kotlinx.coroutines.Dispatchers
@@ -24,12 +22,8 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.parser.Parser
 import java.io.File
 import java.io.FileOutputStream
-import java.net.URL
 
 class RZPViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
     //pro výpis RZP - rejstřík živnostenského podnikání
@@ -37,7 +31,9 @@ class RZPViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel()
 /*    private val _companyDataFromRZP = MutableStateFlow(CompanyDataRZP())
     val companyDataFromRZP: StateFlow<CompanyDataRZP> = _companyDataFromRZP*/
 
-    private val _companyDataFromRZP = MutableStateFlow(savedStateHandle.get<CompanyDataRZP>(COMPANY_DATA_FROM_RZP_KEY) ?: CompanyDataRZP())
+    private val _companyDataFromRZP = MutableStateFlow(savedStateHandle.get<CompanyDataRZP>(
+        COMPANY_DATA_FROM_RZP_KEY
+    ) ?: CompanyDataRZP())
     val companyDataFromRZP: StateFlow<CompanyDataRZP> = _companyDataFromRZP
 
     companion object {
@@ -51,7 +47,9 @@ class RZPViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel()
 
     /*    private val _buttonClickedRZP = MutableStateFlow<Boolean>(false)
     val buttonClickedRZP: StateFlow<Boolean> =_buttonClickedRZP*/
-    private val _buttonClickedRZP = MutableStateFlow(savedStateHandle.get<Boolean>(BUTTON_CLICKED_RZP_KEY) ?: false)
+    private val _buttonClickedRZP = MutableStateFlow(savedStateHandle.get<Boolean>(
+        BUTTON_CLICKED_RZP_KEY
+    ) ?: false)
     val buttonClickedRZP: StateFlow<Boolean> = _buttonClickedRZP
     fun updateButtonClickedRZP() {
         savedStateHandle.set(BUTTON_CLICKED_RZP_KEY, _buttonClickedRZP.value)

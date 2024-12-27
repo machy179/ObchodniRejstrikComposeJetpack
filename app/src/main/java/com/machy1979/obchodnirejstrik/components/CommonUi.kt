@@ -1,8 +1,10 @@
-package com.machy1979.obchodnirejstrik.screens.components
+package com.machy1979.obchodnirejstrik.components
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
@@ -998,12 +1000,15 @@ fun AlertDialogWrapperOpravneni(
 
 }
 
+
 @Preview
 @Composable
 fun MyComposableFunctionPreview() {
     // Provide sample values for the arguments
     ObycPolozkaNadpisHodnota("aaaa", "bbbb", false, true)
 }
+
+
 
 /*@Composable
 fun MyCard(name: String, ico: String, address: String) {

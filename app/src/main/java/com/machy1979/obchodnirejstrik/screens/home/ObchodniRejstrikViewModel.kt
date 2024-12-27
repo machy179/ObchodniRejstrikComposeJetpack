@@ -1,4 +1,4 @@
-package com.machy1979.obchodnirejstrik.viewmodel
+package com.machy1979.obchodnirejstrik.screens.home
 
 import android.app.Activity
 import android.util.Log
@@ -62,7 +62,9 @@ class ObchodniRejstrikViewModel @Inject constructor(
     val companysData: SnapshotStateList<CompanyData> = _companysData*/
 
     //aby po restartu aktivity přežila níže CompanysData - protože nelze do savedStateHandle vkládat SnapshotStateList, musí se to převést na ArrayList, ten vložit jde:
-    private val _companysData: SnapshotStateList<CompanyData> = savedStateHandle.get<ArrayList<CompanyData>>(COMPANYS_DATA_KEY)?.let {
+    private val _companysData: SnapshotStateList<CompanyData> = savedStateHandle.get<ArrayList<CompanyData>>(
+        COMPANYS_DATA_KEY
+    )?.let {
         mutableStateListOf(*it.toTypedArray())
     } ?: mutableStateListOf<CompanyData>()
 
@@ -85,7 +87,7 @@ class ObchodniRejstrikViewModel @Inject constructor(
     val errorMessage: StateFlow<String> = _errorMessage
 
     //načtení historie
-    private val _queryList = MutableStateFlow<List<Query>>(emptyList()) //pro room je třeba tady dát Fow a ne jen mutalbeStateListOf
+    private val _queryList = MutableStateFlow<List<Query>>(emptyList()) //pro room je třeba tady dát Flow a ne jen mutalbeStateListOf
     val queryList = _queryList.asStateFlow()
     private val _nactenoQueryList = MutableStateFlow(false)
     //   val nacitani: StateFlow<Boolean> = _nacitani

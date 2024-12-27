@@ -1,4 +1,4 @@
-package com.machy1979.obchodnirejstrik.screens
+package com.machy1979.obchodnirejstrik.screens.extractico
 
 
 import android.app.Activity
@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.Card
+import androidx.compose.material.Scaffold
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,14 +20,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.components.CustomButton
+import com.machy1979.obchodnirejstrik.components.Nacitani
 import com.machy1979.obchodnirejstrik.components.ORNativeAdLayout
+import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
+import com.machy1979.obchodnirejstrik.components.ObycPolozkaNadpisHodnota
+import com.machy1979.obchodnirejstrik.components.VypisErrorHlasku
+import com.machy1979.obchodnirejstrik.navigation.ObchodniRejstrikScreens
 
-import com.machy1979.obchodnirejstrik.screens.components.*
 import com.machy1979.obchodnirejstrik.ui.theme.*
-import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
-import com.machy1979.obchodnirejstrik.viewmodel.ObchodniRejstrikViewModel
-import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
-import com.machy1979.obchodnirejstrik.viewmodel.RZPViewModel
+import com.machy1979.obchodnirejstrik.screens.extractor.ORViewModel
+import com.machy1979.obchodnirejstrik.screens.home.ObchodniRejstrikViewModel
+import com.machy1979.obchodnirejstrik.screens.extractres.RESViewModel
+import com.machy1979.obchodnirejstrik.screens.extractrzp.RZPViewModel
 
 @Composable
 fun  VypisIcoObrazovka(
@@ -34,11 +42,8 @@ fun  VypisIcoObrazovka(
     resViewModel: RESViewModel,
     rzpViewModel: RZPViewModel,
     orViewModel: ORViewModel,
-    onCancelButtonClicked: () -> Unit = {},
-    hledejORButtonClicked: () -> Unit = {},
-    hledejRZPButtonClicked: () -> Unit = {},
-    hledejRESButtonClicked: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController
 ) {
 
 
@@ -65,10 +70,32 @@ fun  VypisIcoObrazovka(
     val context = LocalContext.current
     val activity = context as? Activity
 
+    val currentScreen = ObchodniRejstrik.valueOf(ObchodniRejstrik.VypisIco.name)
+    Scaffold(
+        topBar = {
+            ObchodniRejstrikAppBar(
+                currentScreen = currentScreen,
+                canNavigateBack = true,
+                share = { },
+                saveToPdf = { },
+                deleteAllHistory = { },
+                canHistoryOfSearch = false,
+                modifier = Modifier
+                    .padding(top = PaddingTopAplikace)
+                    .fillMaxWidth(),
+                navController = navController,
+            )
+
+        },
+    ) { paddingValues ->
+
     Column(
         modifier = modifier
             .padding(VelikostPaddingHlavnihoOkna)
-            .fillMaxWidth()
+            .fillMaxWidth().padding(
+                top = paddingValues.calculateTopPadding(),
+                bottom = paddingValues.calculateBottomPadding()
+            )
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -106,18 +133,19 @@ fun  VypisIcoObrazovka(
 
                 CustomButton(if (errorMessageOR==" ") { ("Načíst z OR")} else {("Subjekt není v OR")}, nacitaniOR,buttonClickedOR,
                     onClick = {
-                        hledejORButtonClicked()
+                    //    hledejORButtonClicked()
+                        navController.navigate(ObchodniRejstrikScreens.VypisORObrazovka.name)
                     }
                 )
 
                 CustomButton(if (errorMessageRZP==" ") { ("Načíst z RŽP")} else {("Subjekt není v RŽP")}, nacitaniRZP,buttonClickedRZP,
                     onClick = {
-                        hledejRZPButtonClicked()
+                        navController.navigate(ObchodniRejstrikScreens.VypisRZPObrazovka.name)
                     }
                 )
                 CustomButton(if (errorMessageRES==" ") { ("Načíst z RES")} else {("Subjekt není v RES")}, nacitaniRES,buttonClickedRES,
                     onClick = {
-                        hledejRESButtonClicked()
+                        navController.navigate(ObchodniRejstrikScreens.VypisRESObrazovka.name)
                     }
                 )
 
@@ -129,6 +157,7 @@ fun  VypisIcoObrazovka(
                 ORNativeAdLayout { isLoaded ->
                 }
             }
+    }
     }
     }
 }

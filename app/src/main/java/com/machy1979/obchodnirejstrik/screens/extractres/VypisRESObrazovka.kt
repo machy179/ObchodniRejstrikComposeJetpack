@@ -1,4 +1,4 @@
-package com.machy1979.obchodnirejstrik.screens
+package com.machy1979.obchodnirejstrik.screens.extractres
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -12,11 +12,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import com.machy1979.obchodnirejstrik.components.ORNativeAdWrapped
-import com.machy1979.obchodnirejstrik.screens.components.*
+import com.machy1979.obchodnirejstrik.components.ObycPolozkaJenNadpisUprostred
+import com.machy1979.obchodnirejstrik.components.ObycPolozkaNadpisHodnota
+import com.machy1979.obchodnirejstrik.components.SeznamDvoupolozekNace
 import com.machy1979.obchodnirejstrik.ui.theme.*
-
-import com.machy1979.obchodnirejstrik.viewmodel.RESViewModel
 
 //zatím je to jen kopie z VypisRZPObrazovka, tak to předělat
 @Composable
@@ -24,7 +25,8 @@ fun VypisRESObrazovka (
     viewModel: RESViewModel,
     onCancelButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier,
-    adsDisabled: State<Boolean>
+    adsDisabled: State<Boolean>,
+    navController: NavHostController
 ) {
 
     val companyDataFromRES by viewModel.companyDataFromRES.collectAsState()

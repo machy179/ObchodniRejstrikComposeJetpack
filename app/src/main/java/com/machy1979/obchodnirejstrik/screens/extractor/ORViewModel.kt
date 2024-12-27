@@ -1,4 +1,4 @@
-package com.machy1979.obchodnirejstrik.viewmodel
+package com.machy1979.obchodnirejstrik.screens.extractor
 
 import android.content.ClipData
 import android.content.Context
@@ -11,8 +11,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.machy1979.obchodnirejstrik.R
-import com.machy1979.obchodnirejstrik.canShare
-import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazDleIco
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazOR
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyData
@@ -25,11 +23,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.parser.Parser
 import java.io.*
-import java.net.URL
 
 
 class ORViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
@@ -37,7 +31,9 @@ class ORViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() 
 /*    private val _companyDataFromOR = MutableStateFlow(CompanyData())
     val companyDataFromOR: StateFlow<CompanyData> = _companyDataFromOR*/
 
-    private val _companyDataFromOR = MutableStateFlow(savedStateHandle.get<CompanyData>(COMPANY_DATA_FROM_OR_KEY) ?: CompanyData())
+    private val _companyDataFromOR = MutableStateFlow(savedStateHandle.get<CompanyData>(
+        COMPANY_DATA_FROM_OR_KEY
+    ) ?: CompanyData())
     val companyDataFromOR: StateFlow<CompanyData> = _companyDataFromOR
 
     companion object {
@@ -52,10 +48,12 @@ class ORViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() 
 
 /*    private val _buttonClickedOR = MutableStateFlow<Boolean>(false)
     val buttonClickedOR: StateFlow<Boolean> =_buttonClickedOR*/
-    private val _buttonClickedOR = MutableStateFlow(savedStateHandle.get<Boolean>(ORViewModel.BUTTON_CLICKED_OR_KEY) ?: false)
+    private val _buttonClickedOR = MutableStateFlow(savedStateHandle.get<Boolean>(
+    BUTTON_CLICKED_OR_KEY
+) ?: false)
     val buttonClickedOR: StateFlow<Boolean> = _buttonClickedOR
     fun updateButtonClickedOR() {
-        savedStateHandle.set(ORViewModel.BUTTON_CLICKED_OR_KEY, _buttonClickedOR.value)
+        savedStateHandle.set(BUTTON_CLICKED_OR_KEY, _buttonClickedOR.value)
     }
 
 

@@ -21,35 +21,71 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.Card
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavHostController
+import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.components.ExpandableItemButton
 import com.machy1979.obchodnirejstrik.components.ORNativeAdWrapped
+import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
+import com.machy1979.obchodnirejstrik.components.ObycPolozkaJenNadpisUprostred
+import com.machy1979.obchodnirejstrik.components.ObycPolozkaNadpisHodnota
+import com.machy1979.obchodnirejstrik.components.SeznamOsob
+import com.machy1979.obchodnirejstrik.components.SeznamOsobAFirem
+import com.machy1979.obchodnirejstrik.components.SeznamPolozek
 
 import com.machy1979.obchodnirejstrik.ui.theme.*
-import com.machy1979.obchodnirejstrik.viewmodel.ORViewModel
+import com.machy1979.obchodnirejstrik.screens.extractor.ORViewModel
 
 @Composable
 fun VypisORObrazovka(
     viewModel: ORViewModel,
+    orViewModel: ORViewModel,
     onClickedButtonIcoSubjekt: (String) -> Unit,
     onCancelButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier,
     adsDisabled: State<Boolean>,
+    navController: NavHostController,
 ) {
 
     val companyDataFromOR by viewModel.companyDataFromOR.collectAsState()
 
+    val context = LocalContext.current
+    val currentScreen = ObchodniRejstrik.valueOf(ObchodniRejstrik.VypisOR.name)
 
+
+    Scaffold(
+        topBar = {
+            ObchodniRejstrikAppBar(
+                currentScreen = currentScreen,
+                canNavigateBack = true,
+                canShare = true,
+                share = { orViewModel.share(context) },
+                saveToPdf = { },
+                deleteAllHistory = { },
+                canHistoryOfSearch = false,
+                modifier = Modifier
+                    .padding(top = PaddingTopAplikace)
+                    .fillMaxWidth(),
+                navController = navController,
+            )
+
+        },
+    ) { paddingValues ->
 
 
     Column(
         modifier = Modifier
-            .padding(VelikostPaddingHlavnihoOkna)
-            .fillMaxHeight()
+            .fillMaxWidth().padding(
+                top = paddingValues.calculateTopPadding(),
+                bottom = paddingValues.calculateBottomPadding()
+            ).padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
             .verticalScroll(rememberScrollState())
     )
     {
@@ -239,5 +275,6 @@ fun VypisORObrazovka(
         if (!adsDisabled.value) {
             ORNativeAdWrapped()
 }
+    }
     }
 }
