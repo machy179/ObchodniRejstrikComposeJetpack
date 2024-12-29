@@ -57,45 +57,15 @@ import com.machy1979.obchodnirejstrik.utils.Constants
 
 @Composable
 fun ORNativeAdWrapped() {
-    Card(
-        shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
-        border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
-        elevation = VelikostElevation,
-        modifier = Modifier
-            .padding(
-                horizontal = VelikostPaddingCardHorizontal,
-                vertical = VelikostPaddingCardVertical
-            )
-            .fillMaxWidth(),
-
-        ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(2.dp)
-                .fillMaxWidth()
-        ) {
-            Card(
-                //  backgroundColor = Color.Blue,
-                shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
-                border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
-                elevation = VelikostElevation,
-                modifier = Modifier
-                    .padding(
-                        horizontal = VelikostPaddingCardHorizontal,
-                        vertical = VelikostPaddingCardVertical
-                    )
-                    .fillMaxWidth(),
-
-                ) {
-                ORNativeAdLayout { isLoaded ->
-                }
-            }
-        }
+    ORNativeAdLayout(wrapped = true) {
+        isLoaded ->
     }
 }
 @Composable
-fun ORNativeAdLayout(onAdLoaded: (Boolean) -> Unit) {
+fun ORNativeAdLayout(
+    wrapped: (Boolean) = false,
+    onAdLoaded: (Boolean) -> Unit)
+{
     val context = LocalContext.current
     var nativeAd by remember { mutableStateOf<NativeAd?>(null) }
     var isAdLoading by remember { mutableStateOf(true) } // Stav pro sledování načítání reklamy
@@ -107,12 +77,14 @@ fun ORNativeAdLayout(onAdLoaded: (Boolean) -> Unit) {
                 nativeAd = ad
                 isAdLoading = false
                 onAdLoaded(true)
+                Log.i("OR_AD", "onAdLoaded: true")
             }
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
-                    Log.e("NativeAd", "Ad failed to load: ${adError.message}")
+                    Log.i("NativeAd", "Ad failed to load: ${adError.message}")
                     isAdLoading = false
                     onAdLoaded(false)
+                    Log.i("OR_AD", "onAdLoaded: true")
                 }
             })
             .withNativeAdOptions(NativeAdOptions.Builder().build())
@@ -124,16 +96,66 @@ fun ORNativeAdLayout(onAdLoaded: (Boolean) -> Unit) {
     if(!isAdLoading) {
         val backgroundColor = if (nativeAd != null) Color.White else Color.Transparent
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-             //   .heightIn(max = maxHeight) // Nastavení maximální výšky
-                .padding(horizontal = 16.dp)
-                .background(backgroundColor, shape = RoundedCornerShape(16.dp))
-                .padding(start = 4.dp, end = 4.dp, top=0.dp, bottom = 4.dp) // Inner padding for the content
-        ) {
-            nativeAd?.let { ORNativeAdLayout(it) }
+        if(wrapped) {
+            Card(
+                shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
+                border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
+                elevation = VelikostElevation,
+                modifier = Modifier
+                    .padding(
+                        horizontal = VelikostPaddingCardHorizontal,
+                        vertical = VelikostPaddingCardVertical
+                    )
+                    .fillMaxWidth(),
+
+                ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .fillMaxWidth()
+                ) {
+                    Card(
+                        //  backgroundColor = Color.Blue,
+                        shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
+                        border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
+                        elevation = VelikostElevation,
+                        modifier = Modifier
+                            .padding(
+                                horizontal = VelikostPaddingCardHorizontal,
+                                vertical = VelikostPaddingCardVertical
+                            )
+                            .fillMaxWidth(),
+
+                        ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                //   .heightIn(max = maxHeight) // Nastavení maximální výšky
+                                .padding(horizontal = 16.dp)
+                                .background(backgroundColor, shape = RoundedCornerShape(16.dp))
+                                .padding(start = 4.dp, end = 4.dp, top=0.dp, bottom = 4.dp) // Inner padding for the content
+                        ) {
+                            nativeAd?.let { ORNativeAdLayout(it) }
+                        }
+                    }
+                }
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    //   .heightIn(max = maxHeight) // Nastavení maximální výšky
+                    .padding(horizontal = 16.dp)
+                    .background(backgroundColor, shape = RoundedCornerShape(16.dp))
+                    .padding(start = 4.dp, end = 4.dp, top=0.dp, bottom = 4.dp) // Inner padding for the content
+            ) {
+                nativeAd?.let { ORNativeAdLayout(it) }
+            }
         }
+
+
+
     }
 
 

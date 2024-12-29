@@ -3,23 +3,29 @@ package com.machy1979.obchodnirejstrik.screens.extractrzp
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.machy1979.obchodnirejstrik.components.ORNativeAdWrapped
+import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
 import com.machy1979.obchodnirejstrik.components.ObycPolozkaJenNadpisUprostred
 import com.machy1979.obchodnirejstrik.components.ObycPolozkaNadpisHodnota
 import com.machy1979.obchodnirejstrik.components.SeznamOsob
 import com.machy1979.obchodnirejstrik.components.SeznamPolozekZivnosti
 
 import com.machy1979.obchodnirejstrik.ui.theme.*
+import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 
 @Composable
 fun VypisRZPObrazovka(
@@ -33,11 +39,39 @@ fun VypisRZPObrazovka(
     val companyDataFromRZP by viewModel.companyDataFromRZP.collectAsState()
 
 
+    val context = LocalContext.current
+    val currentScreen = TitlesOfSrceens.valueOf(TitlesOfSrceens.VypisRZP.name)
 
-    LazyColumn(modifier = Modifier.padding(VelikostPaddingHlavnihoOkna).fillMaxHeight())
-    {
+
+    Scaffold(
+        topBar = {
+            ObchodniRejstrikAppBar(
+                currentScreen = currentScreen,
+                canNavigateBack = true,
+                canShare = true,
+                share = { viewModel.share(context) },
+                saveToPdf = { viewModel.saveToPdf(context) },
+                deleteAllHistory = { },
+                canHistoryOfSearch = false,
+                modifier = Modifier
+                    .padding(top = PaddingTopAplikace)
+                    .fillMaxWidth(),
+                navController = navController,
+            )
+
+        },
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxWidth().padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding()
+                ).padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
+                .verticalScroll(rememberScrollState())
+        )
+        {
+
         //základní údaje
-        item {
             Card(
                 //  backgroundColor = Color.Blue,
                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
@@ -89,25 +123,26 @@ fun VypisRZPObrazovka(
             }
 
             Spacer(modifier = Modifier.height(OdsazeniMensi))
-        }
 
-        item {
+
+
             if (companyDataFromRZP.osoby.size != 0) SeznamOsob(
                 nazevSeznamuOsob = "Osoby:",
                 seznamOsob = companyDataFromRZP.osoby
             )
-        }
-        item {
+
+
             SeznamPolozekZivnosti(
                 nazevSeznamuPolozek = "Živnosti:",
                 seznamZivnosti = companyDataFromRZP.zivnosti
             )
-        }
+
         if (!adsDisabled.value) {
-            item {
+
                 ORNativeAdWrapped()
-            }
+
 
         }
+    }
     }
 }

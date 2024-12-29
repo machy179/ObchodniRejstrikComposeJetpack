@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.model.SharedState
 import com.machy1979.obchodnirejstrik.navigation.ObchodniRejstrikScreens
@@ -38,7 +38,7 @@ import com.machy1979.obchodnirejstrik.navigation.ObchodniRejstrikScreens
 @Composable
 fun ObchodniRejstrikAppBar(
     //  viewModel: ObchodniRejstrikViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    currentScreen: ObchodniRejstrik,
+    currentScreen: TitlesOfSrceens,
     canNavigateBack: Boolean,
     canShare: Boolean = false,
     share: () -> Unit,
@@ -105,7 +105,7 @@ fun ObchodniRejstrikAppBar(
                             )
                         }
                     } else {
-                        IconButton(onClick = { navController.navigate(ObchodniRejstrik.UvodniObrazovka.name) }) {
+                        IconButton(onClick = { navController.navigate(TitlesOfSrceens.UvodniObrazovka.name) }) {
                             Icon(
                                 imageVector = Icons.Filled.Home,
                                 contentDescription = stringResource(R.string.home_button),

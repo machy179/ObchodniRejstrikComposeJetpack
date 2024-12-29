@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 import com.machy1979.obchodnirejstrik.components.CustomButton
 import com.machy1979.obchodnirejstrik.components.Nacitani
 import com.machy1979.obchodnirejstrik.components.ORNativeAdLayout
@@ -70,7 +70,7 @@ fun  VypisIcoObrazovka(
     val context = LocalContext.current
     val activity = context as? Activity
 
-    val currentScreen = ObchodniRejstrik.valueOf(ObchodniRejstrik.VypisIco.name)
+    val currentScreen = TitlesOfSrceens.valueOf(TitlesOfSrceens.VypisIco.name)
     Scaffold(
         topBar = {
             ObchodniRejstrikAppBar(

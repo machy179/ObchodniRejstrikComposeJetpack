@@ -15,18 +15,23 @@ import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazOR
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.SharedState
+import com.machy1979.obchodnirejstrik.repository.AresRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.json.JSONObject
 import java.io.*
+import javax.inject.Inject
 
 
-class ORViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+@HiltViewModel
+class ORViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val aresRepository: AresRepository
+) : ViewModel() {
     //pro výpis OR - obchodní rejstřík
 /*    private val _companyDataFromOR = MutableStateFlow(CompanyData())
     val companyDataFromOR: StateFlow<CompanyData> = _companyDataFromOR*/
@@ -69,21 +74,15 @@ class ORViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() 
         _nacitaniOR.value = true
         viewModelScope.launch {
             try {
-                Log.i("RopzarzovaniOR: ico:",ico)
-                val documentString = getAresDataIcoOR(ico)
-                Log.i("RopzarzovaniOR: documentString:",documentString.toString())
+                val documentString = getAresDataFromORByIco(ico)
                 val jsonObject = JSONObject(documentString)
                 val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
-                Log.i("RopzarzovaniOR: ","111")
                 if (kodValue=="") {
-                    Log.i("RopzarzovaniOR: ","222")
                     if (documentString != null) {
                         val zaznamyArray = jsonObject.getJSONArray("zaznamy")
                         if (zaznamyArray.length() > 0) {
                             val firstZaznamObject = zaznamyArray.getJSONObject(0)
-                            Log.i("RopzarzovaniOR: ","333")
                             _companyDataFromOR.value = RozparzovaniDatDotazOR.vratCompanyData(firstZaznamObject, context)
-                            Log.i("RopzarzovaniOR: ","444")
                             _errorMessageOR.value = " "
                             _buttonClickedOR.value = true
                             updateCompanyDataFromOR()
@@ -103,18 +102,6 @@ class ORViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() 
                 }
 
 
-                /*if (document != null) {
-                    _companyDataFromOR.value = RozparzovaniDatDotazOR.vratCompanyData(document, context)
-                    if (_companyDataFromOR.value.ico == " ") {
-                        _errorMessageOR.value = RozparzovaniDatDotazOR.vratErrorHlasku(document)
-                    } else  {
-                        _errorMessageOR.value = " "
-                        _buttonClickedOR.value = true
-                    }
-                } else {
-                    _errorMessageOR.value = "Nepodařilo se načíst data z ARESu"
-                }*/
-
             } catch (e: Exception) {
                 Log.i("aaaa", e.toString())
                 _errorMessageOR.value = "Nepodařilo se načíst data z ARESu"
@@ -125,26 +112,12 @@ class ORViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() 
         }
     }
 
-    private suspend fun getAresDataIcoOR(ico: String): String? {
-       // val url = "https://wwwinfo.mfcr.cz/cgi-bin/ares/darv_or.cgi?ico=$ico"
-        val url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-vr/$ico"
-        val client = OkHttpClient()
+    private suspend fun getAresDataFromORByIco(ico: String): String {
         return try {
-            withContext(Dispatchers.IO) {
-                val request = Request.Builder()
-                    .url(url)
-                    .header("User-Agent", "Mozilla")
-                    .header("Content-Type", "application/json")
-                    .header("Accept", "application/json")
-                    .build()
-
-                val response = client.newCall(request).execute()
-                response.body?.string()
-
-
-            }
+            val response = aresRepository.getAresDataOR(ico)
+            response.string() // Získá String z ResponseBody
         } catch (e: Exception) {
-            null
+            ""
         }
     }
 

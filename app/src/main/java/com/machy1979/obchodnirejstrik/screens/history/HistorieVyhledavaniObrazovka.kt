@@ -34,7 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
 import com.machy1979.obchodnirejstrik.model.Query
 import com.machy1979.obchodnirejstrik.navigation.ObchodniRejstrikScreens
@@ -68,7 +68,7 @@ fun HistorieVyhledavaniObrazovka(
     val nactenoQueryList by viewModel.nactenoQueryList.collectAsState()
 
 
-    val currentScreen = ObchodniRejstrik.valueOf(ObchodniRejstrik.HistorieVyhledavani.name)
+    val currentScreen = TitlesOfSrceens.valueOf(TitlesOfSrceens.HistorieVyhledavani.name)
     Scaffold(
         topBar = {
             ObchodniRejstrikAppBar(

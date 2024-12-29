@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.components.ORNativeAdLayout
 import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
@@ -57,7 +57,7 @@ fun UvodniObrazovka(
     val nactenoQueryList by viewModel.nactenoQueryList.collectAsState()
     val adsDisabled = viewModel.adsDisabled.collectAsState()
 
-    val currentScreen = ObchodniRejstrik.valueOf(ObchodniRejstrik.UvodniObrazovka.name)
+    val currentScreen = TitlesOfSrceens.valueOf(TitlesOfSrceens.UvodniObrazovka.name)
 
 
     Scaffold(

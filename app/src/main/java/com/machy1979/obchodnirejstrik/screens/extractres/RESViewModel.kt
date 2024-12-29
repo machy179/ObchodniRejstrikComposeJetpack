@@ -12,6 +12,8 @@ import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRES
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyDataRES
 import com.machy1979.obchodnirejstrik.model.SharedState
+import com.machy1979.obchodnirejstrik.repository.AresRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +22,13 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import javax.inject.Inject
 
-class RESViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+@HiltViewModel
+class RESViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val aresRepository: AresRepository
+) : ViewModel() {
 
     //pro výpis RES - rejstřík ekonomických subjektů
 /*    private val _companyDataFromRES = MutableStateFlow(CompanyDataRES())
@@ -66,7 +73,7 @@ class RESViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel()
             try {
                 Log.i("aaaa", "ICO: " + ico)
                 val document = null
-                val documentString = getAresDataIcoRES(ico)
+                val documentString = getAresDataFromRESByIco(ico)
 
                 val jsonObject = JSONObject(documentString)
                 val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
@@ -102,26 +109,13 @@ class RESViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel()
         }
     }
 
-    private suspend fun getAresDataIcoRES(ico: String): String? {
-      //  val url = "https://wwwinfo.mfcr.cz/cgi-bin/ares/darv_res.cgi?ico=$ico"
-        val url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-res/$ico"
-        val client = OkHttpClient()
+
+    private suspend fun getAresDataFromRESByIco(ico: String): String {
         return try {
-            withContext(Dispatchers.IO) {
-                val request = Request.Builder()
-                    .url(url)
-                    .header("User-Agent", "Mozilla")
-                    .header("Content-Type", "application/json")
-                    .header("Accept", "application/json")
-                    .build()
-
-                val response = client.newCall(request).execute()
-                response.body?.string()
-
-
-            }
+            val response = aresRepository.getAresDataRES(ico)
+            response.string() // Získá String z ResponseBody
         } catch (e: Exception) {
-            null
+            ""
         }
     }
 

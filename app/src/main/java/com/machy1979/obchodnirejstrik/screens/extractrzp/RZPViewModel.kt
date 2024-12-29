@@ -14,6 +14,8 @@ import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazRZP
 import com.machy1979.obchodnirejstrik.functions.StringToPdfConvector
 import com.machy1979.obchodnirejstrik.model.CompanyDataRZP
 import com.machy1979.obchodnirejstrik.model.SharedState
+import com.machy1979.obchodnirejstrik.repository.AresRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,8 +26,13 @@ import okhttp3.Request
 import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
+import javax.inject.Inject
 
-class RZPViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+@HiltViewModel
+class RZPViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val aresRepository: AresRepository
+) : ViewModel() {
     //pro výpis RZP - rejstřík živnostenského podnikání
 
 /*    private val _companyDataFromRZP = MutableStateFlow(CompanyDataRZP())
@@ -67,7 +74,8 @@ class RZPViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel()
         viewModelScope.launch {
             try {
                 val document = null
-                val documentString = getAresDataIcoRZP(ico)
+         //       val documentString = getAresDataIcoRZP(ico)
+                val documentString = getAresDataFromRZPByIco(ico)
                 val jsonObject = JSONObject(documentString)
                 val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
                 if (kodValue=="") {
@@ -103,26 +111,13 @@ class RZPViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel()
         }
     }
 
-    private suspend fun getAresDataIcoRZP(ico: String): String? {
-        //val url = "https://wwwinfo.mfcr.cz/cgi-bin/ares/darv_rzp.cgi?ico=$ico"
-        val url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-rzp/$ico"
-        val client = OkHttpClient()
+
+    suspend fun getAresDataFromRZPByIco(ico: String): String {
         return try {
-            withContext(Dispatchers.IO) {
-                val request = Request.Builder()
-                    .url(url)
-                    .header("User-Agent", "Mozilla")
-                    .header("Content-Type", "application/json")
-                    .header("Accept", "application/json")
-                    .build()
-
-                val response = client.newCall(request).execute()
-                response.body?.string()
-
-
-            }
+            val response = aresRepository.getAresDataRZP(ico)
+            response.string() // Získá String z ResponseBody
         } catch (e: Exception) {
-            null
+            ""
         }
     }
 

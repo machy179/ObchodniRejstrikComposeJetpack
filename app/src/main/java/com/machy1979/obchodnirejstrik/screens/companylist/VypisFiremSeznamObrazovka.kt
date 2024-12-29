@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
 import com.machy1979.obchodnirejstrik.navigation.ObchodniRejstrikScreens
 
@@ -50,7 +50,7 @@ fun VypisFiremSeznamObrazovka (
     val context = LocalContext.current //tohle používat místo this
     val errorMessage by viewModel.errorMessage.collectAsState()
     val nacitani by viewModel.nacitani.collectAsState()
-    val currentScreen = ObchodniRejstrik.valueOf(ObchodniRejstrik.VypisFiremSeznam.name)
+    val currentScreen = TitlesOfSrceens.valueOf(TitlesOfSrceens.VypisFiremSeznam.name)
 
     Scaffold(
         topBar = {

@@ -30,7 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
-import com.machy1979.obchodnirejstrik.ObchodniRejstrik
+import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 import com.machy1979.obchodnirejstrik.components.ExpandableItemButton
 import com.machy1979.obchodnirejstrik.components.ORNativeAdWrapped
 import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
@@ -57,7 +57,7 @@ fun VypisORObrazovka(
     val companyDataFromOR by viewModel.companyDataFromOR.collectAsState()
 
     val context = LocalContext.current
-    val currentScreen = ObchodniRejstrik.valueOf(ObchodniRejstrik.VypisOR.name)
+    val currentScreen = TitlesOfSrceens.valueOf(TitlesOfSrceens.VypisOR.name)
 
 
     Scaffold(
@@ -67,7 +67,7 @@ fun VypisORObrazovka(
                 canNavigateBack = true,
                 canShare = true,
                 share = { orViewModel.share(context) },
-                saveToPdf = { },
+                saveToPdf = { orViewModel.saveToPdf(context) },
                 deleteAllHistory = { },
                 canHistoryOfSearch = false,
                 modifier = Modifier
