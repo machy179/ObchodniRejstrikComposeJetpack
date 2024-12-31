@@ -11,7 +11,7 @@ class PermissionsChecker {
 
     companion object {
 
-         //zjištění oprávnění ukládání soubourů
+        //zjištění oprávnění ukládání soubourů
         fun checkStoragePermissions(): Boolean {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 //Android is 11 (R) nebo vyšší
@@ -19,9 +19,15 @@ class PermissionsChecker {
             } else {
                 //nižší než android 11
                 val write =
-                    ContextCompat.checkSelfPermission(StringToPdfConvector.context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    ContextCompat.checkSelfPermission(
+                        StringToPdfConvector.context,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
                 val read =
-                    ContextCompat.checkSelfPermission(StringToPdfConvector.context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    ContextCompat.checkSelfPermission(
+                        StringToPdfConvector.context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
                 read == PackageManager.PERMISSION_GRANTED && write == PackageManager.PERMISSION_GRANTED
             }
         }

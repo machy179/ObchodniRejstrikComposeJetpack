@@ -1,22 +1,15 @@
 package com.machy1979.obchodnirejstrik
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import com.machy1979.obchodnirejstrik.functions.GDPRManager
 import com.machy1979.obchodnirejstrik.functions.deleteTCStringIfOutdated
 import com.machy1979.obchodnirejstrik.navigation.ObchodniRejstrikNavigation
@@ -47,14 +40,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ObchodniRejstrikTheme {
-                // A surface container using the 'background' color from the theme
-             //   ObchodniRejstrikApp2(activity = this)
                 ObchodniRejstrikApp(activity = this)
             }
         }
 
     }
-
 
 
 }

@@ -1,8 +1,11 @@
 package com.machy1979.obchodnirejstrik.screens.extractrzp
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -15,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.machy1979.obchodnirejstrik.components.ORNativeAdWrapped
@@ -23,15 +27,20 @@ import com.machy1979.obchodnirejstrik.components.ObycPolozkaJenNadpisUprostred
 import com.machy1979.obchodnirejstrik.components.ObycPolozkaNadpisHodnota
 import com.machy1979.obchodnirejstrik.components.SeznamOsob
 import com.machy1979.obchodnirejstrik.components.SeznamPolozekZivnosti
-
-import com.machy1979.obchodnirejstrik.ui.theme.*
+import com.machy1979.obchodnirejstrik.ui.theme.ColorBorderStroke
+import com.machy1979.obchodnirejstrik.ui.theme.OdsazeniMensi
+import com.machy1979.obchodnirejstrik.ui.theme.PaddingTopAplikace
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostBorderStrokeCard
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostElevation
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardHorizontal
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardVertical
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingMezeryMeziHlavnimiZaznamy
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostZakulaceniRohu
 import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 
 @Composable
 fun VypisRZPObrazovka(
     viewModel: RZPViewModel,
-    onCancelButtonClicked: () -> Unit = {},
-    modifier: Modifier = Modifier,
     adsDisabled: State<Boolean>,
     navController: NavHostController,
 ) {
@@ -44,6 +53,7 @@ fun VypisRZPObrazovka(
 
 
     Scaffold(
+        backgroundColor = Color.Transparent,
         topBar = {
             ObchodniRejstrikAppBar(
                 currentScreen = currentScreen,
@@ -66,12 +76,12 @@ fun VypisRZPObrazovka(
                 .fillMaxWidth().padding(
                     top = paddingValues.calculateTopPadding(),
                     bottom = paddingValues.calculateBottomPadding()
-                ).padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
+                )
                 .verticalScroll(rememberScrollState())
         )
         {
 
-        //základní údaje
+            //základní údaje
             Card(
                 //  backgroundColor = Color.Blue,
                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
@@ -137,12 +147,12 @@ fun VypisRZPObrazovka(
                 seznamZivnosti = companyDataFromRZP.zivnosti
             )
 
-        if (!adsDisabled.value) {
+            if (!adsDisabled.value) {
 
                 ORNativeAdWrapped()
 
 
+            }
         }
-    }
     }
 }

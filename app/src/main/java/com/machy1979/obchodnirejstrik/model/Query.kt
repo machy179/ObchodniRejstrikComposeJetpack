@@ -9,7 +9,7 @@ data class Query(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
-    @ColumnInfo(name = "query_ico" )
+    @ColumnInfo(name = "query_ico")
     val ico: String,
 
     @ColumnInfo(name = "query_name")

@@ -16,8 +16,8 @@ class ORRepository @Inject constructor(private val orDatabaseDao: ORDatabaseDao)
     suspend fun deleteAllNotes() = orDatabaseDao.deleteAll()
     fun getAllNotes(): Flow<List<Query>> = orDatabaseDao.getQueries().flowOn(Dispatchers.IO)
         .conflate()
-    suspend fun getNote(id: String): Query = orDatabaseDao.getNoteById(id=id)
 
+    suspend fun getNote(id: String): Query = orDatabaseDao.getNoteById(id = id)
 
 
 }

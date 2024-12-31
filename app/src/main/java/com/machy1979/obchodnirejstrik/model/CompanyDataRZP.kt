@@ -2,12 +2,12 @@ package com.machy1979.obchodnirejstrik.model
 
 import java.io.Serializable
 
-data class CompanyDataRZP (
+data class CompanyDataRZP(
     var name: String = "",
     var ico: String = "",
     var dic: String = "",
     var address: String = "",
-    var pravniForma: String ="",
+    var pravniForma: String = "",
     var typSubjektu: String = "",
     var evidujiciUrad: String = "",
     var vznikPrvniZivnosti: String = "",

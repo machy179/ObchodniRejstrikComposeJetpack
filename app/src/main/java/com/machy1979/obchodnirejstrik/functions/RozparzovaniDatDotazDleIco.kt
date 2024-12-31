@@ -1,9 +1,7 @@
 package com.machy1979.obchodnirejstrik.functions
 
-import android.util.Log
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import org.json.JSONObject
-import org.jsoup.nodes.Document
 
 
 class RozparzovaniDatDotazDleIco {
@@ -15,7 +13,7 @@ class RozparzovaniDatDotazDleIco {
             val ico = jsonObject.optString("ico", " ") ?: " "
             val dic = jsonObject.optString("dic", " ") ?: " "
             var address = jsonObject.getJSONObject("sidlo").optString("textovaAdresa", " ") ?: " "
-            val companyData = CompanyData(name, ico,dic, address)
+            val companyData = CompanyData(name, ico, dic, address)
             return companyData
         }
 

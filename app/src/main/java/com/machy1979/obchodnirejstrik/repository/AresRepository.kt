@@ -7,7 +7,7 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import javax.inject.Inject
 
 class AresRepository @Inject constructor(
-    private val apiService: AresApiService
+    private val apiService: AresApiService,
 ) {
 
     suspend fun getAresDataOR(ico: String): ResponseBody {

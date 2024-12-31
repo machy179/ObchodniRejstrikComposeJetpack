@@ -8,7 +8,6 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,7 +47,7 @@ fun UvodniObrazovka(
     rzpViewModel: RZPViewModel = hiltViewModel(),
     orViewModel: ORViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     var dotaz by rememberSaveable { mutableStateOf("") }
     var dotazMesto by rememberSaveable { mutableStateOf("") }
@@ -61,6 +60,7 @@ fun UvodniObrazovka(
 
 
     Scaffold(
+        backgroundColor = Color.Transparent,
 
         topBar = {
             ObchodniRejstrikAppBar(
@@ -70,9 +70,7 @@ fun UvodniObrazovka(
                 saveToPdf = { },
                 deleteAllHistory = { },
                 canHistoryOfSearch = nactenoQueryList,
-                modifier = Modifier
-                    .padding(top = PaddingTopAplikace)
-                    .fillMaxWidth(),
+                modifier = Modifier.padding(top = PaddingTopAplikace).fillMaxWidth(),
                 navController = navController,
             )
 
@@ -81,12 +79,11 @@ fun UvodniObrazovka(
 
 
         Column(
-            modifier = modifier
-                .padding(VelikostPaddingHlavnihoOkna)
-                .fillMaxWidth().padding(
+            modifier = modifier.padding(VelikostPaddingHlavnihoOkna).fillMaxWidth().padding(
                     top = paddingValues.calculateTopPadding(),
                     bottom = paddingValues.calculateBottomPadding()
-                ).padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
+                )
+                .padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
 
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -105,16 +102,11 @@ fun UvodniObrazovka(
                 Modifier.padding(start = 20.dp, end = 20.dp, top = 60.dp, bottom = 1.dp)
             }
             val paddingModifierSpodniCard = if (expanded) {
-                Modifier
-                    .fillMaxWidth()
-                    .padding(PaddingVnitrniCard)
-                    .clickable {
+                Modifier.fillMaxWidth().padding(PaddingVnitrniCard).clickable {
                         expanded = !expanded
                     }
             } else {
-                Modifier
-                    .padding(0.dp)
-                    .clickable {
+                Modifier.padding(0.dp).clickable {
                         expanded = !expanded
                     }
             }
@@ -145,8 +137,7 @@ fun UvodniObrazovka(
                 shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextField),
             ) {
                 Column(
-                    modifier = Modifier
-                        .animateContentSize(
+                    modifier = Modifier.animateContentSize(
                             animationSpec = spring(
                                 dampingRatio = Spring.DampingRatioLowBouncy,
                                 stiffness = Spring.StiffnessLow
@@ -155,36 +146,32 @@ fun UvodniObrazovka(
                 ) {
                     Card(
                         elevation = VelikostElevation,
-                        modifier = Modifier
-                            .then(
-                                if (expanded) Modifier
-                                    .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 0.dp)
-                                    .then(if (expanded) Modifier.fillMaxWidth() else Modifier)
+                        modifier = Modifier.then(
+                                if (expanded) Modifier.padding(
+                                        start = 10.dp,
+                                        end = 10.dp,
+                                        top = 10.dp,
+                                        bottom = 0.dp
+                                    ).then(if (expanded) Modifier.fillMaxWidth() else Modifier)
                                     .padding(PaddingVButtonu)
                                 else Modifier
                             ),
                         shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextFieldVnitrni),
                     ) {
-                        OutlinedTextField(
-                            value = dotaz,
+                        OutlinedTextField(value = dotaz,
                             onValueChange = {
                                 dotaz = it
                             },
                             label = { Text("ICO nebo název subjektu") },
-                            modifier = Modifier
-                                .padding(PaddingVButtonu)
-                                .fillMaxWidth(),
+                            modifier = Modifier.padding(PaddingVButtonu).fillMaxWidth(),
                             trailingIcon = {
-                                Icon(
-                                    painter = if (expanded) {
-                                        painterResource(id = R.drawable.collapsed_icon)
-                                    } else {
-                                        painterResource(id = R.drawable.expandabled_icon)
-                                    },
+                                Icon(painter = if (expanded) {
+                                    painterResource(id = R.drawable.collapsed_icon)
+                                } else {
+                                    painterResource(id = R.drawable.expandabled_icon)
+                                },
                                     contentDescription = "Search",
-                                    modifier = Modifier
-                                        .clickable { expanded = !expanded }
-                                )
+                                    modifier = Modifier.clickable { expanded = !expanded })
                             },
                             colors = TextFieldDefaults.textFieldColors(
                                 textColor = Color.Black,
@@ -203,15 +190,12 @@ fun UvodniObrazovka(
                         shape = RoundedCornerShape(VelikostZakulaceniRohuButtonTextFieldVnitrni),
                     ) {
                         if (expanded) {
-                            OutlinedTextField(
-                                value = dotazMesto,
+                            OutlinedTextField(value = dotazMesto,
                                 onValueChange = {
                                     dotazMesto = it
                                 },
                                 label = { Text("Sídlo subjektu - nepovinné") },
-                                modifier = Modifier
-                                    .padding(PaddingVButtonu)
-                                    .fillMaxWidth(),
+                                modifier = Modifier.padding(PaddingVButtonu).fillMaxWidth(),
                                 colors = TextFieldDefaults.textFieldColors(
                                     textColor = Color.Black,
                                     disabledTextColor = Color.Transparent,
@@ -226,26 +210,21 @@ fun UvodniObrazovka(
                 }
             }
 
-            CustomButton("Načíst dle ICO", false, true,
-                onClick = {
-                    viewModel.loadDataIco(dotaz)
-                    resViewModel.loadDataIcoRES(dotaz, context)
-                    rzpViewModel.loadDataIcoRZP(dotaz, context)
-                    orViewModel.loadDataIcoOR(dotaz, context)
-                    navController.navigate(ObchodniRejstrikScreens.VypisIcoObrazovka.name)
-                }
-            )
+            CustomButton("Načíst dle ICO", false, true, onClick = {
+                viewModel.loadDataIco(dotaz)
+                resViewModel.loadDataIcoRES(dotaz, context)
+                rzpViewModel.loadDataIcoRZP(dotaz, context)
+                orViewModel.loadDataIcoOR(dotaz, context)
+                navController.navigate(ObchodniRejstrikScreens.VypisIcoObrazovka.name)
+            })
 
-            CustomButton("Načíst dle názvu", false, true,
-                onClick = {
-                    viewModel.vynulujCompanysData()
-                    viewModel.loadDataNazev(
-                        dotaz,
-                        dotazMesto
-                    )
-                    navController.navigate(ObchodniRejstrikScreens.VypisFiremSeznamObrazovka.name)
-                }
-            )
+            CustomButton("Načíst dle názvu", false, true, onClick = {
+                viewModel.vynulujCompanysData()
+                viewModel.loadDataNazev(
+                    dotaz, dotazMesto
+                )
+                navController.navigate(ObchodniRejstrikScreens.VypisFiremSeznamObrazovka.name)
+            })
 
             if (!adsDisabled.value) {
                 var adIsLoaded by rememberSaveable { mutableStateOf(false) }
@@ -259,14 +238,12 @@ fun UvodniObrazovka(
                 }
 
                 if (adIsLoaded) {
-                    CustomButton("Odstranění reklam", false, true,
-                        onClick = {
-                            activity?.let {
-                                Log.d("remove ads Storky", "1")
-                                viewModel.startPurchase(it)
-                            }
+                    CustomButton("Odstranění reklam", false, true, onClick = {
+                        activity?.let {
+                            Log.d("remove ads Storky", "1")
+                            viewModel.startPurchase(it)
                         }
-                    )
+                    })
                 }
 
             }
@@ -274,7 +251,7 @@ fun UvodniObrazovka(
 
         }
     }
-    }
+}
 
 @Composable
 fun ListOfHistory(
@@ -288,25 +265,18 @@ fun ListOfHistory(
         shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
         border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
         elevation = VelikostElevation,
-        modifier = Modifier
-            .padding(
-                horizontal = VelikostPaddingCardHorizontal,
-                vertical = VelikostPaddingCardVertical
-            )
-            .fillMaxWidth()
-            .animateContentSize( //efekt pro rozbalení
+        modifier = Modifier.padding(
+                horizontal = VelikostPaddingCardHorizontal, vertical = VelikostPaddingCardVertical
+            ).fillMaxWidth().animateContentSize( //efekt pro rozbalení
                 animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioLowBouncy,
-                    stiffness = Spring.StiffnessLow
+                    dampingRatio = Spring.DampingRatioLowBouncy, stiffness = Spring.StiffnessLow
                 )
             ),
 
         ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(2.dp)
-                .fillMaxWidth()
+            modifier = Modifier.padding(2.dp).fillMaxWidth()
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -318,47 +288,35 @@ fun ListOfHistory(
                     text = "Historie vyhledávání",
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
-                        .weight(1f)
+                    modifier = Modifier.padding(VelikostPaddingMezeryMeziHlavnimiZaznamy).weight(1f)
                 )
 
                 ExpandableItemButton(
-                    expanded = expanded,
-                    onClick = {
+                    expanded = expanded, onClick = {
                         expanded = !expanded
                         expandHistory()
-                    },
-                    modifier = Modifier
-                        .padding(0.dp)
+                    }, modifier = Modifier.padding(0.dp)
 
                 )
             }
             if (expanded) {
                 Box(modifier = Modifier.fillMaxSize()) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxSize()
+                        modifier = Modifier.fillMaxSize()
                     ) {
                         // Seznam položek
                         queryList.forEach { query ->
-                            Card(
-                                shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
+                            Card(shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
                                 border = BorderStroke(
-                                    width = VelikostBorderStrokeCard,
-                                    color = ColorBorderStroke
+                                    width = VelikostBorderStrokeCard, color = ColorBorderStroke
                                 ),
                                 elevation = VelikostElevation,
-                                modifier = Modifier
-                                    .padding(
+                                modifier = Modifier.padding(
                                         horizontal = VelikostPaddingCardHorizontal,
                                         vertical = VelikostPaddingCardVertical
-                                    )
-                                    .fillMaxWidth()
-                                    .clickable {
+                                    ).fillMaxWidth().clickable {
                                         goToIcoButton(query.ico)
-                                    }
-                            ) {
+                                    }) {
                                 Column {
                                     Row {
                                         Spacer(Modifier.weight(1f))

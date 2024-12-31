@@ -17,7 +17,8 @@ import android.util.Log
 public fun deleteTCStringIfOutdated(context: Context) {
     // IABTCF string is stored in SharedPreferences
     val sharedPrefs = context.getSharedPreferences(
-        context.getPackageName() + "_preferences", Context.MODE_PRIVATE);
+        context.getPackageName() + "_preferences", Context.MODE_PRIVATE
+    );
 
     // get IABTCF string containing creation timestamp;
     // fall back to string encoding timestamp 0 if nothing is currently stored
@@ -30,13 +31,13 @@ public fun deleteTCStringIfOutdated(context: Context) {
     val base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
     // date is stored in digits 1..7 of the IABTCF string
-    val dateSubstring = tcString.subSequence(1,7).toString()
+    val dateSubstring = tcString.subSequence(1, 7).toString()
     Log.i("daysAgo", "dateSubstring: " + dateSubstring)
 
     // interpret date substring as base64-encoded integer value
     var timestamp = 0L
     for (c in dateSubstring) {
-        val value = base64.indexOfFirst { char -> char==c }
+        val value = base64.indexOfFirst { char -> char == c }
         timestamp = timestamp * 64 + value
     }
 
@@ -46,7 +47,7 @@ public fun deleteTCStringIfOutdated(context: Context) {
     Log.i("daysAgo", "timestamp: " + timestamp.toString())
 
     // compare with current timestamp to get age in days
-    val daysAgo = (System.currentTimeMillis() - timestamp) / (1000*60*60*24)
+    val daysAgo = (System.currentTimeMillis() - timestamp) / (1000 * 60 * 60 * 24)
 
     Log.i("daysAgo", "daysAgo: " + daysAgo.toString())
 

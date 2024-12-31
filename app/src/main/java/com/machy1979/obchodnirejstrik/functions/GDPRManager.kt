@@ -2,9 +2,9 @@ package com.machy1979.obchodnirejstrik.functions
 
 import android.app.Activity
 import android.util.Log
+import com.google.android.ump.ConsentForm
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
-import com.google.android.ump.ConsentForm
 import com.google.android.ump.UserMessagingPlatform
 
 class GDPRManager private constructor() { // Make the constructor private to prevent instantiation

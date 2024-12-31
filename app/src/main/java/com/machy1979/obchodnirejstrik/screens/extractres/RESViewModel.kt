@@ -19,24 +19,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
 class RESViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val aresRepository: AresRepository
+    private val aresRepository: AresRepository,
 ) : ViewModel() {
 
     //pro výpis RES - rejstřík ekonomických subjektů
-/*    private val _companyDataFromRES = MutableStateFlow(CompanyDataRES())
-    val companyDataFromRES: StateFlow<CompanyDataRES> = _companyDataFromRES */
+    /*    private val _companyDataFromRES = MutableStateFlow(CompanyDataRES())
+        val companyDataFromRES: StateFlow<CompanyDataRES> = _companyDataFromRES */
 
-    private val _companyDataFromRES = MutableStateFlow(savedStateHandle.get<CompanyDataRES>(
-        COMPANY_DATA_FROM_RES_KEY
-    ) ?: CompanyDataRES())
+    private val _companyDataFromRES = MutableStateFlow(
+        savedStateHandle.get<CompanyDataRES>(
+            COMPANY_DATA_FROM_RES_KEY
+        ) ?: CompanyDataRES()
+    )
     val companyDataFromRES: StateFlow<CompanyDataRES> = _companyDataFromRES
 
     companion object {
@@ -48,11 +48,13 @@ class RESViewModel @Inject constructor(
         savedStateHandle.set(COMPANY_DATA_FROM_RES_KEY, _companyDataFromRES.value)
     }
 
-/*    private val _buttonClickedRES = MutableStateFlow<Boolean>(false)
-    val buttonClickedRES: StateFlow<Boolean> =_buttonClickedRES*/
-    private val _buttonClickedRES = MutableStateFlow(savedStateHandle.get<Boolean>(
-    BUTTON_CLICKED_RES_KEY
-) ?: false)
+    /*    private val _buttonClickedRES = MutableStateFlow<Boolean>(false)
+        val buttonClickedRES: StateFlow<Boolean> =_buttonClickedRES*/
+    private val _buttonClickedRES = MutableStateFlow(
+        savedStateHandle.get<Boolean>(
+            BUTTON_CLICKED_RES_KEY
+        ) ?: false
+    )
     val buttonClickedRES: StateFlow<Boolean> = _buttonClickedRES
     fun updateButtonClickedRES() {
         savedStateHandle.set(BUTTON_CLICKED_RES_KEY, _buttonClickedRES.value)
@@ -76,29 +78,34 @@ class RESViewModel @Inject constructor(
                 val documentString = getAresDataFromRESByIco(ico)
 
                 val jsonObject = JSONObject(documentString)
-                val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
-                if (kodValue=="") {
+                val kodValue =
+                    jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
+                if (kodValue == "") {
                     if (documentString != null) {
                         val zaznamyArray = jsonObject.getJSONArray("zaznamy")
                         if (zaznamyArray.length() > 0) {
                             val firstZaznamObject = zaznamyArray.getJSONObject(0)
-                            _companyDataFromRES.value = RozparzovaniDatDotazRES.vratCompanyData(firstZaznamObject, context)
+                            _companyDataFromRES.value =
+                                RozparzovaniDatDotazRES.vratCompanyData(firstZaznamObject, context)
                             _errorMessageRES.value = " "
                             _buttonClickedRES.value = true
                             updateCompanyDataFroRES()
                             updateButtonClickedRES()
                         } else {
                             _errorMessageRES.value = "Žádný záznam k subjektu vARESu"
-                            Log.i("RopzarzovaniOR: ","555")
+                            Log.i("RopzarzovaniOR: ", "555")
                         }
 
                     } else {
                         _errorMessageRES.value = "Nepodařilo se načíst data z ARESu"
-                        Log.i("RopzarzovaniOR: ","666")
+                        Log.i("RopzarzovaniOR: ", "666")
                     }
                 } else {
-                    _errorMessageRES.value = jsonObject.optString("popis").replace("&nbsp;", "") //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
-                    Log.i("RopzarzovaniOR: ","777")
+                    _errorMessageRES.value = jsonObject.optString("popis").replace(
+                        "&nbsp;",
+                        ""
+                    ) //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
+                    Log.i("RopzarzovaniOR: ", "777")
                 }
 
             } catch (e: Exception) {
@@ -136,19 +143,30 @@ class RESViewModel @Inject constructor(
 
     fun saveToPdf(context: Context) {
         //je třeba to spustit ve vláknu, při větších firmách se to dělalo dlouho a hlavní vlákno zamrzalo
-       // Toast.makeText(context, "Ukládám", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(context, "Ukládám", Toast.LENGTH_SHORT).show()
         viewModelScope.launch {
             withContext(Dispatchers.IO) {//Tento dispatcher je určen pro asynchronní operace, které neblokují hlavní vlákno, jako jsou načítání nebo zápis do souborů, síťové operace atd.
                 SharedState.setSaveToPdfClicked(true)
-                val pdfFileName = companyDataFromRES.value.name+"_RES"
-                val file = StringToPdfConvector.convertToPdf(pdfFileName,context,null, null, companyDataFromRES.value)
+                val pdfFileName = companyDataFromRES.value.name + "_RES"
+                val file = StringToPdfConvector.convertToPdf(
+                    pdfFileName,
+                    context,
+                    null,
+                    null,
+                    companyDataFromRES.value
+                )
                 SharedState.setSaveToPdfClicked(false)
 
                 withContext(Dispatchers.Main) {//se používá pro provádění operací, které mění UI nebo nějakým způsobem interagují s UI prvkem. Tento dispatcher by měl být použit, když potřebujete aktualizovat UI nebo spustit nějakou akci v hlavním vlákně (UI vláknu).
                     if (file != null) {
-                        Toast.makeText(context, "V Downloads uložen soubor " + pdfFileName, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "V Downloads uložen soubor " + pdfFileName,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        Toast.makeText(context, "Soubor se nepodařilo uložit", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Soubor se nepodařilo uložit", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }

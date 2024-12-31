@@ -15,7 +15,7 @@ interface AresApiService {
     )
     @GET("ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-vr/{ico}")
     suspend fun getAresDataFromORByIco(
-        @Path("ico") ico: String
+        @Path("ico") ico: String,
     ): ResponseBody
 
     @Headers(
@@ -25,7 +25,7 @@ interface AresApiService {
     )
     @GET("ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-rzp/{ico}")
     suspend fun getAresDataFromRZPByIco(
-        @Path("ico") ico: String
+        @Path("ico") ico: String,
     ): ResponseBody
 
     @Headers(
@@ -35,7 +35,7 @@ interface AresApiService {
     )
     @GET("ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-res/{ico}")
     suspend fun getAresDataFromRESByIco(
-        @Path("ico") ico: String
+        @Path("ico") ico: String,
     ): ResponseBody
 }
 

@@ -14,11 +14,11 @@ data class Osoba(
     var veFunkciOd: String = "",
 
 //pro společník s vkladem
-    var vklad: String= "",
+    var vklad: String = "",
     var splaceno: String = "",
     var obchodniPodil: String = "",
 
     //pro vedoucí organizační složky
-    var organizacniSlozka: String = ""
+    var organizacniSlozka: String = "",
 
-) : Serializable
+    ) : Serializable

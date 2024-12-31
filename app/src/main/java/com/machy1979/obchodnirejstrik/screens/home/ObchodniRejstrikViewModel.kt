@@ -8,7 +8,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
-import com.machy1979.obchodnirejstrik.functions.*
+import com.machy1979.obchodnirejstrik.functions.BillingManagerOR
+import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazDleIco
+import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatProCompanysDataNovy
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.Query
 import com.machy1979.obchodnirejstrik.repository.ORRepository
@@ -20,11 +22,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.json.JSONException
 import org.json.JSONObject
 import org.jsoup.Jsoup
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -34,15 +36,16 @@ import javax.inject.Inject
 class ObchodniRejstrikViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val repository: ORRepository,
-    private val billingManager: BillingManagerOR
+    private val billingManager: BillingManagerOR,
 ) : ViewModel() {
 //class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle)   : ViewModel() {
 
-/*    private val _companyData = MutableStateFlow(CompanyData())
-    val companyData: StateFlow<CompanyData> = _companyData*/
+    /*    private val _companyData = MutableStateFlow(CompanyData())
+        val companyData: StateFlow<CompanyData> = _companyData*/
 
     //aby po restartu aktivity přežila CompanyData, je nutné do MV dát výše uvedený (private val savedStateHandle: SavedStateHandle), poté udělat níže uvedené změny, funkc companyUpdate spustit na vhodném místě, v tomto případě po načtení dat z Aresu a hlavně firmu CompanyData Seriablizovat
-    private val _companyData = MutableStateFlow(savedStateHandle.get<CompanyData>(COMPANY_DATA_KEY) ?: CompanyData())
+    private val _companyData =
+        MutableStateFlow(savedStateHandle.get<CompanyData>(COMPANY_DATA_KEY) ?: CompanyData())
     val companyData: StateFlow<CompanyData> = _companyData
 
     val adsDisabled: StateFlow<Boolean> = billingManager.adsDisabled
@@ -58,15 +61,16 @@ class ObchodniRejstrikViewModel @Inject constructor(
     }
     //konec změny aby po restartu....
 
-/*    private val _companysData = mutableStateListOf<CompanyData>()
-    val companysData: SnapshotStateList<CompanyData> = _companysData*/
+    /*    private val _companysData = mutableStateListOf<CompanyData>()
+        val companysData: SnapshotStateList<CompanyData> = _companysData*/
 
     //aby po restartu aktivity přežila níže CompanysData - protože nelze do savedStateHandle vkládat SnapshotStateList, musí se to převést na ArrayList, ten vložit jde:
-    private val _companysData: SnapshotStateList<CompanyData> = savedStateHandle.get<ArrayList<CompanyData>>(
-        COMPANYS_DATA_KEY
-    )?.let {
-        mutableStateListOf(*it.toTypedArray())
-    } ?: mutableStateListOf<CompanyData>()
+    private val _companysData: SnapshotStateList<CompanyData> =
+        savedStateHandle.get<ArrayList<CompanyData>>(
+            COMPANYS_DATA_KEY
+        )?.let {
+            mutableStateListOf(*it.toTypedArray())
+        } ?: mutableStateListOf<CompanyData>()
 
     val companysData: SnapshotStateList<CompanyData> = _companysData
 
@@ -80,16 +84,19 @@ class ObchodniRejstrikViewModel @Inject constructor(
     //konec změny aby po restartu....
 
     private val _nacitani = MutableStateFlow(false)
- //   val nacitani: StateFlow<Boolean> = _nacitani
+
+    //   val nacitani: StateFlow<Boolean> = _nacitani
     val nacitani = _nacitani.asStateFlow()
 
     private val _errorMessage = MutableStateFlow<String>("")
     val errorMessage: StateFlow<String> = _errorMessage
 
     //načtení historie
-    private val _queryList = MutableStateFlow<List<Query>>(emptyList()) //pro room je třeba tady dát Flow a ne jen mutalbeStateListOf
+    private val _queryList =
+        MutableStateFlow<List<Query>>(emptyList()) //pro room je třeba tady dát Flow a ne jen mutalbeStateListOf
     val queryList = _queryList.asStateFlow()
     private val _nactenoQueryList = MutableStateFlow(false)
+
     //   val nacitani: StateFlow<Boolean> = _nacitani
     val nactenoQueryList = _nactenoQueryList.asStateFlow()
 
@@ -99,8 +106,9 @@ class ObchodniRejstrikViewModel @Inject constructor(
                 .collect { listOfNotes ->
                     if (listOfNotes.isNullOrEmpty()) {
                         Log.d("Empty", ": Empty list")
-                    }else {
-                        val distinctNotes = listOfNotes.distinctBy { it.ico } // aby se vymazaly duplicity
+                    } else {
+                        val distinctNotes =
+                            listOfNotes.distinctBy { it.ico } // aby se vymazaly duplicity
                         _queryList.value = distinctNotes
                         _nactenoQueryList.value = true
                     }
@@ -114,7 +122,6 @@ class ObchodniRejstrikViewModel @Inject constructor(
     fun deleteAllHistory() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllNotes()
-
 
 
         }
@@ -138,23 +145,33 @@ class ObchodniRejstrikViewModel @Inject constructor(
 
                 val documentString = getAresDataIco(ico)
                 val jsonObject = JSONObject(documentString)
-                val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
-                if (kodValue=="") {
+                val kodValue =
+                    jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
+                if (kodValue == "") {
                     if (documentString != null) {
                         _companyData.value = RozparzovaniDatDotazDleIco.vratCompanyData(jsonObject)
                         updateCompanyData()
-                        repository.addQuery(Query(ico = companyData.value.ico, name = companyData.value.name, address = companyData.value.address)) //uložení do databáze
+                        repository.addQuery(
+                            Query(
+                                ico = companyData.value.ico,
+                                name = companyData.value.name,
+                                address = companyData.value.address
+                            )
+                        ) //uložení do databáze
                         _errorMessage.value = ""
                         saveSearchCompany()
                     } else {
                         _errorMessage.value = "Nepodařilo se načíst data z ARESu"
                     }
                 } else {
-                    _errorMessage.value = jsonObject.optString("popis").replace("&nbsp;", "") //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
+                    _errorMessage.value = jsonObject.optString("popis").replace(
+                        "&nbsp;",
+                        ""
+                    ) //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
                 }
             } catch (e: Exception) {
                 _errorMessage.value = "Nepodařilo se načíst data z ARESu"
-                Log.e("ChybaUlozeniMV",e.toString())
+                Log.e("ChybaUlozeniMV", e.toString())
             }
             _nacitani.value = false
         }
@@ -165,7 +182,8 @@ class ObchodniRejstrikViewModel @Inject constructor(
         searchCompanyToSave["address"] = companyData.value.address
         searchCompanyToSave["ico"] = companyData.value.ico
         searchCompanyToSave["name"] = companyData.value.name
-        searchCompanyToSave["date"] = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        searchCompanyToSave["date"] =
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         FirebaseFirestore.getInstance().collection("search_company")
             .add(searchCompanyToSave)
     }
@@ -173,7 +191,8 @@ class ObchodniRejstrikViewModel @Inject constructor(
     private fun saveQueryToFirebse(dotaz: String) {
         var queryToSave = mutableMapOf<String, Any>()
         queryToSave["query"] = dotaz
-        queryToSave["date"] = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        queryToSave["date"] =
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         FirebaseFirestore.getInstance().collection("queries")
             .add(queryToSave)
     }
@@ -202,27 +221,37 @@ class ObchodniRejstrikViewModel @Inject constructor(
 
     fun loadDataNazev(nazev: String, nazevMesto: String) {
         _nacitani.value = true
-        saveQueryToFirebse(nazev + ""+nazevMesto)
+        saveQueryToFirebse(nazev + "" + nazevMesto)
         viewModelScope.launch {
             try {
 
                 val documentStringJson = getAresDataNazev(nazev, nazevMesto)
                 val jsonContent =
-                    documentStringJson?.replace(Regex(".*?<body>(.*?)</body>.*", RegexOption.DOT_MATCHES_ALL), "$1")
-                Log.i("JSON odpověď: ",jsonContent.toString())
+                    documentStringJson?.replace(
+                        Regex(
+                            ".*?<body>(.*?)</body>.*",
+                            RegexOption.DOT_MATCHES_ALL
+                        ), "$1"
+                    )
+                Log.i("JSON odpověď: ", jsonContent.toString())
                 try {
                     val jsonObject = JSONObject(jsonContent)
-                    val kodValue = jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
-                    if (kodValue=="") {
+                    val kodValue =
+                        jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
+                    if (kodValue == "") {
                         val ekonomickeSubjektyArray = jsonObject.getJSONArray("ekonomickeSubjekty")
-                        if (ekonomickeSubjektyArray.length()==0) {
+                        if (ekonomickeSubjektyArray.length() == 0) {
                             _errorMessage.value = "SUBJEKT NENALEZEN"
                         } else {
                             _errorMessage.value = ""
                             // Cyklus procházející všechny položky v poli ekonomických subjektů
                             for (i in 0 until ekonomickeSubjektyArray.length()) {
                                 val ekonomickySubjekt = ekonomickeSubjektyArray.getJSONObject(i)
-                                companysData.add(RozparzovaniDatProCompanysDataNovy.vratCompanyData(ekonomickySubjekt))
+                                companysData.add(
+                                    RozparzovaniDatProCompanysDataNovy.vratCompanyData(
+                                        ekonomickySubjekt
+                                    )
+                                )
                             }
                             updateCompanysData()
 
@@ -230,7 +259,10 @@ class ObchodniRejstrikViewModel @Inject constructor(
                         }
 
                     } else {
-                        _errorMessage.value = jsonObject.optString("popis").replace("&nbsp;", "") //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
+                        _errorMessage.value = jsonObject.optString("popis").replace(
+                            "&nbsp;",
+                            ""
+                        ) //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
                     }
 
                 } catch (e: JSONException) {
@@ -246,9 +278,10 @@ class ObchodniRejstrikViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAresDataNazev(nazev: String,nazevMesto: String): String? {
+    private suspend fun getAresDataNazev(nazev: String, nazevMesto: String): String? {
         val url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat"
-        val requestBody = if (nazevMesto.isEmpty()) { """{"start": 0, "pocet": 1000, "razeni": ["obchodniJmeno"], "obchodniJmeno": "$nazev"}"""
+        val requestBody = if (nazevMesto.isEmpty()) {
+            """{"start": 0, "pocet": 1000, "razeni": ["obchodniJmeno"], "obchodniJmeno": "$nazev"}"""
         } else {
             """{"start": 0, "pocet": 1000, "razeni": ["obchodniJmeno"], "obchodniJmeno": "$nazev", "sidlo": { "textovaAdresa": "$nazevMesto"}}"""
         }

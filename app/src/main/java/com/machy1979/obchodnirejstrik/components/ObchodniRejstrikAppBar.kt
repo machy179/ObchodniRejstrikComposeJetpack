@@ -30,14 +30,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 import com.machy1979.obchodnirejstrik.R
 import com.machy1979.obchodnirejstrik.model.SharedState
 import com.machy1979.obchodnirejstrik.navigation.ObchodniRejstrikScreens
+import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 
 @Composable
 fun ObchodniRejstrikAppBar(
-    //  viewModel: ObchodniRejstrikViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     currentScreen: TitlesOfSrceens,
     canNavigateBack: Boolean,
     canShare: Boolean = false,
@@ -47,21 +46,26 @@ fun ObchodniRejstrikAppBar(
     deleteAllHistory: () -> Unit,
     canHistoryOfSearch: Boolean = false,
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     var appBarOffset by remember { mutableStateOf(0f) }
     val saveToPdfClickedState by SharedState.saveToPdfClicked.collectAsState()
 
 
     TopAppBar(
-        title = { Text(stringResource(currentScreen.title), color = colorResource(id = R.color.pozadi_prvku_top_app_bar)) },
+        title = {
+            Text(
+                stringResource(currentScreen.title),
+                color = colorResource(id = R.color.pozadi_prvku_top_app_bar)
+            )
+        },
         modifier = modifier,
         backgroundColor = Color.Transparent, // Nastavíme transparentní barvu pozadí
         elevation = if (appBarOffset > 0) 4.dp else 0.dp, // Přidáme stín, pokud je appBarOffset větší než 0
 
         navigationIcon = {
             if (canNavigateBack) {
-                IconButton(onClick = {navController.navigateUp()}) {
+                IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(R.string.back_button),
@@ -89,7 +93,7 @@ fun ObchodniRejstrikAppBar(
                             saveToPdf()
                         }) {
                             Icon(
-                                imageVector =  Icons.Filled.Download,
+                                imageVector = Icons.Filled.Download,
                                 contentDescription = stringResource(R.string.share_button),
                                 tint = colorResource(id = R.color.pozadi_prvku_top_app_bar)
                             )
@@ -117,7 +121,7 @@ fun ObchodniRejstrikAppBar(
             } else if (canHistoryOfSearch) {
                 Row(
                     modifier = Modifier
-                        .padding(end = 12.dp, top=0.dp)
+                        .padding(end = 12.dp, top = 0.dp)
                         .clickable {
                             navController.navigate(ObchodniRejstrikScreens.HistorieVyhladavaniObrazovka.name)
                         },
@@ -130,7 +134,7 @@ fun ObchodniRejstrikAppBar(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp
                         ),
-                        modifier = Modifier.padding(end=4.dp)
+                        modifier = Modifier.padding(end = 4.dp)
                     )
                     Icon(
                         imageVector = Icons.Filled.History,

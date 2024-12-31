@@ -57,19 +57,20 @@ import com.machy1979.obchodnirejstrik.utils.Constants
 
 @Composable
 fun ORNativeAdWrapped() {
-    ORNativeAdLayout(wrapped = true) {
-        isLoaded ->
+    ORNativeAdLayout(wrapped = true) { isLoaded ->
     }
 }
+
 @Composable
 fun ORNativeAdLayout(
     wrapped: (Boolean) = false,
-    onAdLoaded: (Boolean) -> Unit)
-{
+    onAdLoaded: (Boolean) -> Unit,
+) {
     val context = LocalContext.current
     var nativeAd by remember { mutableStateOf<NativeAd?>(null) }
     var isAdLoading by remember { mutableStateOf(true) } // Stav pro sledování načítání reklamy
-    val adUnitIdNative = if (BuildConfig.DEBUG) Constants.AD_UNIT_ID_NATIVE_TEST else Constants.AD_UNIT_ID_NATIVE_OR
+    val adUnitIdNative =
+        if (BuildConfig.DEBUG) Constants.AD_UNIT_ID_NATIVE_TEST else Constants.AD_UNIT_ID_NATIVE_OR
 
     LaunchedEffect(Unit) {
         val adLoader = AdLoader.Builder(context, adUnitIdNative)
@@ -93,10 +94,10 @@ fun ORNativeAdLayout(
         adLoader.loadAd(AdRequest.Builder().build())
     }
 
-    if(!isAdLoading) {
+    if (!isAdLoading) {
         val backgroundColor = if (nativeAd != null) Color.White else Color.Transparent
 
-        if(wrapped) {
+        if (wrapped) {
             Card(
                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
                 border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
@@ -118,7 +119,10 @@ fun ORNativeAdLayout(
                     Card(
                         //  backgroundColor = Color.Blue,
                         shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
-                        border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
+                        border = BorderStroke(
+                            width = VelikostBorderStrokeCard,
+                            color = ColorBorderStroke
+                        ),
                         elevation = VelikostElevation,
                         modifier = Modifier
                             .padding(
@@ -134,7 +138,12 @@ fun ORNativeAdLayout(
                                 //   .heightIn(max = maxHeight) // Nastavení maximální výšky
                                 .padding(horizontal = 16.dp)
                                 .background(backgroundColor, shape = RoundedCornerShape(16.dp))
-                                .padding(start = 4.dp, end = 4.dp, top=0.dp, bottom = 4.dp) // Inner padding for the content
+                                .padding(
+                                    start = 4.dp,
+                                    end = 4.dp,
+                                    top = 0.dp,
+                                    bottom = 4.dp
+                                ) // Inner padding for the content
                         ) {
                             nativeAd?.let { ORNativeAdLayout(it) }
                         }
@@ -148,16 +157,19 @@ fun ORNativeAdLayout(
                     //   .heightIn(max = maxHeight) // Nastavení maximální výšky
                     .padding(horizontal = 16.dp)
                     .background(backgroundColor, shape = RoundedCornerShape(16.dp))
-                    .padding(start = 4.dp, end = 4.dp, top=0.dp, bottom = 4.dp) // Inner padding for the content
+                    .padding(
+                        start = 4.dp,
+                        end = 4.dp,
+                        top = 0.dp,
+                        bottom = 4.dp
+                    ) // Inner padding for the content
             ) {
                 nativeAd?.let { ORNativeAdLayout(it) }
             }
         }
 
 
-
     }
-
 
 
 }

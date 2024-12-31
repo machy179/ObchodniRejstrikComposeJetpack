@@ -1,16 +1,15 @@
 package com.machy1979.obchodnirejstrik.ui.theme
 
-import android.app.Activity
+
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-
 import androidx.compose.runtime.Composable
-
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 
 
@@ -36,12 +35,6 @@ fun ObchodniRejstrikTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val view = LocalView.current
-    val window = (view.context as Activity).window
- //   window.statusBarColor = StatusBarColor.toArgb() - nakonec  je to řešené přes themes.xml
- //   window.navigationBarColor = NavigationBarColor.toArgb() - nakonec  je to řešené přes themes.xml
-
-
     val colors = if (darkTheme) {
         LightColorPalette
     } else {
@@ -55,12 +48,17 @@ fun ObchodniRejstrikTheme(
                 .fillMaxHeight()
         ) {
             Image(
-                // painter = painterResource(id = com.machy1979.obchodnirejstrik.R.mipmap.background),
                 painter = painterResource(id = com.machy1979.obchodnirejstrik.R.drawable.pozadi9
                 ),
                 contentDescription = "headerImage",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
+            )
+
+            Box( // Překrývající Box s průhlednou barvou
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White.copy(alpha = 0.2f)) // Černá s 50% průhledností
             )
 
             MaterialTheme(

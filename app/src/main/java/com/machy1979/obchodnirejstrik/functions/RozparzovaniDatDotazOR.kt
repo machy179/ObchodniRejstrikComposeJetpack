@@ -1,27 +1,24 @@
 package com.machy1979.obchodnirejstrik.functions
 
+import android.annotation.SuppressLint
 import android.content.Context
-
 import android.util.Log
 import com.machy1979.obchodnirejstrik.R
-
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.Firma
 import com.machy1979.obchodnirejstrik.model.Osoba
-import org.json.JSONArray
 import org.json.JSONObject
-import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
-import org.jsoup.select.Elements
 
 
 class RozparzovaniDatDotazOR {
     companion object {
         lateinit var context: Context
         var pomocnyCounter = 0
+
+        @SuppressLint("SuspiciousIndentation")
         fun vratCompanyData(jsonObject: JSONObject, context: Context): CompanyData {
 
-            Log.i("RopzarzovaniOR: uvnitř",jsonObject.toString())
+            Log.i("RopzarzovaniOR: uvnitř", jsonObject.toString())
             this.context = context
 
             var name = " "
@@ -45,36 +42,43 @@ class RozparzovaniDatDotazOR {
                     val adresa = addressesArray.getJSONObject(i)
                     // Zpracování obchodního jména, provedete s ním, co je potřeba
                     if (!adresa.has("datumVymazu")) {
-                        address = adresa?.getJSONObject("adresa")?.optString("textovaAdresa", " ") ?: " "
+                        address =
+                            adresa?.getJSONObject("adresa")?.optString("textovaAdresa", " ") ?: " "
                     }
                 }
 
 
-            }?: run {
+            } ?: run {
                 address = " "
             }
 
 
-            var stavSubjektu= jsonObject.optString("stavSubjektu", " ") ?: " "
-            if (stavSubjektu.equals("AKTIVNI")) stavSubjektu= "Aktivní"
+            var stavSubjektu = jsonObject.optString("stavSubjektu", " ") ?: " "
+            if (stavSubjektu.equals("AKTIVNI")) stavSubjektu = "Aktivní"
 
             //právní forma
             val pravniFormaArray = jsonObject.optJSONArray("pravniForma")
-            val pravniFormaZnacka= pravniFormaArray?.optJSONObject(0)?.optString("hodnota", " ") ?: " "
+            val pravniFormaZnacka =
+                pravniFormaArray?.optJSONObject(0)?.optString("hodnota", " ") ?: " "
             val pravniFormyCiselnikArray = context.resources.getStringArray(R.array.pravni_forma)
-            val pravniFormyCiselnikMap = pravniFormyCiselnikArray.map { it.split(",") }.associate { it[0] to it[1] }
+            val pravniFormyCiselnikMap =
+                pravniFormyCiselnikArray.map { it.split(",") }.associate { it[0] to it[1] }
             val pravniForma = pravniFormyCiselnikMap[pravniFormaZnacka] ?: pravniFormaZnacka
-            Log.i("RopzarzovaniOR: pravniForma",pravniForma)
+            Log.i("RopzarzovaniOR: pravniForma", pravniForma)
 
-            val datumZapisu= jsonObject.optString("datumZapisu", " ") ?: " "
+            val datumZapisu = jsonObject.optString("datumZapisu", " ") ?: " "
 
             val spisovaZnackaArray = jsonObject.optJSONArray("spisovaZnacka")
-            var spisovaZnacka= spisovaZnackaArray?.optJSONObject(0)?.optString("oddil", " ") ?: " "
-            spisovaZnacka= spisovaZnacka+" " + spisovaZnackaArray?.optJSONObject(0)?.optString("vlozka", " ") ?: " "
+            var spisovaZnacka = spisovaZnackaArray?.optJSONObject(0)?.optString("oddil", " ") ?: " "
+            spisovaZnacka =
+                spisovaZnacka + " " + spisovaZnackaArray?.optJSONObject(0)?.optString("vlozka", " ")
+                    ?: " "
 
-            val soudZnacka: String= spisovaZnackaArray.optJSONObject(0)?.optString("soud", " ") ?: " "
+            val soudZnacka: String =
+                spisovaZnackaArray.optJSONObject(0)?.optString("soud", " ") ?: " "
             val soudyCislenikArray = context.resources.getStringArray(R.array.soudy)
-            val soudyCiselnikMap = soudyCislenikArray.map { it.split(",") }.associate { it[0] to it[1] }
+            val soudyCiselnikMap =
+                soudyCislenikArray.map { it.split(",") }.associate { it[0] to it[1] }
             val soud = soudyCiselnikMap[soudZnacka] ?: soudZnacka
 
             //vklad a splaceno musím řešit tak, že načte celý list a z něho vybere jen ten platný - u kterého není datum výmazu
@@ -83,61 +87,71 @@ class RozparzovaniDatDotazOR {
             jsonObject.optJSONArray("zakladniKapital")?.let { zakladniKapitalArray ->
                 for (i in 0 until zakladniKapitalArray.length()) {
                     val kapitalObject = zakladniKapitalArray.optJSONObject(i)
-                    Log.i("RopzarzovaniOR: kapitalObject:",kapitalObject.toString())
+                    Log.i("RopzarzovaniOR: kapitalObject:", kapitalObject.toString())
                     if (!kapitalObject.has("datumVymazu")) {
-                        vklad = kapitalObject.optJSONObject("vklad")?.optString("hodnota", " ") ?: " "
-                        if (!vklad.equals(" ")) vklad=upravFinancniCastku(vklad)
-                        Log.i("RopzarzovaniOR: vklad:",vklad)
-                        splaceno = kapitalObject.optJSONObject("splaceni")?.optString("hodnota") ?: " "
+                        vklad =
+                            kapitalObject.optJSONObject("vklad")?.optString("hodnota", " ") ?: " "
+                        if (!vklad.equals(" ")) vklad = upravFinancniCastku(vklad)
+                        Log.i("RopzarzovaniOR: vklad:", vklad)
+                        splaceno =
+                            kapitalObject.optJSONObject("splaceni")?.optString("hodnota") ?: " "
                         if (!splaceno.equals(" ")) {
-                            if(kapitalObject.optJSONObject("splaceni")?.optString("typObnos").equals("PROCENTA")) {
-                                splaceno=splaceno + " "+"%"
+                            if (kapitalObject.optJSONObject("splaceni")?.optString("typObnos")
+                                    .equals("PROCENTA")
+                            ) {
+                                splaceno = splaceno + " " + "%"
                             } else {
-                                splaceno=upravFinancniCastku(splaceno)
+                                splaceno = upravFinancniCastku(splaceno)
                             }
 
                         }
-                        Log.i("RopzarzovaniOR: splaceno:",splaceno)
+                        Log.i("RopzarzovaniOR: splaceno:", splaceno)
                     }
                 }
             }
 
             //akcie:
             val listAkcie: MutableList<String> = mutableListOf<String>()
-            Log.i("RopzarzovaniOR: akcie","1")
+            Log.i("RopzarzovaniOR: akcie", "1")
             jsonObject.optJSONArray("akcie")?.let { akcieArray ->
-                Log.i("RopzarzovaniOR: akcie",akcieArray.toString())
+                Log.i("RopzarzovaniOR: akcie", akcieArray.toString())
                 for (i in 0 until akcieArray.length()) {
                     val akcielObject = akcieArray.optJSONObject(i)
                     if (!akcielObject.has("datumVymazu")) {
-                        Log.i("RopzarzovaniOR: akcie",akcielObject.toString())
+                        Log.i("RopzarzovaniOR: akcie", akcielObject.toString())
                         var akcie: String = akcielObject.optString("typAkcie", " ") ?: " "
-                        Log.i("RopzarzovaniOR: akcie","2")
+                        Log.i("RopzarzovaniOR: akcie", "2")
                         when (akcie) {
                             "NA_JMENO" -> {
                                 akcie = "Na jméno"
                             }
+
                             "KMENOVE_NA_JMENO" -> {
                                 akcie = "Kmenové na jméno"
                             }
+
                             "NA_MAJITELE" -> {
                                 akcie = "Na majitele"
                             }
+
                             "KMENOVE_NA_MAJITELE" -> {
                                 akcie = "Kmenové na majitele"
                             }
+
                             else -> {
                             }
                         }
-                        Log.i("RopzarzovaniOR: akcie","3")
+                        Log.i("RopzarzovaniOR: akcie", "3")
                         if (akcielObject.has("pocet")) {
-                            Log.i("RopzarzovaniOR: akcie","4")
+                            Log.i("RopzarzovaniOR: akcie", "4")
                             akcie += "\npočet akcií: ${akcielObject.optString("pocet", " ")}"
                         }
-                        Log.i("RopzarzovaniOR: akcie","5")
+                        Log.i("RopzarzovaniOR: akcie", "5")
                         if (akcielObject.optJSONObject("hodnota").has("hodnota")) {
-                            akcie += "\nhodnota: ${akcielObject.optJSONObject("hodnota")?.optString("hodnota", " ")
-                                ?.let { upravFinancniCastku(it) }}"
+                            akcie += "\nhodnota: ${
+                                akcielObject.optJSONObject("hodnota")?.optString("hodnota", " ")
+                                    ?.let { upravFinancniCastku(it) }
+                            }"
                         }
                         listAkcie.add(akcie)
                     }
@@ -148,14 +162,14 @@ class RozparzovaniDatDotazOR {
             val listPredmetPodnikani: MutableList<String> = mutableListOf<String>()
             val cinnosti = jsonObject.optJSONObject("cinnosti")
             if (cinnosti != null) {
-                cinnosti.optJSONArray("predmetPodnikani")?.let {predmetPodnikaniArray ->
+                cinnosti.optJSONArray("predmetPodnikani")?.let { predmetPodnikaniArray ->
                     for (i in 0 until predmetPodnikaniArray.length()) {
                         val predmetPodnikanilObject = predmetPodnikaniArray.optJSONObject(i)
                         listPredmetPodnikani.add(predmetPodnikanilObject.optString("hodnota", " "))
                     }
 
                 }
-                cinnosti.optJSONArray("predmetCinnosti")?.let {predmetCinnostiArray ->
+                cinnosti.optJSONArray("predmetCinnosti")?.let { predmetCinnostiArray ->
                     for (i in 0 until predmetCinnostiArray.length()) {
                         val predmetCinnostiObject = predmetCinnostiArray.optJSONObject(i)
                         listPredmetPodnikani.add(predmetCinnostiObject.optString("hodnota", " "))
@@ -168,7 +182,7 @@ class RozparzovaniDatDotazOR {
 
             //ostatní skutečnosti
             val listOstatniSkutecnosti: MutableList<String> = mutableListOf<String>()
-            jsonObject.optJSONArray("ostatniSkutecnosti")?.let {ostatniSkutecnosti ->
+            jsonObject.optJSONArray("ostatniSkutecnosti")?.let { ostatniSkutecnosti ->
                 for (i in 0 until ostatniSkutecnosti.length()) {
                     val ostatniSkutecnostiObject = ostatniSkutecnosti.optJSONObject(i)
                     listOstatniSkutecnosti.add(ostatniSkutecnostiObject.optString("hodnota", " "))
@@ -192,7 +206,8 @@ class RozparzovaniDatDotazOR {
             val listStatutarniOrganSkutecnosti: MutableList<String> = mutableListOf<String>()
 
 
-            val objektyOrgany: Array<String> = arrayOf("statutarniOrgany", "ostatniOrgany", "spolecnici")
+            val objektyOrgany: Array<String> =
+                arrayOf("statutarniOrgany", "ostatniOrgany", "spolecnici")
 
             for (str in objektyOrgany) {
                 jsonObject.optJSONArray(str)?.let { statutarniOrganyArray ->
@@ -200,172 +215,234 @@ class RozparzovaniDatDotazOR {
                         val statutarniOrganyObject = statutarniOrganyArray.optJSONObject(i)
                         //když už bude projíždět tento cyklus, tak se tady pokusím naplnit listStatutarniOrganSkutecnosti
                         if (str.equals("statutarniOrgany")) {
-                            statutarniOrganyObject.optJSONArray("zpusobJednani")?.let { zpusobJednaniArray ->
-                                for (i in 0 until zpusobJednaniArray.length()) {
-                                    val zpusobJednaniObject = zpusobJednaniArray.optJSONObject(i)
-                                    if (!zpusobJednaniObject.has("datumVymazu")) {
-                                        listStatutarniOrganSkutecnosti.add(zpusobJednaniObject.optString("hodnota", " "))
-                                    }
-                                }
-                            }
-                        }
-                        val listClenoveOrganu: MutableList<Osoba> = mutableListOf<Osoba>()
-                        val listClenoveOrganuFirmy: MutableList<Firma> = mutableListOf<Firma>()
-                        val objektyPopisListuOsob: Array<String> = arrayOf("clenoveOrganu", "spolecnik")
-                        for (popisListu in objektyPopisListuOsob) {
-                            statutarniOrganyObject.optJSONArray(popisListu)?.let { clenoveOrganuArray ->
-                                for (i in 0 until clenoveOrganuArray.length()) {
-                                    val clenOrganuObject = clenoveOrganuArray.optJSONObject(i)
-                                    if (!clenOrganuObject.has("datumVymazu")) {
-                                        if(clenOrganuObject.has("fyzickaOsoba")) {
-                                            listClenoveOrganu.add(vlozOsobu(clenOrganuObject))
-                                        } else if(clenOrganuObject.has("pravnickaOsoba")) {
-                                            listClenoveOrganuFirmy.add(vlozFirmu(clenOrganuObject))
-                                        } else if(clenOrganuObject.has("osoba")) { //takto to ma strukturováno spolecnik
-                                            if (clenOrganuObject.optJSONObject("osoba").has("fyzickaOsoba")) {
-                                                listClenoveOrganu.add(vlozOsobuSpolecnik(clenOrganuObject))
-                                            } else if (clenOrganuObject.optJSONObject("osoba").has("pravnickaOsoba")) {
-                                                listClenoveOrganuFirmy.add(vlozFirmuSpolecnik(clenOrganuObject))
-                                            }
+                            statutarniOrganyObject.optJSONArray("zpusobJednani")
+                                ?.let { zpusobJednaniArray ->
+                                    for (i in 0 until zpusobJednaniArray.length()) {
+                                        val zpusobJednaniObject =
+                                            zpusobJednaniArray.optJSONObject(i)
+                                        if (!zpusobJednaniObject.has("datumVymazu")) {
+                                            listStatutarniOrganSkutecnosti.add(
+                                                zpusobJednaniObject.optString(
+                                                    "hodnota",
+                                                    " "
+                                                )
+                                            )
                                         }
                                     }
                                 }
-                                when (statutarniOrganyObject.optString("typOrganu")) {
-                                    "PROKURA" -> {
-                                        listProkura.addAll(listClenoveOrganu)
+                        }
+                        val listClenoveOrganu: MutableList<Osoba> = mutableListOf<Osoba>()
+                        val listClenoveOrganuFirmy: MutableList<Firma> = mutableListOf<Firma>()
+                        val objektyPopisListuOsob: Array<String> =
+                            arrayOf("clenoveOrganu", "spolecnik")
+                        for (popisListu in objektyPopisListuOsob) {
+                            statutarniOrganyObject.optJSONArray(popisListu)
+                                ?.let { clenoveOrganuArray ->
+                                    for (i in 0 until clenoveOrganuArray.length()) {
+                                        val clenOrganuObject = clenoveOrganuArray.optJSONObject(i)
+                                        if (!clenOrganuObject.has("datumVymazu")) {
+                                            if (clenOrganuObject.has("fyzickaOsoba")) {
+                                                listClenoveOrganu.add(vlozOsobu(clenOrganuObject))
+                                            } else if (clenOrganuObject.has("pravnickaOsoba")) {
+                                                listClenoveOrganuFirmy.add(
+                                                    vlozFirmu(
+                                                        clenOrganuObject
+                                                    )
+                                                )
+                                            } else if (clenOrganuObject.has("osoba")) { //takto to ma strukturováno spolecnik
+                                                if (clenOrganuObject.optJSONObject("osoba")
+                                                        .has("fyzickaOsoba")
+                                                ) {
+                                                    listClenoveOrganu.add(
+                                                        vlozOsobuSpolecnik(
+                                                            clenOrganuObject
+                                                        )
+                                                    )
+                                                } else if (clenOrganuObject.optJSONObject("osoba")
+                                                        .has("pravnickaOsoba")
+                                                ) {
+                                                    listClenoveOrganuFirmy.add(
+                                                        vlozFirmuSpolecnik(
+                                                            clenOrganuObject
+                                                        )
+                                                    )
+                                                }
+                                            }
+                                        }
                                     }
-                                    "STATUTARNI_ORGAN" -> {
-                                        listStatutarniOrganOsoby.addAll(listClenoveOrganu)
-                                        listStatutarniOrganFirmy.addAll(listClenoveOrganuFirmy)
-                                    }
-                                    "DOZORCI_RADA" -> {
-                                        listDozorciRada.addAll(listClenoveOrganu)
-                                    }
-                                    "SPOLECNIK" -> {
-                                        listspolecniciSVklademOsoby.addAll(listClenoveOrganu)
-                                        listspolecniciSVklademFirmy.addAll(listClenoveOrganuFirmy)
-                                    }
-                                    "AKCIONAR_SEKCE" -> {
-                                        listAkcionariOsoby.addAll(listClenoveOrganu)
-                                        listAkcionariFirmy.addAll(listClenoveOrganuFirmy)
-                                    }
-                                    "LIKVIDATOR" -> {
-                                        listLikvidaceOsoby.addAll(listClenoveOrganu)
-                                        listLikvidaceFirmy.addAll(listClenoveOrganuFirmy)
-                                    }
-                                    else -> {
+                                    when (statutarniOrganyObject.optString("typOrganu")) {
+                                        "PROKURA" -> {
+                                            listProkura.addAll(listClenoveOrganu)
+                                        }
+
+                                        "STATUTARNI_ORGAN" -> {
+                                            listStatutarniOrganOsoby.addAll(listClenoveOrganu)
+                                            listStatutarniOrganFirmy.addAll(listClenoveOrganuFirmy)
+                                        }
+
+                                        "DOZORCI_RADA" -> {
+                                            listDozorciRada.addAll(listClenoveOrganu)
+                                        }
+
+                                        "SPOLECNIK" -> {
+                                            listspolecniciSVklademOsoby.addAll(listClenoveOrganu)
+                                            listspolecniciSVklademFirmy.addAll(
+                                                listClenoveOrganuFirmy
+                                            )
+                                        }
+
+                                        "AKCIONAR_SEKCE" -> {
+                                            listAkcionariOsoby.addAll(listClenoveOrganu)
+                                            listAkcionariFirmy.addAll(listClenoveOrganuFirmy)
+                                        }
+
+                                        "LIKVIDATOR" -> {
+                                            listLikvidaceOsoby.addAll(listClenoveOrganu)
+                                            listLikvidaceFirmy.addAll(listClenoveOrganuFirmy)
+                                        }
+
+                                        else -> {
+                                        }
                                     }
                                 }
-                            }
                         }
                     }
                 }
             }
 
             //odštěpný závod - v minulosti byl ale název organizační složka
+
             val listVedouciOrganizacniSlozkyOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
-                jsonObject.optJSONArray("odstepneZavody")?.let { odstepneZavodyArray ->
-                    for (i in 0 until odstepneZavodyArray.length()) {
-                        val odstepnyZavodObject = odstepneZavodyArray.optJSONObject(i)
+            jsonObject.optJSONArray("odstepneZavody")?.let { odstepneZavodyArray ->
+                for (i in 0 until odstepneZavodyArray.length()) {
+                    val odstepnyZavodObject = odstepneZavodyArray.optJSONObject(i)
 
-                        if (!odstepnyZavodObject.has("datumVymazu")) {
-                            var obchodniJmenoOdstepnehoZavodu: String = ""
-                            var vedouciOdstepnehoZavodu: Osoba = Osoba()
-                            odstepnyZavodObject.optJSONArray("obchodniJmeno")?.let { obchodniJmenoOodstepnehoZavoduArray ->
+                    if (!odstepnyZavodObject.has("datumVymazu")) {
+                        var obchodniJmenoOdstepnehoZavodu: String = ""
+                        var vedouciOdstepnehoZavodu: Osoba = Osoba()
+                        odstepnyZavodObject.optJSONArray("obchodniJmeno")
+                            ?.let { obchodniJmenoOodstepnehoZavoduArray ->
                                 for (i in 0 until obchodniJmenoOodstepnehoZavoduArray.length()) {
-                                    val obchodniJmenoOdstepnehoZavodObject = obchodniJmenoOodstepnehoZavoduArray.optJSONObject(i)
+                                    val obchodniJmenoOdstepnehoZavodObject =
+                                        obchodniJmenoOodstepnehoZavoduArray.optJSONObject(i)
                                     if (!obchodniJmenoOdstepnehoZavodObject.has("datumVymazu")) {
-                                        obchodniJmenoOdstepnehoZavodu = obchodniJmenoOdstepnehoZavodObject?.optString("hodnota") ?: ""
+                                        obchodniJmenoOdstepnehoZavodu =
+                                            obchodniJmenoOdstepnehoZavodObject?.optString("hodnota")
+                                                ?: ""
 
                                     }
 
                                 }
                             }
-                            odstepnyZavodObject.optJSONArray("vedouci")?.let { vedouciOodstepnehoZavoduArray ->
+                        odstepnyZavodObject.optJSONArray("vedouci")
+                            ?.let { vedouciOodstepnehoZavoduArray ->
                                 for (i in 0 until vedouciOodstepnehoZavoduArray.length()) {
-                                    val vedouciOdstepnehoZavodObject = vedouciOodstepnehoZavoduArray.optJSONObject(i)
+                                    val vedouciOdstepnehoZavodObject =
+                                        vedouciOodstepnehoZavoduArray.optJSONObject(i)
                                     if (!vedouciOdstepnehoZavodObject.has("datumVymazu")) {
-                                        vedouciOdstepnehoZavodu = vlozOsobu(vedouciOdstepnehoZavodObject)
+                                        vedouciOdstepnehoZavodu =
+                                            vlozOsobu(vedouciOdstepnehoZavodObject)
                                     }
                                 }
                             }
-                            vedouciOdstepnehoZavodu.organizacniSlozka = obchodniJmenoOdstepnehoZavodu
-                            listVedouciOrganizacniSlozkyOsoby.add(vedouciOdstepnehoZavodu)
-                        }
+                        vedouciOdstepnehoZavodu.organizacniSlozka = obchodniJmenoOdstepnehoZavodu
+                        listVedouciOrganizacniSlozkyOsoby.add(vedouciOdstepnehoZavodu)
                     }
                 }
-
-
-
-
-/*
-
-
-            //statutární orgán osoby
-            val listStatutarniOrganOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
-            val zaznamyStatOrganOsoby = document.select("D|SO").select("D|CSO")
-            var listZaznamyStaturatniOrganOsoby: MutableList<String> = mutableListOf<String>()
-            zaznamyStatOrganOsoby.forEach() {
-                var address = vratAdresu(it.select("D|FO"))
-
-                var zaznamyPoznamky = it.select("D|T")
-                listZaznamyStaturatniOrganOsoby = mutableListOf<String>()
-                zaznamyPoznamky.forEach(){
-                    listZaznamyStaturatniOrganOsoby.add(it.text())
-                }
-
-                if(!(it.select("D|FO").select("D|P").text()=="")) {
-                    listStatutarniOrganOsoby.add(vlozOsobu(it, address,listZaznamyStaturatniOrganOsoby))
-                }
             }
 
 
-
-            //prokura
-            val listProkura: MutableList<Osoba> = mutableListOf<Osoba>()
-            val zaznamyProkura = document.select("D|PRO").select("D|PRA")
-            zaznamyProkura.forEach() {
-                var address =  vratAdresu(it.allElements)
-
-                Log.i("aaaa", "PROKURA: " + it.select("D|P").text())
-
-                val listZaznamy: MutableList<String> = mutableListOf<String>()
-                var zaznamyPoznamky = it.select("D|T")
-                zaznamyPoznamky.forEach(){
-                    listZaznamy.add(it.text())
-                }
+            /*
 
 
-                listProkura.add(vlozOsobu(it,address,listZaznamy))
-            }
+                        //statutární orgán osoby
+                        val listStatutarniOrganOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+                        val zaznamyStatOrganOsoby = document.select("D|SO").select("D|CSO")
+                        var listZaznamyStaturatniOrganOsoby: MutableList<String> = mutableListOf<String>()
+                        zaznamyStatOrganOsoby.forEach() {
+                            var address = vratAdresu(it.select("D|FO"))
+
+                            var zaznamyPoznamky = it.select("D|T")
+                            listZaznamyStaturatniOrganOsoby = mutableListOf<String>()
+                            zaznamyPoznamky.forEach(){
+                                listZaznamyStaturatniOrganOsoby.add(it.text())
+                            }
+
+                            if(!(it.select("D|FO").select("D|P").text()=="")) {
+                                listStatutarniOrganOsoby.add(vlozOsobu(it, address,listZaznamyStaturatniOrganOsoby))
+                            }
+                        }
 
 
-            //vedoucí organizační složky
-            Log.i("orgSlozka: ","1")
-            val listVedouciOrganizacniSlozkyOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
-            Log.i("orgSlozka: ","2")
-            val zaznamyVedouciOrganizacniSlozkyOsoby = document.select("D|OZY").select("D|OZ")
-            Log.i("orgSlozka: ","3")
-            zaznamyVedouciOrganizacniSlozkyOsoby.forEach() {
-                Log.i("orgSlozka: ","444")
-                var address =  vratAdresu(it.select("D|FO"))
-                if(!(it.select("D|FO").select("D|P").text()=="")) {
-                    listVedouciOrganizacniSlozkyOsoby.add(vlozOsobu(it,address))
-                }
-            }
+
+                        //prokura
+                        val listProkura: MutableList<Osoba> = mutableListOf<Osoba>()
+                        val zaznamyProkura = document.select("D|PRO").select("D|PRA")
+                        zaznamyProkura.forEach() {
+                            var address =  vratAdresu(it.allElements)
+
+                            Log.i("aaaa", "PROKURA: " + it.select("D|P").text())
+
+                            val listZaznamy: MutableList<String> = mutableListOf<String>()
+                            var zaznamyPoznamky = it.select("D|T")
+                            zaznamyPoznamky.forEach(){
+                                listZaznamy.add(it.text())
+                            }
 
 
-            //konečné vložení do companyData
-            val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
-                listOstatniSkutecnosti,listStatutarniOrganOsoby, listStatutarniOrganFirmy,listStatutarniOrganSkutecnosti,listProkura,
-                listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
-                listAkcionariFirmy, listLikvidaceOsoby, listLikvidaceFirmy,stavSubjektu, pravniForma,
-                datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,listVedouciOrganizacniSlozkyOsoby)*/
-            val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
-                listOstatniSkutecnosti,listStatutarniOrganOsoby,listStatutarniOrganFirmy,listStatutarniOrganSkutecnosti,listProkura,
-                listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
-                listAkcionariFirmy,listLikvidaceOsoby, listLikvidaceFirmy,stavSubjektu, pravniForma,
-                datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,listVedouciOrganizacniSlozkyOsoby)
+                            listProkura.add(vlozOsobu(it,address,listZaznamy))
+                        }
+
+
+                        //vedoucí organizační složky
+                        Log.i("orgSlozka: ","1")
+                        val listVedouciOrganizacniSlozkyOsoby: MutableList<Osoba> = mutableListOf<Osoba>()
+                        Log.i("orgSlozka: ","2")
+                        val zaznamyVedouciOrganizacniSlozkyOsoby = document.select("D|OZY").select("D|OZ")
+                        Log.i("orgSlozka: ","3")
+                        zaznamyVedouciOrganizacniSlozkyOsoby.forEach() {
+                            Log.i("orgSlozka: ","444")
+                            var address =  vratAdresu(it.select("D|FO"))
+                            if(!(it.select("D|FO").select("D|P").text()=="")) {
+                                listVedouciOrganizacniSlozkyOsoby.add(vlozOsobu(it,address))
+                            }
+                        }
+
+
+                        //konečné vložení do companyData
+                        val companyData = CompanyData(name, ico,"", address,listPredmetPodnikani,
+                            listOstatniSkutecnosti,listStatutarniOrganOsoby, listStatutarniOrganFirmy,listStatutarniOrganSkutecnosti,listProkura,
+                            listDozorciRada,listspolecniciSVklademOsoby, listspolecniciSVklademFirmy, listAkcionariOsoby,
+                            listAkcionariFirmy, listLikvidaceOsoby, listLikvidaceFirmy,stavSubjektu, pravniForma,
+                            datumZapisu,soud,spisovaZnacka,vklad,splaceno, listAkcie,listVedouciOrganizacniSlozkyOsoby)*/
+            val companyData = CompanyData(
+                name,
+                ico,
+                "",
+                address,
+                listPredmetPodnikani,
+                listOstatniSkutecnosti,
+                listStatutarniOrganOsoby,
+                listStatutarniOrganFirmy,
+                listStatutarniOrganSkutecnosti,
+                listProkura,
+                listDozorciRada,
+                listspolecniciSVklademOsoby,
+                listspolecniciSVklademFirmy,
+                listAkcionariOsoby,
+                listAkcionariFirmy,
+                listLikvidaceOsoby,
+                listLikvidaceFirmy,
+                stavSubjektu,
+                pravniForma,
+                datumZapisu,
+                soud,
+                spisovaZnacka,
+                vklad,
+                splaceno,
+                listAkcie,
+                listVedouciOrganizacniSlozkyOsoby
+            )
             return companyData
         }
 
@@ -389,13 +466,16 @@ class RozparzovaniDatDotazOR {
             return formattedString
         }
 
-        private fun upravSplaceni(input: String, typObnosu: String): String { //nakonec použito i pro velikost podílu
-            Log.i("upravSplaceni: ",input+"---"+typObnosu)
+        private fun upravSplaceni(
+            input: String,
+            typObnosu: String,
+        ): String { //nakonec použito i pro velikost podílu
+            Log.i("upravSplaceni: ", input + "---" + typObnosu)
             var formattedString: String = ""
             // Odstranění všeho za ";"
             val cleanedString = input.substringBefore(";")
-            if(typObnosu.equals("PROCENTA")) {
-                formattedString=cleanedString + " "+"%"
+            if (typObnosu.equals("PROCENTA")) {
+                formattedString = cleanedString + " " + "%"
             } else {
                 // Odstranění všech nečíselných znaků
                 val digitsOnly = cleanedString.replace(Regex("[^\\d]"), "")
@@ -410,7 +490,9 @@ class RozparzovaniDatDotazOR {
         }
 
         private fun vlozOsobu(it: JSONObject): Osoba {
-            val funkce = it?.optJSONObject("clenstvi")?.optJSONObject("funkce")?.optString("nazev", " ") ?: ""
+            val funkce =
+                it?.optJSONObject("clenstvi")?.optJSONObject("funkce")?.optString("nazev", " ")
+                    ?: ""
             return Osoba(
                 it?.optJSONObject("fyzickaOsoba")?.optString("titulPredJmenem", "") ?: "",
                 it?.optJSONObject("fyzickaOsoba")?.optString("jmeno", " ") ?: "",
@@ -418,12 +500,16 @@ class RozparzovaniDatDotazOR {
                 funkce,
 
                 it?.optJSONObject("fyzickaOsoba")?.optString("datumNarozeni", " ") ?: "",
-                it?.optJSONObject("fyzickaOsoba")?.optJSONObject("adresa")?.optString("textovaAdresa", " ") ?: "",
+                it?.optJSONObject("fyzickaOsoba")?.optJSONObject("adresa")
+                    ?.optString("textovaAdresa", " ") ?: "",
                 mutableListOf<String>(),
-                it?.optJSONObject("clenstvi")?.optJSONObject("clenstvi")?.optString("vznikClenstvi", " ") ?: "",
-                it?.optJSONObject("clenstvi")?.optJSONObject("funkce")?.optString("vznikFunkce", " ") ?: "",
+                it?.optJSONObject("clenstvi")?.optJSONObject("clenstvi")
+                    ?.optString("vznikClenstvi", " ") ?: "",
+                it?.optJSONObject("clenstvi")?.optJSONObject("funkce")
+                    ?.optString("vznikFunkce", " ") ?: "",
                 it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: "",
-                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ") ?: "",
+                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ")
+                    ?: "",
                 it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: "",
                 ""
 
@@ -431,25 +517,47 @@ class RozparzovaniDatDotazOR {
         }
 
         private fun vlozOsobuSpolecnik(it: JSONObject): Osoba {
-            val funkce = it?.optJSONObject("osoba")?.optJSONObject("clenstvi")?.optJSONObject("funkce")?.optString("nazev", " ") ?: ""
-            var splaceno = it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ") ?: ""
-            splaceno = upravSplaceni(splaceno, it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("typObnos") ?: "")
-            var podil = it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")?.optString("hodnota", " ") ?: ""
-            podil = upravSplaceni(podil, it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")?.optString("typObnos", " ") ?: "")
+            val funkce =
+                it?.optJSONObject("osoba")?.optJSONObject("clenstvi")?.optJSONObject("funkce")
+                    ?.optString("nazev", " ") ?: ""
+            var splaceno =
+                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ")
+                    ?: ""
+            splaceno = upravSplaceni(
+                splaceno,
+                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("typObnos") ?: ""
+            )
+            var podil = it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")
+                ?.optString("hodnota", " ") ?: ""
+            podil = upravSplaceni(
+                podil,
+                it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")
+                    ?.optString("typObnos", " ") ?: ""
+            )
 
 
             return Osoba(
-                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")?.optString("titulPredJmenem", "") ?: "",
-                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")?.optString("jmeno", " ") ?: "",
-                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")?.optString("prijmeni", " ") ?: "",
+                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")
+                    ?.optString("titulPredJmenem", "") ?: "",
+                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")?.optString("jmeno", " ")
+                    ?: "",
+                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")
+                    ?.optString("prijmeni", " ") ?: "",
                 funkce,
 
-                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")?.optString("datumNarozeni", " ") ?: "",
-                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")?.optJSONObject("adresa")?.optString("textovaAdresa", " ") ?: "",
+                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")
+                    ?.optString("datumNarozeni", " ") ?: "",
+                it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")?.optJSONObject("adresa")
+                    ?.optString("textovaAdresa", " ") ?: "",
                 mutableListOf<String>(),
-                it?.optJSONObject("osoba")?.optJSONObject("clenstvi")?.optJSONObject("clenstvi")?.optString("vznikClenstvi", " ") ?: "",
-                it?.optJSONObject("clenstvi")?.optJSONObject("funkce")?.optString("vznikFunkce", " ") ?: "",
-                upravFinancniCastku(it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: ""),
+                it?.optJSONObject("osoba")?.optJSONObject("clenstvi")?.optJSONObject("clenstvi")
+                    ?.optString("vznikClenstvi", " ") ?: "",
+                it?.optJSONObject("clenstvi")?.optJSONObject("funkce")
+                    ?.optString("vznikFunkce", " ") ?: "",
+                upravFinancniCastku(
+                    it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ")
+                        ?: ""
+                ),
                 splaceno,
                 podil,
                 ""
@@ -459,30 +567,49 @@ class RozparzovaniDatDotazOR {
 
         private fun vlozFirmu(it: JSONObject): Firma {
             var ico = it?.optJSONObject("pravnickaOsoba")?.optString("ico", "") ?: ""
-            if(!ico.equals("")) ico = upravIco(ico)
+            if (!ico.equals("")) ico = upravIco(ico)
             return Firma(
                 ico,
                 it?.optJSONObject("pravnickaOsoba")?.optString("obchodniJmeno", "") ?: "",
-                it?.optJSONObject("pravnickaOsoba")?.optJSONObject("adresa")?.optString("textovaAdresa", " ") ?: "",
+                it?.optJSONObject("pravnickaOsoba")?.optJSONObject("adresa")
+                    ?.optString("textovaAdresa", " ") ?: "",
                 it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: "",
-                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ") ?: "",
+                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ")
+                    ?: "",
                 it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: ""
             )
         }
 
         private fun vlozFirmuSpolecnik(it: JSONObject): Firma {
-            var ico =it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optString("ico", "") ?: ""
-            if(!ico.equals("")) ico = upravIco(ico)
-            var splaceno = it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ") ?: ""
-            splaceno = upravSplaceni(splaceno, it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("typObnos") ?: "")
-            var podil = it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")?.optString("hodnota", " ") ?: ""
-            podil = upravSplaceni(podil, it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")?.optString("typObnos", " ") ?: "")
+            var ico =
+                it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optString("ico", "")
+                    ?: ""
+            if (!ico.equals("")) ico = upravIco(ico)
+            var splaceno =
+                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ")
+                    ?: ""
+            splaceno = upravSplaceni(
+                splaceno,
+                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("typObnos") ?: ""
+            )
+            var podil = it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")
+                ?.optString("hodnota", " ") ?: ""
+            podil = upravSplaceni(
+                podil,
+                it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")
+                    ?.optString("typObnos", " ") ?: ""
+            )
 
             return Firma(
                 ico,
-                it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optString("obchodniJmeno", "") ?: "",
-                it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optJSONObject("adresa")?.optString("textovaAdresa", " ") ?: "",
-                upravFinancniCastku(it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ") ?: ""),
+                it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")
+                    ?.optString("obchodniJmeno", "") ?: "",
+                it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optJSONObject("adresa")
+                    ?.optString("textovaAdresa", " ") ?: "",
+                upravFinancniCastku(
+                    it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ")
+                        ?: ""
+                ),
                 splaceno,
                 podil
             )

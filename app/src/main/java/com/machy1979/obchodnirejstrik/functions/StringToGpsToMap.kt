@@ -16,25 +16,30 @@ class StringToGpsToMap {
             println("GPS-mapa .....2")
             if (address != "") {
                 println("GPS-mapa .....3")
-                val gps =getGPSCoordinatesFromAddress(address)
+                val gps = getGPSCoordinatesFromAddress(address)
                 println("GPS-mapa .....4")
-                println("GPS-mapa .....4="+gps.toString())
+                println("GPS-mapa .....4=" + gps.toString())
                 openMapsAppWithGPSLocation(gps, address)
                 println("GPS-mapa .....5")
             }
         }
 
         fun openMapsAppWithGPSLocation3(coordinates: LatLng) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:${coordinates.latitude},${coordinates.longitude}?q=my location"))
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("geo:${coordinates.latitude},${coordinates.longitude}?q=my location")
+            )
             intent.setPackage("com.google.android.apps.maps")
             context.startActivity(intent)
-
 
 
         }
 
         fun openMapsAppWithGPSLocation(coordinates: LatLng, label: String) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:${coordinates.latitude},${coordinates.longitude}?q=${coordinates.latitude},${coordinates.longitude}($label)"))
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("geo:${coordinates.latitude},${coordinates.longitude}?q=${coordinates.latitude},${coordinates.longitude}($label)")
+            )
             intent.setPackage("com.google.android.apps.maps")
             context.startActivity(intent)
         }

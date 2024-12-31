@@ -2,24 +2,28 @@ package com.machy1979.obchodnirejstrik.functions
 
 
 import android.content.Context
-
 import android.os.Environment
-
-import android.util.Log
-
 import androidx.core.content.ContextCompat
-
-import com.itextpdf.text.*
+import com.itextpdf.text.BaseColor
+import com.itextpdf.text.Document
+import com.itextpdf.text.Font
+import com.itextpdf.text.FontFactory
+import com.itextpdf.text.Paragraph
+import com.itextpdf.text.Rectangle
 import com.itextpdf.text.pdf.BaseFont
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
-import java.io.FileOutputStream
 import com.itextpdf.text.pdf.PdfWriter
 import com.machy1979.obchodnirejstrik.R
-import com.machy1979.obchodnirejstrik.model.*
+import com.machy1979.obchodnirejstrik.model.CompanyData
+import com.machy1979.obchodnirejstrik.model.CompanyDataRES
+import com.machy1979.obchodnirejstrik.model.CompanyDataRZP
+import com.machy1979.obchodnirejstrik.model.Firma
+import com.machy1979.obchodnirejstrik.model.Osoba
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.*
+import java.io.FileOutputStream
+import java.util.Calendar
 
 class StringToPdfConvector {
 
@@ -35,14 +39,16 @@ class StringToPdfConvector {
         lateinit var context: Context
 
 
-        fun convertToPdf(outputPath: String, context: Context, companyDataOR: CompanyData? = null, companyDataRZP: CompanyDataRZP? = null, companyDataRES: CompanyDataRES? = null): File? {
+        fun convertToPdf(
+            outputPath: String,
+            context: Context,
+            companyDataOR: CompanyData? = null,
+            companyDataRZP: CompanyDataRZP? = null,
+            companyDataRES: CompanyDataRES? = null,
+        ): File? {
             val document = Document()
             this.context = context
-            println("Oprávnění .....444444")
 
-           // if (PermissionsChecker.checkStoragePermissions()) { nakonec nebylo třeba checkovat, není potřeba povolení
-           if (true) {
-                println("Oprávnění pro zápis uděleno")
                try {
                    // Zkontrolujte, zda existuje složka pro ukládání PDF souboru
                    println("Oprávnění pro zápis uděleno")
@@ -57,32 +63,23 @@ class StringToPdfConvector {
                    //zkusí, zda takový soubor již neexistuje, pokud ano, bdá názvu souboru na konec číslo
                    if (pdfFile.exists()) {
                        var number = 1
-                       Log.i("aaaaaaaaa","1")
                        do {
                            val newFileName = "${outputPath}_$number"+".pdf"
-                           Log.i("aaaaaaaaa","2")
                            pdfFile = File(downloadsDir, newFileName)
                            number++
-                           Log.i("aaaaaaaaa",newFileName)
                        } while (pdfFile.exists())
 
                        // Nyní máme názvu souboru, který neexistuje
                        // Můžete použít newPdfFile pro další akce, např. uložení nebo zpracování
                        // newPdfFile obsahuje nový unikátní název souboru
                    }
-                   Log.i("aaaaaaaaa","3")
-
-                   PdfWriter.getInstance(document, FileOutputStream(pdfFile))
-                   Log.i("aaaaaaaaa","4")
+                    PdfWriter.getInstance(document, FileOutputStream(pdfFile))
                    document.open()
-                   Log.i("aaaaaaaaa","5")
-
-
                    nastavVlastnostiTabulky()
 
-                   if (!(companyDataOR==null)) companyDataOR?.let { vkladejUdajeDoTabulkyOR(it) }
-                   if (!(companyDataRZP==null)) companyDataRZP?.let { vkladejUdajeDoTabulkyRZP(it) }
-                   if (!(companyDataRES==null)) companyDataRES?.let { vkladejUdajeDoTabulkyRES(it) }
+                   if (companyDataOR != null) companyDataOR?.let { vkladejUdajeDoTabulkyOR(it) }
+                   if (companyDataRZP != null) companyDataRZP?.let { vkladejUdajeDoTabulkyRZP(it) }
+                   if (companyDataRES != null) companyDataRES?.let { vkladejUdajeDoTabulkyRES(it) }
 
                    document.add(table)
                    document.close()
@@ -96,11 +93,6 @@ class StringToPdfConvector {
                    println(e.toString())
                    return null
                }
-            } else {
-               println("Oprávnění pro zápis NEuděleno")
-               return null
-            }
-
 
         }
 
@@ -118,9 +110,9 @@ class StringToPdfConvector {
 
                 nastavVlastnostiTabulky()
 
-                if (!(companyDataOR==null)) companyDataOR?.let { vkladejUdajeDoTabulkyOR(it) }
-                if (!(companyDataRZP==null)) companyDataRZP?.let { vkladejUdajeDoTabulkyRZP(it) }
-                if (!(companyDataRES==null)) companyDataRES?.let { vkladejUdajeDoTabulkyRES(it) }
+                if (companyDataOR != null) companyDataOR?.let { vkladejUdajeDoTabulkyOR(it) }
+                if (companyDataRZP != null) companyDataRZP?.let { vkladejUdajeDoTabulkyRZP(it) }
+                if (companyDataRES != null) companyDataRES?.let { vkladejUdajeDoTabulkyRES(it) }
                
                 document.add(table)
                 document.close()

@@ -1,23 +1,53 @@
 package com.machy1979.obchodnirejstrik.components
 
-import android.content.Context
+
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.widget.Toast
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,7 +71,23 @@ import com.machy1979.obchodnirejstrik.model.Firma
 import com.machy1979.obchodnirejstrik.model.Nace
 import com.machy1979.obchodnirejstrik.model.Osoba
 import com.machy1979.obchodnirejstrik.model.Zivnosti
-import com.machy1979.obchodnirejstrik.ui.theme.*
+import com.machy1979.obchodnirejstrik.ui.theme.ColorBorderStroke
+import com.machy1979.obchodnirejstrik.ui.theme.OdsazeniMensi
+import com.machy1979.obchodnirejstrik.ui.theme.PaddingLinearProgressIndicatoru
+import com.machy1979.obchodnirejstrik.ui.theme.PaddingVButtonu
+import com.machy1979.obchodnirejstrik.ui.theme.PozadiTextu
+import com.machy1979.obchodnirejstrik.ui.theme.ProgressIndicatorColor
+import com.machy1979.obchodnirejstrik.ui.theme.ProgressIndicatorSize
+import com.machy1979.obchodnirejstrik.ui.theme.ProgressIndicatorSizeButtons
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostBorderStrokeCard
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostElevation
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardHorizontal
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingCardVertical
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingMezeryMeziHlavnimiZaznamy
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostPaddingTextuHlavniZaznamy
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostSpodniOdsazeni
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostZakulaceniRohu
+import com.machy1979.obchodnirejstrik.ui.theme.VelikostZakulaceniRohuButton
 
 @Composable
 fun VypisErrorHlasku(errorMessage: String) {
@@ -80,7 +126,6 @@ fun Nacitani() {
 @Composable
 fun SeznamPolozekZivnosti(nazevSeznamuPolozek: String, seznamZivnosti: MutableList<Zivnosti>) {
     Card(
-        //  backgroundColor = Color.Blue,
         shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
         border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
         elevation = VelikostElevation,
@@ -97,7 +142,7 @@ fun SeznamPolozekZivnosti(nazevSeznamuPolozek: String, seznamZivnosti: MutableLi
             modifier = Modifier
                 .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
         ) {
-            if (!(nazevSeznamuPolozek=="")) {
+            if (!(nazevSeznamuPolozek == "")) {
                 Text(
                     text = nazevSeznamuPolozek,
                     fontWeight = FontWeight.Bold,
@@ -108,37 +153,46 @@ fun SeznamPolozekZivnosti(nazevSeznamuPolozek: String, seznamZivnosti: MutableLi
 
             }
 
-                Column(modifier = Modifier) {
-                    seznamZivnosti.forEach {
-                        Card(
-                            //  backgroundColor = Color.Blue,
-                            shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
-                            border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
-                            elevation = VelikostElevation,
-                            modifier = Modifier
-                                .padding(vertical = VelikostPaddingCardVertical)
-                                .fillMaxWidth(),
+            Column(modifier = Modifier) {
+                seznamZivnosti.forEach {
+                    Card(
+                        shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
+                        border = BorderStroke(
+                            width = VelikostBorderStrokeCard,
+                            color = ColorBorderStroke
+                        ),
+                        elevation = VelikostElevation,
+                        modifier = Modifier
+                            .padding(vertical = VelikostPaddingCardVertical)
+                            .fillMaxWidth(),
 
-                            )  {
-                            SelectionContainer {
-                            Column(modifier = Modifier
-                                .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
-                                .fillMaxWidth()) {
+                        ) {
+                        SelectionContainer {
+                            Column(
+                                modifier = Modifier
+                                    .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
+                                    .fillMaxWidth()
+                            ) {
 
-                                ObycPolozkaNadpisHodnota("Název:",it.nazevZivnosti, true)
-                                ObycPolozkaNadpisHodnota("Druh:",it.druhZivnosti, true)
-                                ObycPolozkaNadpisHodnota("Vznik oprávnění:",it.vznikOpravneni, true)
-                                ObycPolozkaNadpisHodnota("Obory:"," ", false) //tady je potřeba do hodnota dát " " a ne jen "", protože SelectionContainer házel chybu
+                                ObycPolozkaNadpisHodnota("Název:", it.nazevZivnosti, true)
+                                ObycPolozkaNadpisHodnota("Druh:", it.druhZivnosti, true)
+                                ObycPolozkaNadpisHodnota(
+                                    "Vznik oprávnění:",
+                                    it.vznikOpravneni,
+                                    true
+                                )
+                                ObycPolozkaNadpisHodnota(
+                                    "Obory:",
+                                    " ",
+                                    false
+                                ) //tady je potřeba do hodnota dát " " a ne jen "", protože SelectionContainer házel chybu
                                 it.obory.forEach {
-                                    ObycPolozkaHodnota(it.toString(),true,false)
+                                    ObycPolozkaHodnota(it.toString(), true, false)
 
                                 }
 
                             }
                         }
-
-
-
 
 
                     }
@@ -156,7 +210,6 @@ fun SeznamPolozekZivnosti(nazevSeznamuPolozek: String, seznamZivnosti: MutableLi
 @Composable
 fun SeznamPolozek(nazevSeznamuPolozek: String, seznamPolozek: MutableList<String>) {
     Card(
-        //  backgroundColor = Color.Blue,
         shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
         border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
         elevation = VelikostElevation,
@@ -168,34 +221,37 @@ fun SeznamPolozek(nazevSeznamuPolozek: String, seznamPolozek: MutableList<String
             .fillMaxWidth(),
 
         ) {
-        SeznamPolozekBezCard2(nazevSeznamuPolozek = nazevSeznamuPolozek, seznamPolozek = seznamPolozek)
+        SeznamPolozekBezCard2(
+            nazevSeznamuPolozek = nazevSeznamuPolozek,
+            seznamPolozek = seznamPolozek
+        )
     }
     Spacer(modifier = Modifier.height(OdsazeniMensi))
 }
 
 @Composable
 fun SeznamPolozekBezCard(nazevSeznamuPolozek: String, seznamPolozek: MutableList<String>) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
-        ) {
-            if (!(nazevSeznamuPolozek=="")) {
-                    Text(
-                        text = nazevSeznamuPolozek,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(bottom = 3.dp)
-                    )
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
+    ) {
+        if (!(nazevSeznamuPolozek == "")) {
+            Text(
+                text = nazevSeznamuPolozek,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 3.dp)
+            )
 
 
-            }
-            SelectionContainer {
+        }
+        SelectionContainer {
             Column(modifier = Modifier) {
                 seznamPolozek.forEach {
                     Column {
                         Text(
-                            "- "+it.toString(),
+                            "- " + it.toString(),
                             modifier = Modifier
                                 .padding(vertical = 3.dp)
                                 .background(color = PozadiTextu)
@@ -205,20 +261,22 @@ fun SeznamPolozekBezCard(nazevSeznamuPolozek: String, seznamPolozek: MutableList
                     }
 
 
-
-
                 }
             }
-            }
-
         }
+
+    }
 
 
     Spacer(modifier = Modifier.height(OdsazeniMensi))
 }
 
 @Composable
-fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTextSeznam: MutableList<String> =mutableListOf<String>()) {
+fun SeznamOsob(
+    nazevSeznamuOsob: String,
+    seznamOsob: MutableList<Osoba>,
+    dalsiTextSeznam: MutableList<String> = mutableListOf<String>(),
+) {
     var expanded by remember { mutableStateOf(true) }
     Card(
         //  backgroundColor = Color.Blue,
@@ -275,7 +333,10 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
                             Card(
                                 //  backgroundColor = Color.Blue,
                                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
-                                border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
+                                border = BorderStroke(
+                                    width = VelikostBorderStrokeCard,
+                                    color = ColorBorderStroke
+                                ),
                                 elevation = VelikostElevation,
                                 modifier = Modifier
                                     .padding(
@@ -286,33 +347,61 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
 
                                 ) {
                                 SelectionContainer {
-                                    Column(modifier = Modifier
-                                        .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
-                                        .fillMaxWidth()) {
-                                        if (!(it.funkce=="")) {
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
+                                            .fillMaxWidth()
+                                    ) {
+                                        if (!(it.funkce == "")) {
                                             ObycPolozkaNadpisHodnota("Funkce:", it.funkce, true)
                                         }
-                                        if (!(it.organizacniSlozka=="")) {
-                                            ObycPolozkaNadpisHodnota("Org. složka:", it.organizacniSlozka, true)
+                                        if (!(it.organizacniSlozka == "")) {
+                                            ObycPolozkaNadpisHodnota(
+                                                "Org. složka:",
+                                                it.organizacniSlozka,
+                                                true
+                                            )
                                         }
-                                        ObycPolozkaNadpisHodnota("Jméno:", if(it.titulyPredJmenem=="") {
-                                            it.jmeno+" "+it.prijmeni
-                                        } else {
-                                            it.titulyPredJmenem+ " "+it.jmeno+" "+it.prijmeni
-                                        }, true)
+                                        ObycPolozkaNadpisHodnota(
+                                            "Jméno:", if (it.titulyPredJmenem == "") {
+                                                it.jmeno + " " + it.prijmeni
+                                            } else {
+                                                it.titulyPredJmenem + " " + it.jmeno + " " + it.prijmeni
+                                            }, true
+                                        )
                                         ObycPolozkaNadpisHodnota("Dat. nar.:", it.datNar, true)
                                         ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, true, true)
-                                        if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
-                                        if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)
-                                        if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad+" Kč", false)
-                                        if(!(it.splaceno=="")) ObycPolozkaNadpisHodnota("Splaceno:", it.splaceno+" %", false)
-                                        if(!(it.obchodniPodil=="")) ObycPolozkaNadpisHodnota("Obchodní podíl:", it.obchodniPodil, false)
+                                        if (!(it.clenstviOd == "")) ObycPolozkaNadpisHodnota(
+                                            "Členství od:",
+                                            it.clenstviOd,
+                                            false
+                                        )
+                                        if (!(it.veFunkciOd == "")) ObycPolozkaNadpisHodnota(
+                                            "Ve funkci od:",
+                                            it.veFunkciOd,
+                                            false
+                                        )
+                                        if (!(it.vklad == "")) ObycPolozkaNadpisHodnota(
+                                            "Vklad:",
+                                            it.vklad + " Kč",
+                                            false
+                                        )
+                                        if (!(it.splaceno == "")) ObycPolozkaNadpisHodnota(
+                                            "Splaceno:",
+                                            it.splaceno + " %",
+                                            false
+                                        )
+                                        if (!(it.obchodniPodil == "")) ObycPolozkaNadpisHodnota(
+                                            "Obchodní podíl:",
+                                            it.obchodniPodil,
+                                            false
+                                        )
 
                                         Column(modifier = Modifier) {
                                             it.poznamky.forEach {
                                                 Column {
                                                     Text(
-                                                        "- "+it.toString(),
+                                                        "- " + it.toString(),
                                                         modifier = Modifier.padding(vertical = 3.dp)
                                                     )
                                                 }
@@ -325,7 +414,7 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
 
                         }
                     }
-                    if(!(dalsiTextSeznam.isEmpty())) {
+                    if (!(dalsiTextSeznam.isEmpty())) {
                         SeznamPolozekBezCard("", dalsiTextSeznam)
                     }
 
@@ -333,9 +422,9 @@ fun SeznamOsob(nazevSeznamuOsob: String, seznamOsob: MutableList<Osoba>, dalsiTe
             }
 
 
+        }
+        Spacer(modifier = Modifier.height(OdsazeniMensi))
     }
-    Spacer(modifier = Modifier.height(OdsazeniMensi))
-}
 }
 
 @Composable
@@ -344,7 +433,8 @@ fun SeznamOsobAFirem(
     nazevSeznamuOsobAFirem: String,
     seznamOsob: MutableList<Osoba>,
     seznamFirem: MutableList<Firma>,
-    dalsiTextSeznam: MutableList<String> =mutableListOf<String>()) {
+    dalsiTextSeznam: MutableList<String> = mutableListOf<String>(),
+) {
     var expanded by remember { mutableStateOf(true) }
     Card(
         //  backgroundColor = Color.Blue,
@@ -402,7 +492,10 @@ fun SeznamOsobAFirem(
                             Card(
                                 //  backgroundColor = Color.Blue,
                                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
-                                border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
+                                border = BorderStroke(
+                                    width = VelikostBorderStrokeCard,
+                                    color = ColorBorderStroke
+                                ),
                                 elevation = VelikostElevation,
                                 modifier = Modifier
                                     .padding(
@@ -413,30 +506,54 @@ fun SeznamOsobAFirem(
 
                                 ) {
                                 SelectionContainer {
-                                    Column(modifier = Modifier
-                                        .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
-                                        .fillMaxWidth()) {
-                                        if (!(it.funkce=="")) {
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
+                                            .fillMaxWidth()
+                                    ) {
+                                        if (!(it.funkce == "")) {
                                             ObycPolozkaNadpisHodnota("Funkce:", it.funkce, true)
                                         }
-                                        ObycPolozkaNadpisHodnota("Jméno:", if(it.titulyPredJmenem=="") {
-                                            it.jmeno+" "+it.prijmeni
-                                        } else {
-                                            it.titulyPredJmenem+ " "+it.jmeno+" "+it.prijmeni
-                                        }, true)
+                                        ObycPolozkaNadpisHodnota(
+                                            "Jméno:", if (it.titulyPredJmenem == "") {
+                                                it.jmeno + " " + it.prijmeni
+                                            } else {
+                                                it.titulyPredJmenem + " " + it.jmeno + " " + it.prijmeni
+                                            }, true
+                                        )
                                         ObycPolozkaNadpisHodnota("Dat. nar.:", it.datNar, true)
                                         ObycPolozkaNadpisHodnota("Bydliště:", it.adresa, true, true)
-                                        if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
-                                        if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)
-                                        if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad, false)
-                                        if(!(it.splaceno=="")) ObycPolozkaNadpisHodnota("Splaceno:", it.splaceno, false)
-                                        if(!(it.obchodniPodil=="")) ObycPolozkaNadpisHodnota("Obchodní podíl:", it.obchodniPodil, false)
+                                        if (!(it.clenstviOd == "")) ObycPolozkaNadpisHodnota(
+                                            "Členství od:",
+                                            it.clenstviOd,
+                                            false
+                                        )
+                                        if (!(it.veFunkciOd == "")) ObycPolozkaNadpisHodnota(
+                                            "Ve funkci od:",
+                                            it.veFunkciOd,
+                                            false
+                                        )
+                                        if (!(it.vklad == "")) ObycPolozkaNadpisHodnota(
+                                            "Vklad:",
+                                            it.vklad,
+                                            false
+                                        )
+                                        if (!(it.splaceno == "")) ObycPolozkaNadpisHodnota(
+                                            "Splaceno:",
+                                            it.splaceno,
+                                            false
+                                        )
+                                        if (!(it.obchodniPodil == "")) ObycPolozkaNadpisHodnota(
+                                            "Obchodní podíl:",
+                                            it.obchodniPodil,
+                                            false
+                                        )
 
                                         Column(modifier = Modifier) {
                                             it.poznamky.forEach {
                                                 Column {
                                                     Text(
-                                                        "- "+it.toString(),
+                                                        "- " + it.toString(),
                                                         modifier = Modifier.padding(vertical = 3.dp)
                                                     )
                                                 }
@@ -455,7 +572,10 @@ fun SeznamOsobAFirem(
                             Card(
                                 //  backgroundColor = Color.Blue,
                                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
-                                border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
+                                border = BorderStroke(
+                                    width = VelikostBorderStrokeCard,
+                                    color = ColorBorderStroke
+                                ),
                                 elevation = VelikostElevation,
                                 modifier = Modifier
                                     .padding(
@@ -466,9 +586,11 @@ fun SeznamOsobAFirem(
 
                                 ) {
                                 SelectionContainer {
-                                    Column(modifier = Modifier
-                                        .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
-                                        .fillMaxWidth()) {
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
+                                            .fillMaxWidth()
+                                    ) {
 /*                                    if (!(it.funkce=="")) {
                                         ObycPolozkaNadpisHodnota("Funkce:", it.funkce, true)
                                     }*/
@@ -478,24 +600,37 @@ fun SeznamOsobAFirem(
                                             it.ico,
                                             true,
                                             false,
-                                            onClickedButtonIcoSubjekt)
+                                            onClickedButtonIcoSubjekt
+                                        )
                                         ObycPolozkaNadpisHodnota("Sídlo:", it.address, false, true)
-/*                                    if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
-                                    if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)*/
-                                        if(!(it.vklad=="")) ObycPolozkaNadpisHodnota("Vklad:", it.vklad, false)
-                                        if(!(it.splaceno=="")) ObycPolozkaNadpisHodnota("Splaceno:", it.splaceno, false)
-                                        if(!(it.obchodniPodil=="")) ObycPolozkaNadpisHodnota("Obchodní podíl:", it.obchodniPodil, false)
-/*
-                                    Column(modifier = Modifier) {
-                                        it.poznamky.forEach {
-                                            Column {
-                                                Text(
-                                                    "- "+it.toString(),
-                                                    modifier = Modifier.padding(vertical = 3.dp)
-                                                )
-                                            }
-                                        }
-                                    }*/
+                                        /*                                    if(!(it.clenstviOd=="")) ObycPolozkaNadpisHodnota("Členství od:", it.clenstviOd, false)
+                                                                            if(!(it.veFunkciOd=="")) ObycPolozkaNadpisHodnota("Ve funkci od:", it.veFunkciOd, false)*/
+                                        if (!(it.vklad == "")) ObycPolozkaNadpisHodnota(
+                                            "Vklad:",
+                                            it.vklad,
+                                            false
+                                        )
+                                        if (!(it.splaceno == "")) ObycPolozkaNadpisHodnota(
+                                            "Splaceno:",
+                                            it.splaceno,
+                                            false
+                                        )
+                                        if (!(it.obchodniPodil == "")) ObycPolozkaNadpisHodnota(
+                                            "Obchodní podíl:",
+                                            it.obchodniPodil,
+                                            false
+                                        )
+                                        /*
+                                                                            Column(modifier = Modifier) {
+                                                                                it.poznamky.forEach {
+                                                                                    Column {
+                                                                                        Text(
+                                                                                            "- "+it.toString(),
+                                                                                            modifier = Modifier.padding(vertical = 3.dp)
+                                                                                        )
+                                                                                    }
+                                                                                }
+                                                                            }*/
                                     }
                                 }
                             }
@@ -504,13 +639,12 @@ fun SeznamOsobAFirem(
                         }
                     }
 
-                    if(!(dalsiTextSeznam.isEmpty())) {
+                    if (!(dalsiTextSeznam.isEmpty())) {
                         SeznamPolozekBezCard("", dalsiTextSeznam)
                     }
 
                 }
             }
-
 
 
         }
@@ -523,8 +657,8 @@ fun ObycPolozkaNadpisHodnota(
     nadpis: String,
     hodnota: String,
     spodniOdsazeni: Boolean,
-    buttonProMapy: Boolean=false,
-    onClickedButtonIcoSubjekt: (String) -> Unit = {}
+    buttonProMapy: Boolean = false,
+    onClickedButtonIcoSubjekt: (String) -> Unit = {},
 ) {
 
     Row(
@@ -539,17 +673,19 @@ fun ObycPolozkaNadpisHodnota(
             modifier = Modifier
                 .padding(bottom = 1.dp)
                 .weight(0.3f)
-          //      .fillMaxHeight()
-                           // .fontWeight(FontWeight.Bold)
+            //      .fillMaxHeight()
+            // .fontWeight(FontWeight.Bold)
         )
-        Text(text = " ",
+        Text(
+            text = " ",
             textAlign = TextAlign.Start,
             modifier = Modifier
                 .padding(bottom = 1.dp)
                 .weight(0.02f)
         )
         if (buttonProMapy && hodnota != "") {
-            Text(text = hodnota,
+            Text(
+                text = hodnota,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(bottom = 1.dp)
@@ -567,7 +703,8 @@ fun ObycPolozkaNadpisHodnota(
             }
 
         } else if (nadpis.equals("ICO:") && hodnota != "") {
-            Text(text = hodnota,
+            Text(
+                text = hodnota,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(bottom = 1.dp)
@@ -581,10 +718,11 @@ fun ObycPolozkaNadpisHodnota(
                     .background(color = PozadiTextu)
 
             ) {
-                ButtonWithSearchIcoIcon(onClickedButtonIcoSubjekt,hodnota)
+                ButtonWithSearchIcoIcon(onClickedButtonIcoSubjekt, hodnota)
             }
-        } else  {
-            Text(text = hodnota,
+        } else {
+            Text(
+                text = hodnota,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .padding(bottom = 1.dp)
@@ -593,13 +731,14 @@ fun ObycPolozkaNadpisHodnota(
         }
 
 
-
     }
 
 
-    if (spodniOdsazeni) Spacer(modifier = Modifier
-        .height(VelikostSpodniOdsazeni)
-        .background(color = Color.White))
+    if (spodniOdsazeni) Spacer(
+        modifier = Modifier
+            .height(VelikostSpodniOdsazeni)
+            .background(color = Color.White)
+    )
 
 }
 
@@ -613,7 +752,8 @@ fun ObycPolozkaHodnota(hodnota: String, spodniOdsazeni: Boolean, tucne: Boolean)
     ) {
 
         // SelectionContainer() {
-        Text(text = hodnota,
+        Text(
+            text = hodnota,
             fontWeight = if (tucne) FontWeight.Bold else FontWeight.Normal,
             modifier = Modifier.padding(horizontal = VelikostPaddingTextuHlavniZaznamy)
             //   .fillMaxHeight()
@@ -648,38 +788,40 @@ fun ObycPolozkaJenNadpisUprostred(nadpis: String, spodniOdsazeni: Boolean) {
 //button je komplikovanější, protože kromě názvu, řeší také, jestli se pořád načítá (nacitani) a jestli se dá na button clicknout ()buttonClicked
 //dále je komplikovanější modifier, kdy tvar se liší podle toho,  jestli se stále načítá, nebo už jsou údaje načtené
 @Composable
-fun CustomButton(nadpis: String, nacitani: Boolean,buttonClicked: Boolean,
-                 onClick: () -> Unit = {}) {
+fun CustomButton(
+    nadpis: String, nacitani: Boolean, buttonClicked: Boolean,
+    onClick: () -> Unit = {},
+) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(size = VelikostZakulaceniRohuButton),
         enabled = buttonClicked,
 
-        modifier = if (nacitani)
-                {
-                    Modifier
-                        .padding(PaddingVButtonu)
-                        .height(60.dp)
-                        .shadow(
-                            elevation = VelikostElevation
-                        )}
-                else  {
+        modifier = if (nacitani) {
+            Modifier
+                .padding(PaddingVButtonu)
+                .height(60.dp)
+                .shadow(
+                    elevation = VelikostElevation
+                )
+        } else {
             Modifier
                 .padding(PaddingVButtonu)
                 .width(250.dp)
                 .height(60.dp)
                 .shadow(
                     elevation = VelikostElevation
-                ) },
-            ) {
-            if(nacitani) {
-                ProgressIndicatorLoading(
-                    progressIndicatorSize = ProgressIndicatorSizeButtons ,
-                    progressIndicatorColor = ProgressIndicatorColor,
+                )
+        },
+    ) {
+        if (nacitani) {
+            ProgressIndicatorLoading(
+                progressIndicatorSize = ProgressIndicatorSizeButtons,
+                progressIndicatorColor = ProgressIndicatorColor,
 
-                    )
-            } else Text(nadpis)
-        }
+                )
+        } else Text(nadpis)
+    }
 
 }
 
@@ -752,7 +894,10 @@ fun SeznamDvoupolozekNace(nazevSeznamuDvoupolozek: String, seznamDvoupolozek: Mu
                         Card(
                             //  backgroundColor = Color.Blue,
                             shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
-                            border = BorderStroke(width = VelikostBorderStrokeCard, color = ColorBorderStroke),
+                            border = BorderStroke(
+                                width = VelikostBorderStrokeCard,
+                                color = ColorBorderStroke
+                            ),
                             elevation = VelikostElevation,
                             modifier = Modifier
                                 .padding(
@@ -763,9 +908,11 @@ fun SeznamDvoupolozekNace(nazevSeznamuDvoupolozek: String, seznamDvoupolozek: Mu
 
                             ) {
                             SelectionContainer {
-                                Column(modifier = Modifier
-                                    .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
-                                    .fillMaxWidth()) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(VelikostPaddingMezeryMeziHlavnimiZaznamy)
+                                        .fillMaxWidth()
+                                ) {
                                     ObycPolozkaNadpisHodnota(it.cisloNace, it.nazevNace, true)
                                 }
                             }
@@ -780,25 +927,25 @@ fun SeznamDvoupolozekNace(nazevSeznamuDvoupolozek: String, seznamDvoupolozek: Mu
 
 @Composable
 fun ButtonWithMapIcon(address: String) {
-        val context = LocalContext.current
+    val context = LocalContext.current
 
-        IconButton(
-            modifier = Modifier
-                .padding(2.dp)
-                .then(Modifier.size(24.dp)),
-            onClick = {
-                StringToGpsToMap.presmerujZAdresyNaMapy(address, context)
-            },
+    IconButton(
+        modifier = Modifier
+            .padding(2.dp)
+            .then(Modifier.size(24.dp)),
+        onClick = {
+            StringToGpsToMap.presmerujZAdresyNaMapy(address, context)
+        },
 
         ) {
-            Icon(
-                imageVector = Icons.Default.Map, // Použití ikony mapy z material design
-                contentDescription = null // Nepotřebujeme popis
-            )
-        }
+        Icon(
+            imageVector = Icons.Default.Map, // Použití ikony mapy z material design
+            contentDescription = null // Nepotřebujeme popis
+        )
+    }
 
-        //Text(text = "Zobrazit na mapě"
-         //)
+    //Text(text = "Zobrazit na mapě"
+    //)
 
 
 }
@@ -808,7 +955,7 @@ fun ButtonWithMapIcon(address: String) {
 @Composable
 fun ButtonWithSearchIcoIcon(
     onClickedButtonIcoSubjekt: (String) -> Unit = {},
-    ico: String
+    ico: String,
 ) {
     val context = LocalContext.current
 
@@ -867,7 +1014,7 @@ fun SeznamPolozekBezCard2(nazevSeznamuPolozek: String, seznamPolozek: MutableLis
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            if (!(nazevSeznamuPolozek=="")) {
+            if (!(nazevSeznamuPolozek == "")) {
                 Text(
                     text = nazevSeznamuPolozek,
                     fontWeight = FontWeight.Bold,
@@ -880,7 +1027,7 @@ fun SeznamPolozekBezCard2(nazevSeznamuPolozek: String, seznamPolozek: MutableLis
                 expanded = expanded,
                 onClick = { expanded = !expanded },
                 modifier = Modifier
-                            .padding(0.dp)
+                    .padding(0.dp)
 
             )
         }
@@ -891,16 +1038,17 @@ fun SeznamPolozekBezCard2(nazevSeznamuPolozek: String, seznamPolozek: MutableLis
                     seznamPolozek.forEach {
                         Column {
                             Text(
-                                "- "+it.toString(),
+                                "- " + it.toString(),
                                 modifier = Modifier
-                                    .padding(vertical = 3.dp, horizontal = VelikostPaddingMezeryMeziHlavnimiZaznamy)
+                                    .padding(
+                                        vertical = 3.dp,
+                                        horizontal = VelikostPaddingMezeryMeziHlavnimiZaznamy
+                                    )
                                     .background(color = PozadiTextu)
                                     .fillMaxWidth()
                             )
 
                         }
-
-
 
 
                     }
@@ -918,12 +1066,12 @@ fun SeznamPolozekBezCard2(nazevSeznamuPolozek: String, seznamPolozek: MutableLis
 fun ExpandableItemButton(
     expanded: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+) {
     IconButton(
         onClick = onClick,
         modifier = modifier
-    ){
+    ) {
         Icon(
             imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
             contentDescription = stringResource(R.string.expandable_button)
@@ -936,9 +1084,9 @@ fun ExpandableItemButton(
 fun AlertDialogWrapperOpravneni(
     onClickPovolit: () -> Unit = {},
     onClickNe: () -> Unit = {},
-    onDismissFunction: () -> Unit = {}
+    onDismissFunction: () -> Unit = {},
 
-) {
+    ) {
     val context = LocalContext.current
     val buttonStatePovolit = remember { mutableStateOf(onClickPovolit) }
     // je to potřeba ošetřit takhle, protože: AlertDialog se zobrazí asynchronně a tím pádem by se onClickPovolit s dalšími funkcemi v bloku nevykonal. Kdyby byl sám bez bloku, tak by to nebylo třeba.
@@ -997,7 +1145,6 @@ fun AlertDialogWrapperOpravneni(
     )
 
 
-
 }
 
 
@@ -1007,7 +1154,6 @@ fun MyComposableFunctionPreview() {
     // Provide sample values for the arguments
     ObycPolozkaNadpisHodnota("aaaa", "bbbb", false, true)
 }
-
 
 
 /*@Composable

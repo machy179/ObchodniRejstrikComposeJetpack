@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class BillingManagerOR @Inject constructor(
     application: Application,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) {
 
     private val billingClient: BillingClient = BillingClient.newBuilder(application)
@@ -46,7 +46,7 @@ class BillingManagerOR @Inject constructor(
 
     init {
         _adsDisabled.value = sharedPreferences.getBoolean("ads_disabled", false)
-        Log.d("BillingManager", "_adsDisabled.value: "+_adsDisabled.value.toString())
+        Log.d("BillingManager", "_adsDisabled.value: " + _adsDisabled.value.toString())
         startConnection()
     }
 
@@ -71,7 +71,8 @@ class BillingManagerOR @Inject constructor(
                 .build()
         ) { billingResult, purchases ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                val purchased = purchases.any { it.purchaseState == Purchase.PurchaseState.PURCHASED }
+                val purchased =
+                    purchases.any { it.purchaseState == Purchase.PurchaseState.PURCHASED }
 
                 if (purchased != _adsDisabled.value) {
                     _adsDisabled.value = !purchased
@@ -90,7 +91,10 @@ class BillingManagerOR @Inject constructor(
                                     Log.d("BillingManager", "Purchase consumed: $purchaseToken")
                                     savePurchaseStateToPreferences(adsRemoved = false)
                                 } else {
-                                    Log.e("BillingManager", "Failed to consume purchase: ${consumeResult.debugMessage}")
+                                    Log.e(
+                                        "BillingManager",
+                                        "Failed to consume purchase: ${consumeResult.debugMessage}"
+                                    )
                                 }
                             }
                         }

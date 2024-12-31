@@ -32,8 +32,19 @@ data class CompanyData(
     var akcie: MutableList<String> = mutableListOf(),
     var vedouciOrganizacniSlozky: MutableList<Osoba> = mutableListOf(),
 ) : Serializable {
-    constructor(name: String,ico: String,dic: String,address: String): this(name, ico,dic, address, mutableListOf<String>(),
-        mutableListOf<String>(),mutableListOf<Osoba>(),mutableListOf<Firma>(),mutableListOf<String>(),mutableListOf<Osoba>(),mutableListOf<Osoba>())
+    constructor(name: String, ico: String, dic: String, address: String) : this(
+        name,
+        ico,
+        dic,
+        address,
+        mutableListOf<String>(),
+        mutableListOf<String>(),
+        mutableListOf<Osoba>(),
+        mutableListOf<Firma>(),
+        mutableListOf<String>(),
+        mutableListOf<Osoba>(),
+        mutableListOf<Osoba>()
+    )
 }
 
 
