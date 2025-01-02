@@ -10,11 +10,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.machy1979.obchodnirejstrik.components.ObchodniRejstrikAppBar
 import com.machy1979.obchodnirejstrik.components.ObycPolozkaHodnota
@@ -56,7 +52,7 @@ import com.machy1979.obchodnirejstrik.utils.TitlesOfSrceens
 
 @Composable
 fun HistorieVyhledavaniObrazovka(
-    viewModel: ObchodniRejstrikViewModel = hiltViewModel(),
+    viewModel: ObchodniRejstrikViewModel,
     modifier: Modifier = Modifier,
     navController: NavHostController,
     resViewModel: RESViewModel,
@@ -99,7 +95,7 @@ fun HistorieVyhledavaniObrazovka(
                     top = paddingValues.calculateTopPadding(),
                     bottom = paddingValues.calculateBottomPadding()
                 )
-                .padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
+                //   .padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -108,28 +104,6 @@ fun HistorieVyhledavaniObrazovka(
 
             val isLandscape =
                 LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-            var expanded by rememberSaveable { mutableStateOf(false) }
-            val paddingModifierHlavniCard = if (isLandscape) {
-                Modifier.padding(start = 20.dp, end = 20.dp, top = 2.dp, bottom = 10.dp)
-            } else {
-                Modifier.padding(start = 20.dp, end = 20.dp, top = 100.dp, bottom = 10.dp)
-            }
-            val paddingModifierSpodniCard = if (expanded) {
-                Modifier
-                    .fillMaxWidth()
-                    .padding(PaddingVnitrniCard)
-                    .clickable {
-                        expanded = !expanded
-                    }
-            } else {
-                Modifier
-                    .padding(0.dp)
-                    .clickable {
-                        expanded = !expanded
-                    }
-            }
-
-
 
 
             if (nactenoQueryList) {

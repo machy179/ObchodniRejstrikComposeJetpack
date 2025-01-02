@@ -91,6 +91,7 @@ class ORViewModel @Inject constructor(
                                 RozparzovaniDatDotazOR.vratCompanyData(firstZaznamObject, context)
                             _errorMessageOR.value = " "
                             _buttonClickedOR.value = true
+
                             updateCompanyDataFromOR()
                             updateButtonClickedOR()
                         } else {
@@ -110,14 +111,10 @@ class ORViewModel @Inject constructor(
                     Log.i("RopzarzovaniOR: ", "777")
                 }
 
-
             } catch (e: Exception) {
-                Log.i("aaaa", e.toString())
                 _errorMessageOR.value = "Nepodařilo se načíst data z ARESu"
-                Log.i("RopzarzovaniOR: ", "888")
             }
             _nacitaniOR.value = false
-            Log.i("RopzarzovaniOR: ", "999")
         }
     }
 
@@ -197,10 +194,5 @@ class ORViewModel @Inject constructor(
         }
     }
 
-
-    @Composable
-    fun saveToPdf2(context: Context) {
-
-    }
 
 }

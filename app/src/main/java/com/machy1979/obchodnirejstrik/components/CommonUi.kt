@@ -789,7 +789,9 @@ fun ObycPolozkaJenNadpisUprostred(nadpis: String, spodniOdsazeni: Boolean) {
 //dále je komplikovanější modifier, kdy tvar se liší podle toho,  jestli se stále načítá, nebo už jsou údaje načtené
 @Composable
 fun CustomButton(
-    nadpis: String, nacitani: Boolean, buttonClicked: Boolean,
+    nadpis: String,
+    nacitani: Boolean,
+    buttonClicked: Boolean,
     onClick: () -> Unit = {},
 ) {
     Button(

@@ -64,5 +64,5 @@ fun ObchodniRejstrikApp(activity: Activity?) {
     if (activity != null) {
         ShowGDPRMessage(activity)
     }
-    ObchodniRejstrikNavigation(activity)
+    ObchodniRejstrikNavigation()
 }

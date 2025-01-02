@@ -7,11 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -55,7 +52,7 @@ fun VypisFiremSeznamObrazovka(
     orViewModel: ORViewModel,
 ) {
 
-    val context = LocalContext.current //tohle používat místo this
+    val context = LocalContext.current
     val errorMessage by viewModel.errorMessage.collectAsState()
     val nacitani by viewModel.nacitani.collectAsState()
     val currentScreen = TitlesOfSrceens.valueOf(TitlesOfSrceens.VypisFiremSeznam.name)
@@ -79,12 +76,13 @@ fun VypisFiremSeznamObrazovka(
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(VelikostPaddingHlavnihoOkna)
+            modifier = Modifier
+                .padding(VelikostPaddingHlavnihoOkna)
                 .fillMaxWidth().padding(
                     top = paddingValues.calculateTopPadding(),
                     bottom = paddingValues.calculateBottomPadding()
                 )
-                .padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
+              //  .padding(WindowInsets.navigationBars.asPaddingValues()) // Přidání prostoru pro navigation bar
         ) {
             if (nacitani) {
                 Nacitani()
@@ -93,7 +91,6 @@ fun VypisFiremSeznamObrazovka(
                     LazyColumn(modifier = Modifier.fillMaxHeight()) {
                         items(viewModel.companysData) {
                             Card(
-                                //  backgroundColor = Color.Blue,
                                 shape = RoundedCornerShape(size = VelikostZakulaceniRohu),
                                 border = BorderStroke(
                                     width = VelikostBorderStrokeCard,

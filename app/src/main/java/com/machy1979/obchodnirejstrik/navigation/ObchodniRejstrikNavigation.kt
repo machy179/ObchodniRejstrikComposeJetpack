@@ -28,19 +28,17 @@ import com.machy1979.obchodnirejstrik.screens.home.UvodniObrazovka
 
 @Composable
 fun ObchodniRejstrikNavigation(
-    activity: Activity?,
-
     ) {
     val navController = rememberNavController()
     val currentScreen =
         rememberSaveable { mutableStateOf(ObchodniRejstrikScreens.UvodniObrazovka.name) }
 
-    val ObchodniRejstrikViewModel = hiltViewModel<ObchodniRejstrikViewModel>()
+    val obchodniRejstrikViewModel = hiltViewModel<ObchodniRejstrikViewModel>()
     val resViewModel = hiltViewModel<RESViewModel>()
     val rzpViewModel = hiltViewModel<RZPViewModel>()
     val orViewModel = hiltViewModel<ORViewModel>()
 
-    val adsDisabled = ObchodniRejstrikViewModel.adsDisabled.collectAsState()
+    val adsDisabled = obchodniRejstrikViewModel.adsDisabled.collectAsState()
     val context = LocalContext.current
 
     NavHost(
@@ -54,7 +52,10 @@ fun ObchodniRejstrikNavigation(
         ) {
             UvodniObrazovka(
                 navController = it,
-                viewModel = ObchodniRejstrikViewModel
+                viewModel = obchodniRejstrikViewModel,
+                resViewModel = resViewModel,
+                rzpViewModel = rzpViewModel,
+                orViewModel = orViewModel
             )
         }
 
@@ -64,7 +65,7 @@ fun ObchodniRejstrikNavigation(
         ) {
             HistorieVyhledavaniObrazovka(
                 navController = it,
-                viewModel = ObchodniRejstrikViewModel,
+                viewModel = obchodniRejstrikViewModel,
                 resViewModel = resViewModel,
                 rzpViewModel = rzpViewModel,
                 orViewModel = orViewModel
@@ -77,7 +78,7 @@ fun ObchodniRejstrikNavigation(
         ) {
             VypisFiremSeznamObrazovka(
                 navController = it,
-                viewModel = ObchodniRejstrikViewModel,
+                viewModel = obchodniRejstrikViewModel,
                 resViewModel = resViewModel,
                 rzpViewModel = rzpViewModel,
                 orViewModel = orViewModel
@@ -90,7 +91,7 @@ fun ObchodniRejstrikNavigation(
         ) {
             VypisIcoObrazovka(
                 navController = it,
-                viewModel = ObchodniRejstrikViewModel,
+                viewModel = obchodniRejstrikViewModel,
                 resViewModel = resViewModel,
                 rzpViewModel = rzpViewModel,
                 orViewModel = orViewModel
@@ -105,7 +106,7 @@ fun ObchodniRejstrikNavigation(
                 navController = it,
                 viewModel = orViewModel,
                 onClickedButtonIcoSubjekt = { clickedIco -> //tato funkce je pro butto ve výpisu, kde je u jednotlivých subjektů ico, aby šlo prokliknout
-                    ObchodniRejstrikViewModel.loadDataIco(clickedIco)
+                    obchodniRejstrikViewModel.loadDataIco(clickedIco)
                     resViewModel.loadDataIcoRES(clickedIco, context)
                     rzpViewModel.loadDataIcoRZP(clickedIco, context)
                     orViewModel.loadDataIcoOR(clickedIco, context)
