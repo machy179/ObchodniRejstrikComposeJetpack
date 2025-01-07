@@ -1,8 +1,10 @@
 package com.machy1979.obchodnirejstrik.network
 
 import okhttp3.ResponseBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 import javax.inject.Singleton
 
@@ -37,5 +39,27 @@ interface AresApiService {
     suspend fun getAresDataFromRESByIco(
         @Path("ico") ico: String,
     ): ResponseBody
+
+    @Headers(
+        "User-Agent: Mozilla",
+        "Content-Type: application/json",
+        "Accept: application/json"
+    )
+    @GET("ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/{ico}")
+    suspend fun getAresDataEkonomickeSubjektyByIco(
+        @Path("ico") ico: String,
+    ): ResponseBody
+
+    @Headers(
+        "User-Agent: Mozilla",
+        "Content-Type: application/json",
+        "Accept: application/json"
+    )
+    @POST("ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat")
+    suspend fun getAresDataEkonomickeSubjektyByNazev(
+        @Body requestBody: String
+    ): ResponseBody
+
+
 }
 

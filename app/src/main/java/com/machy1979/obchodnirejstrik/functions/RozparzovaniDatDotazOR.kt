@@ -474,20 +474,25 @@ class RozparzovaniDatDotazOR {
             var formattedString: String = ""
             // Odstranění všeho za ";"
             val cleanedString = input.substringBefore(";")
-            if (typObnosu.equals("PROCENTA")) {
-                formattedString = cleanedString + " " + "%"
-            } else {
-                // Odstranění všech nečíselných znaků
-                val digitsOnly = cleanedString.replace(Regex("[^\\d]"), "")
-                // Rozdělení na skupiny po třech znacích a spojení s mezerami
-                val reversedParts = digitsOnly.reversed().chunked(3)
-                var formattedString = reversedParts.joinToString(" ").reversed()
+            formattedString = when (typObnosu) {
+                "PROCENTA" -> "$cleanedString %"
+                "TEXT" -> input
+                "ZLOMEK" -> input.replace(";", "/")
+                else -> {
+                    // Odstranění všech nečíselných znaků
+                    val digitsOnly = cleanedString.replace(Regex("[^\\d]"), "")
+                    // Rozdělení na skupiny po třech znacích a spojení s mezerami
+                    val reversedParts = digitsOnly.reversed().chunked(3)
+                    reversedParts.joinToString(" ").reversed()
+                }
             }
 
 
 
             return formattedString
         }
+
+
 
         private fun vlozOsobu(it: JSONObject): Osoba {
             val funkce =
@@ -520,21 +525,41 @@ class RozparzovaniDatDotazOR {
             val funkce =
                 it?.optJSONObject("osoba")?.optJSONObject("clenstvi")?.optJSONObject("funkce")
                     ?.optString("nazev", " ") ?: ""
-            var splaceno =
-                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ")
-                    ?: ""
-            splaceno = upravSplaceni(
-                splaceno,
-                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("typObnos") ?: ""
-            )
-            var podil = it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")
-                ?.optString("hodnota", " ") ?: ""
-            podil = upravSplaceni(
-                podil,
-                it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")
-                    ?.optString("typObnos", " ") ?: ""
-            )
 
+            var splaceno = ""
+
+            var podil = ""
+
+            var vklad = ""
+
+            it.optJSONArray("podil")?.let { podilArray ->
+                for (i in 0 until podilArray.length()) {
+                    val podilObject = podilArray.optJSONObject(i)
+                    if (!podilObject.has("datumVymazu")) {
+                        splaceno =
+                            podilObject.optJSONObject("splaceni")?.optString("hodnota", " ")
+                                ?: ""
+                        splaceno = upravSplaceni(
+                            splaceno,
+                            podilObject.optJSONObject("splaceni")?.optString("typObnos") ?: ""
+                        )
+                        podil = podilObject.optJSONObject("velikostPodilu")
+                            ?.optString("hodnota", " ") ?: ""
+                        Log.d("ObchodniRejstirkPodil:", "podil_velikostPodilu_hodnota1: " + podilArray.optJSONObject(0).optJSONObject("velikostPodilu")
+                            ?.optString("hodnota", " "))
+                        podil = upravSplaceni(
+                            podil,
+                            podilObject.optJSONObject("velikostPodilu")
+                                ?.optString("typObnos", " ") ?: ""
+                        )
+
+                        vklad = upravFinancniCastku(
+                            podilObject.optJSONObject("vklad")?.optString("hodnota", " ")
+                                ?: ""
+                        )
+                    }
+                }
+            }
 
             return Osoba(
                 it?.optJSONObject("osoba")?.optJSONObject("fyzickaOsoba")
@@ -554,13 +579,11 @@ class RozparzovaniDatDotazOR {
                     ?.optString("vznikClenstvi", " ") ?: "",
                 it?.optJSONObject("clenstvi")?.optJSONObject("funkce")
                     ?.optString("vznikFunkce", " ") ?: "",
-                upravFinancniCastku(
-                    it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ")
-                        ?: ""
-                ),
+                vklad,
                 splaceno,
                 podil,
                 ""
+
 
             )
         }
@@ -585,20 +608,51 @@ class RozparzovaniDatDotazOR {
                 it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optString("ico", "")
                     ?: ""
             if (!ico.equals("")) ico = upravIco(ico)
-            var splaceno =
-                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("hodnota", " ")
-                    ?: ""
-            splaceno = upravSplaceni(
-                splaceno,
-                it?.optJSONObject("podil")?.optJSONObject("splaceni")?.optString("typObnos") ?: ""
-            )
-            var podil = it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")
-                ?.optString("hodnota", " ") ?: ""
-            podil = upravSplaceni(
-                podil,
-                it?.optJSONObject("podil")?.optJSONObject("velikostPodilu")
-                    ?.optString("typObnos", " ") ?: ""
-            )
+
+
+            var splaceno = ""
+
+            var podil = ""
+
+            var vklad = ""
+
+            it.optJSONArray("podil")?.let { podilArray ->
+                for (i in 0 until podilArray.length()) {
+                    val podilObject = podilArray.optJSONObject(i)
+                    if (!podilObject.has("datumVymazu")) {
+                    splaceno =
+                        podilObject.optJSONObject("splaceni")?.optString("hodnota", " ")
+                            ?: ""
+                    splaceno = upravSplaceni(
+                        splaceno,
+                        podilObject.optJSONObject("splaceni")?.optString("typObnos") ?: ""
+                    )
+                    podil = podilObject.optJSONObject("velikostPodilu")
+                        ?.optString("hodnota", " ") ?: ""
+                    Log.d("ObchodniRejstirkPodil:", "podil_velikostPodilu_hodnota1: " + podilArray.optJSONObject(0).optJSONObject("velikostPodilu")
+                        ?.optString("hodnota", " "))
+                    podil = upravSplaceni(
+                        podil,
+                        podilObject.optJSONObject("velikostPodilu")
+                            ?.optString("typObnos", " ") ?: ""
+                    )
+
+                    vklad = upravFinancniCastku(
+                        podilObject.optJSONObject("vklad")?.optString("hodnota", " ")
+                            ?: ""
+                    )
+                }
+                }
+
+
+
+
+
+
+            }
+            //ARRAY STOP
+
+
 
             return Firma(
                 ico,
@@ -606,10 +660,7 @@ class RozparzovaniDatDotazOR {
                     ?.optString("obchodniJmeno", "") ?: "",
                 it?.optJSONObject("osoba")?.optJSONObject("pravnickaOsoba")?.optJSONObject("adresa")
                     ?.optString("textovaAdresa", " ") ?: "",
-                upravFinancniCastku(
-                    it?.optJSONObject("podil")?.optJSONObject("vklad")?.optString("hodnota", " ")
-                        ?: ""
-                ),
+                vklad,
                 splaceno,
                 podil
             )

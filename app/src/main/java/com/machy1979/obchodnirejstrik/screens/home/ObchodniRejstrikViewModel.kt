@@ -13,6 +13,7 @@ import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazDleIco
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatProCompanysDataNovy
 import com.machy1979.obchodnirejstrik.model.CompanyData
 import com.machy1979.obchodnirejstrik.model.Query
+import com.machy1979.obchodnirejstrik.repository.AresRepository
 import com.machy1979.obchodnirejstrik.repository.ORRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +23,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.json.JSONException
 import org.json.JSONObject
 import org.jsoup.Jsoup
@@ -37,6 +36,7 @@ class ObchodniRejstrikViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val repository: ORRepository,
     private val billingManager: BillingManagerOR,
+    private val aresRepository: AresRepository,
 ) : ViewModel() {
 //class ObchodniRejstrikViewModel(private val savedStateHandle: SavedStateHandle)   : ViewModel() {
 
@@ -141,9 +141,7 @@ class ObchodniRejstrikViewModel @Inject constructor(
         saveQueryToFirebse(ico)
         viewModelScope.launch {
             try {
-                Log.i("aaaabbb", "ICO: " + ico)
-
-                val documentString = getAresDataIco(ico)
+                val documentString = getAresDataEkonomickeSubjekty(ico)
                 val jsonObject = JSONObject(documentString)
                 val kodValue =
                     jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
@@ -197,25 +195,12 @@ class ObchodniRejstrikViewModel @Inject constructor(
             .add(queryToSave)
     }
 
-    private suspend fun getAresDataIco(ico: String): String? {
-        val url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/$ico"
-        val client = OkHttpClient()
+    private suspend fun getAresDataEkonomickeSubjekty(ico: String): String {
         return try {
-            withContext(Dispatchers.IO) {
-                val request = Request.Builder()
-                    .url(url)
-                    .header("User-Agent", "Mozilla")
-                    .header("Content-Type", "application/json")
-                    .header("Accept", "application/json")
-                    .build()
-
-                val response = client.newCall(request).execute()
-                response.body?.string()
-
-            }
+            val response = aresRepository.getAresDataEkonomickeSubjekty(ico)
+            response.string() // Získá String z ResponseBody
         } catch (e: Exception) {
-            Log.i("aaaabbb error =", e.toString())
-            null
+            ""
         }
     }
 
@@ -233,7 +218,7 @@ class ObchodniRejstrikViewModel @Inject constructor(
                             RegexOption.DOT_MATCHES_ALL
                         ), "$1"
                     )
-                Log.i("JSON odpověď: ", jsonContent.toString())
+                Log.i("JSON odpověď: ", documentStringJson.toString())
                 try {
                     val jsonObject = JSONObject(jsonContent)
                     val kodValue =
@@ -303,6 +288,15 @@ class ObchodniRejstrikViewModel @Inject constructor(
 
         } catch (e: Exception) {
             null
+        }
+    }
+
+    private suspend fun getAresDataNazev2(nazev: String, nazevMesto: String): String {
+        return try {
+            val response = aresRepository.getAresDataNazev(nazev, nazevMesto)
+            response.string() // Získá String z ResponseBody
+        } catch (e: Exception) {
+            ""
         }
     }
 
