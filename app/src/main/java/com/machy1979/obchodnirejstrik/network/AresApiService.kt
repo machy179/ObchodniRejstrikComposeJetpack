@@ -1,6 +1,9 @@
 package com.machy1979.obchodnirejstrik.network
 
+import com.machy1979.obchodnirejstrik.model.AresResponse
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -57,8 +60,8 @@ interface AresApiService {
     )
     @POST("ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat")
     suspend fun getAresDataEkonomickeSubjektyByNazev(
-        @Body requestBody: String
-    ): ResponseBody
+        @Body requestBody: RequestBody
+    ): Response<ResponseBody>// AresResponse
 
 
 }

@@ -56,6 +56,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -91,6 +92,7 @@ import com.machy1979.obchodnirejstrik.ui.theme.VelikostZakulaceniRohuButton
 
 @Composable
 fun VypisErrorHlasku(errorMessage: String) {
+    val errorColor = colorResource(id = R.color.error_hlaska)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -99,7 +101,7 @@ fun VypisErrorHlasku(errorMessage: String) {
 
         Text(
             text = errorMessage,
-            color = Color.Red,
+            color = errorColor, // Color.Red,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = VelikostPaddingMezeryMeziHlavnimiZaznamy)

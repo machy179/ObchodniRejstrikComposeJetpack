@@ -11,7 +11,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.machy1979.obchodnirejstrik.functions.BillingManagerOR
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatDotazDleIco
 import com.machy1979.obchodnirejstrik.functions.RozparzovaniDatProCompanysDataNovy
+import com.machy1979.obchodnirejstrik.model.AresResponse
 import com.machy1979.obchodnirejstrik.model.CompanyData
+import com.machy1979.obchodnirejstrik.model.CompanyDataResponseVerejnyRejstrik
 import com.machy1979.obchodnirejstrik.model.Query
 import com.machy1979.obchodnirejstrik.repository.AresRepository
 import com.machy1979.obchodnirejstrik.repository.ORRepository
@@ -65,14 +67,14 @@ class ObchodniRejstrikViewModel @Inject constructor(
         val companysData: SnapshotStateList<CompanyData> = _companysData*/
 
     //aby po restartu aktivity přežila níže CompanysData - protože nelze do savedStateHandle vkládat SnapshotStateList, musí se to převést na ArrayList, ten vložit jde:
-    private val _companysData: SnapshotStateList<CompanyData> =
-        savedStateHandle.get<ArrayList<CompanyData>>(
+    private val _companysData: SnapshotStateList<CompanyDataResponseVerejnyRejstrik> =
+        savedStateHandle.get<ArrayList<CompanyDataResponseVerejnyRejstrik>>(
             COMPANYS_DATA_KEY
         )?.let {
             mutableStateListOf(*it.toTypedArray())
-        } ?: mutableStateListOf<CompanyData>()
+        } ?: mutableStateListOf<CompanyDataResponseVerejnyRejstrik>()
 
-    val companysData: SnapshotStateList<CompanyData> = _companysData
+    var companysData: SnapshotStateList<CompanyDataResponseVerejnyRejstrik> = _companysData
 
     fun updateCompanysData() { //v případě killnutí activity savedSatateHandle uloží níže uvedený objekt, aby se po znovuzobrazení aktivity tento načetl
         val companyDataList = _companysData.toList()
@@ -209,61 +211,37 @@ class ObchodniRejstrikViewModel @Inject constructor(
         saveQueryToFirebse(nazev + "" + nazevMesto)
         viewModelScope.launch {
             try {
-
-                val documentStringJson = getAresDataNazev(nazev, nazevMesto)
-                val jsonContent =
-                    documentStringJson?.replace(
-                        Regex(
-                            ".*?<body>(.*?)</body>.*",
-                            RegexOption.DOT_MATCHES_ALL
-                        ), "$1"
-                    )
-                Log.i("JSON odpověď: ", documentStringJson.toString())
+                companysData.clear()
+                val request = getAresDataNazev(nazev, nazevMesto)
                 try {
-                    val jsonObject = JSONObject(jsonContent)
-                    val kodValue =
-                        jsonObject.optString("kod") //zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
-                    if (kodValue == "") {
-                        val ekonomickeSubjektyArray = jsonObject.getJSONArray("ekonomickeSubjekty")
-                        if (ekonomickeSubjektyArray.length() == 0) {
+                    val kodValue = request.kod//zjistí, zda ve výstupu je "kod", v tom případě ARES poslal zprávu z chybou
+                    if (kodValue.isNullOrEmpty()) {
+                        companysData.addAll(request.ekonomickeSubjekty)
+                        if (companysData.isNullOrEmpty()) {
                             _errorMessage.value = "SUBJEKT NENALEZEN"
                         } else {
                             _errorMessage.value = ""
-                            // Cyklus procházející všechny položky v poli ekonomických subjektů
-                            for (i in 0 until ekonomickeSubjektyArray.length()) {
-                                val ekonomickySubjekt = ekonomickeSubjektyArray.getJSONObject(i)
-                                companysData.add(
-                                    RozparzovaniDatProCompanysDataNovy.vratCompanyData(
-                                        ekonomickySubjekt
-                                    )
-                                )
-                            }
                             updateCompanysData()
-
-
                         }
 
                     } else {
-                        _errorMessage.value = jsonObject.optString("popis").replace(
-                            "&nbsp;",
-                            ""
-                        ) //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
+                        _errorMessage.value = request.popis
+                            .replace("&nbsp;", "") //ARES MI JEŠTĚ HÁZEL TOHLE &nbsp; - TAK TO MUSÍM MAZAT
+                            .replace("|", "\n")
                     }
 
                 } catch (e: JSONException) {
-                    println("Chyba při převodu na JSONObject: ${e.message}")
                     _errorMessage.value = "Nepodařilo se načíst data z ARESu"
                 }
 
             } catch (e: Exception) {
-                Log.i("aaaa", e.toString())
                 _errorMessage.value = "Nepodařilo se načíst data z ARESu"
             }
             _nacitani.value = false
         }
     }
 
-    private suspend fun getAresDataNazev(nazev: String, nazevMesto: String): String? {
+    private suspend fun getAresDataNazev2(nazev: String, nazevMesto: String): String? {
         val url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat"
         val requestBody = if (nazevMesto.isEmpty()) {
             """{"start": 0, "pocet": 1000, "razeni": ["obchodniJmeno"], "obchodniJmeno": "$nazev"}"""
@@ -271,9 +249,10 @@ class ObchodniRejstrikViewModel @Inject constructor(
             """{"start": 0, "pocet": 1000, "razeni": ["obchodniJmeno"], "obchodniJmeno": "$nazev", "sidlo": { "textovaAdresa": "$nazevMesto"}}"""
         }
         Log.d("nazevMesto :", nazevMesto)
-        return try {
+        var odpoved = ""
+        try {
             withContext(Dispatchers.IO) {
-                Jsoup.connect(url)
+                odpoved = Jsoup.connect(url)
                     .userAgent("Mozilla")
                     .header("content-type", "application/json")
                     .header("accept", "application/json")
@@ -284,20 +263,21 @@ class ObchodniRejstrikViewModel @Inject constructor(
                     .body()
                     .toString()
 
+                Log.i("HTTP_OR", "odpoved:: "+ odpoved)
+
             }
 
         } catch (e: Exception) {
-            null
+            Log.i("HTTP_OR", "error: "+ e.toString())
         }
+
+        return odpoved
     }
 
-    private suspend fun getAresDataNazev2(nazev: String, nazevMesto: String): String {
-        return try {
-            val response = aresRepository.getAresDataNazev(nazev, nazevMesto)
-            response.string() // Získá String z ResponseBody
-        } catch (e: Exception) {
-            ""
-        }
+    private suspend fun getAresDataNazev(nazev: String, nazevMesto: String): AresResponse  {
+        val response = aresRepository.getAresDataNazev(nazev, nazevMesto)
+        return response
+
     }
 
     fun startPurchase(activity: Activity) {

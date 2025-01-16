@@ -2,6 +2,7 @@ package com.machy1979.obchodnirejstrik.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.room.Room
 import com.machy1979.obchodnirejstrik.data.ORDatabase
 import com.machy1979.obchodnirejstrik.data.ORDatabaseDao
@@ -47,6 +48,8 @@ object AppModule {
     fun provideAresApiService(): AresApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://ares.gov.cz/")
+            .addConverterFactory(GsonConverterFactory.create()) // Přidání konvertoru pro JSON
+        //    .client(client) // OkHttpClient
             .build()
 
         return retrofit.create(AresApiService::class.java)
@@ -62,3 +65,22 @@ object AppModule {
 
 
 }
+
+
+//pokud bych chtěl logovat response ze serveru na úrovni klienta OkHttp, tak odkomentovat a přidat ho do provideAresApiService, ale protože je to stream odpovědi, tak
+// se s to bude házet chybu v AresRespository v metodě getAresDataNazev v případě, že je odpověď 400 - hodí to catch při val rawResponse = apiService.getAresDataEkonomickeSubjektyByNazev(requestBody)
+/*
+val client = OkHttpClient.Builder()
+    .addInterceptor { chain ->
+        val request = chain.request()
+        val response = chain.proceed(request)
+
+        // Log the response body even if the response code is 400
+        if (!response.isSuccessful) {
+            val errorBody = response.body?.string()
+            Log.e("HTTP_OR Response Error", "Code: ${response.code}, Body: $errorBody")
+        }
+
+        response
+    }
+    .build()*/

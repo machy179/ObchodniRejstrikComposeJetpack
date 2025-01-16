@@ -15,6 +15,7 @@
       <color name="pozadi_pdf_vypisu_radek">#FFF8F8F8</color>
       <color name="pozadi_prvku_top_app_bar">#FFF8F8F8</color>
       <color name="pozadi_historie">#C9EAE8E8</color>
+    <color name="error_hlaska">#C9E70000</color>
 
 
   </resources>
